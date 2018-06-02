@@ -1,6 +1,5 @@
 # CCIO Hypervisor
 # Part 1 -- Single Port Host Configuration
-#
 #### Provision a host network viable for cloud scale emulation and testing.
  NOTE:  Netplan does not support raising interfaces without ip addresses.
  Until the issue is resolved we will use ifupdown as a workaround.
