@@ -1,4 +1,4 @@
-## CCIO Hypervisor -- Part 1 [ Single Port Host Configuration ]
+# Part 1 -- CCIO Hypervisor -- Single Port Host Configuration
 #### Provision a host network viable for cloud scale emulation and testing.
  NOTE:  Netplan does not support raising interfaces without ip addresses.
  Until the issue is resolved we will use ifupdown as a workaround.
@@ -90,5 +90,4 @@ ovs-vsctl add-port physical-net ens3
 # Reboot & Inherit !!
 
 <!-- Markdown link & img dfn's -->
-[wiki]: https://github.com/yourname/yourproject/wiki
 [BUG: 1728134]: https://bugs.launchpad.net/netplan/+bug/1728134
