@@ -1,4 +1,4 @@
-## CCIO Hypervisor -- Part 1 [ Single Port Host Configuration ]
+# Part 1 -- CCIO Hypervisor -- Single Port Host Configuration
 #### Provision a host network viable for cloud scale emulation and testing.
  NOTE:  Netplan does not support raising interfaces without ip addresses.
  Until the issue is resolved we will use ifupdown as a workaround.
@@ -19,7 +19,6 @@ apt update \
   && apt autoremove -y
 ```
 #### 2. Install Packages
-Install ifupdown as workaround for [BUG: 1728134]
 ```
 apt install --install-recommends -y openvswitch-switch-dpdk   ## On Intel Systems
 apt install --install-recommends -y openvswitch-switch        ## On Other Systems
@@ -51,7 +50,7 @@ sed 's/^/#/g' /etc/netplan/50-cloud-init.yaml
 ````
 vim /etc/network/interfaces
 ````
-> Edit to look like:
+> Example:
 ````
 # Loopback Network Interface
 auto lo
@@ -74,11 +73,11 @@ iface mgmt0 inet static
   netmask 255.255.255.0
   mtu 1500
 ````
-> ###### 6.c Configure Name Resolution
+> ###### 6.c Configure preferred DNS Servers:
 ````
 vim /etc/systemd/resolved.conf
 ````
-> Add your preferred DNS Servers:
+> Example:
 ````
 [Resolve]
 DNS=8.8.8.8
@@ -91,5 +90,4 @@ ovs-vsctl add-port physical-net ens3
 # Reboot & Inherit !!
 
 <!-- Markdown link & img dfn's -->
-[wiki]: https://github.com/yourname/yourproject/wiki
 [BUG: 1728134]: https://bugs.launchpad.net/netplan/+bug/1728134
