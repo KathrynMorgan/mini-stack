@@ -1,0 +1,15 @@
+#################################################################################
+## Workaround for NetPlan+OVS Bug
+## Edit /etc/netplan/50-cloud-init.yaml
+## Follow at: https://bugs.launchpad.net/netplan/+bug/1728134
+##
+## Comment out or remove lines for configured interfaces like the following
+##
+#network:
+#   ethernets:
+#       ens3:
+#           addresses: []
+#           dhcp4: true
+#           optional: true
+#   version: 2
+#
