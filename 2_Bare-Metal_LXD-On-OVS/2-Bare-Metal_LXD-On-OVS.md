@@ -1,30 +1,34 @@
-###########################################################################################
-## How to install LXD with a default OVS bridge network
-## NOTE: This assumes we're attaching to OVS Bridge 'physical-net'
+## CCIO Hypervisor -- Part 2 LXD On OpenVSwitch network
+Prerequisites:
+- [Part1 Single Port Host Network Configuration]
 
-###########################################################################################
-## Install LXD Packages
-	apt install -y -t xenial-backports \
-		lxd \
-		lxd-client \
-		lxd-tools \
-		lxc-common \
-		lxcfs \
-		liblxc1 \
-		uidmap \
-		criu \
-		zfsutils-linux \
-		squashfuse \
-		ebtables
+#### 1. Install LXD Packages
+````sh
+sudo apt install -y -t xenial-backports \
+	lxd \
+	lxd-client \
+	lxd-tools \
+	lxc-common \
+	lxcfs \
+	liblxc1 \
+	uidmap \
+	criu \
+	zfsutils-linux \
+	squashfuse \
+	ebtables
+````
 
-###########################################################################################
-## If using ZFS Storage Backend, load ZFS module
-modprobe zfs
+#### 2. If using ZFS Storage Backend, load ZFS module
+````sh
+sudo modprobe zfs
+````
 
-###########################################################################################
-## Initialize LXD w/ example question/answer options
-lxd init
-*** 
+#### 3. Initialize LXD
+With example enswers
+````sh
+sudo lxd init
+````
+````
 Would you like to use LXD clustering? (yes/no) [default=no]: no
 Do you want to configure a new storage pool? (yes/no) [default=yes]: yes
 Name of the new storage pool [default=default]:
@@ -44,12 +48,31 @@ Trust password for new clients:
 Again:
 Would you like stale cached images to be updated automatically? (yes/no) [default=yes] yes
 Would you like a YAML "lxd init" preseed to be printed? (yes/no) [default=no]: no
-***
-###########################################################################################
-## Launch an lxd container to test
+````
+#### 4. Add your user to the 'lxd' group
+Replace '$USERNAME' with your user name
+````sh
+sudo usermod -aG lxd $USERNAME
+````
+#### 4. Launch an Ubuntu lxd container:
+````
 lxc launch ubuntu: test
 lxc list
+````
 
-###########################################################################################
-## Launch alternate images via example
-lxc launch images:centos/7 centos01
+#### 5. Launch alternate images via example:
+````
+lxc launch ubuntu:bionic test-bioinic
+lxc launch images:centos/7 test-centos
+lxc launch images:fedora/28 test-fedora
+````
+
+#### 6. See your LXD Configurations
+````sh
+lxc list
+lxc network list
+lxc network show physical-net
+````
+
+<!-- Markdown link & img dfn's -->
+[Part1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/README.md
