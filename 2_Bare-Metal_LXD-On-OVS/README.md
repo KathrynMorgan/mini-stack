@@ -76,4 +76,4 @@ lxc network show physical-net
 ````
 
 <!-- Markdown link & img dfn's -->
-[Part1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/README.md
+[Part1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/

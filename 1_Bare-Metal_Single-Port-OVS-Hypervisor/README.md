@@ -1,12 +1,12 @@
 # CCIO Hypervisor
-# Part 1 -- Single Port Host Configuration
+# Part 1 -- Single Port Host Open vSwitch Configuration
 #### Provision a host network viable for cloud scale emulation and testing.
  NOTE:  Netplan does not support raising interfaces without ip addresses.
  Until the issue is resolved we will use ifupdown as a workaround.
 >
 > Overview of Steps:
 > - Install required packages
-> - Enable OpenVSwitch Service & Confirm running status
+> - Enable Open vSwitch Service & Confirm running status
 > - Create a base 'physical-net' layer OVS Bridge
 > - Create a 'virtual' host ethernet port on the 'phyisical-net' bridge
 > - Impliment 'ifupdown' workaround RE: [BUG#1728134]
@@ -41,7 +41,7 @@ ovs-vsctl add-port physical-net mgmt0 \
   -- set interface mgmt0 type=internal
 ovs-vsctl show
 ```
-#### 6. Workaround NetPlan + OpenVSwitch [BUG: 1728134]
+#### 6. Workaround NetPlan + Open vSwitch [BUG: 1728134]
 > ###### 6.a Comment out all netplan config files
 ```
 sed 's/^/#/g' /etc/netplan/50-cloud-init.yaml
