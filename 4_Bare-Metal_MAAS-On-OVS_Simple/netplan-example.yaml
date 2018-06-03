@@ -1,0 +1,9 @@
+network:
+    version: 2
+    ethernets:
+        eth0:         #### physical-net interface
+            dhcp4: true
+        eth1:         #### maas-net interface
+            addresses:
+              - 172.10.0.1/16
+
