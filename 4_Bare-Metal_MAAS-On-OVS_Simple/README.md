@@ -32,18 +32,18 @@ virsh net-start maas
 virsh net-autostart maas
 virsh net-list
 ````
-#### 4. Create an Ubuntu Bionic server 'maas-controller'
+#### 4. Create an Ubuntu Bionic server 'maasctl'
 Note, due to UID/GID mappings, only one MAAS LXD Container is recommended per host.
 <br/>While workarounds are an option. I recommend building MAAS in virtual machines rather than containers if more than one MAAS node is expected to be built on a host.
 >#### [OPTION A] Using LXD:
 >>###### Create Container (assumes default network = 'physical-net')
->>   1. `lxc launch ubuntu:bionic maas-controller`
+>>   1. `lxc launch ubuntu:bionic maasctl`
 >>###### Enable privileged container TODO: test w/o sec escalation!!!
->>   2. `lxc config set maas-controller security.privileged true`
+>>   2. `lxc config set maasctl security.privileged true`
 >>###### Attach 2nd Network to Container
->>   3. `lxc network attach maas-net maas-controller eth1 eth1`
+>>   3. `lxc network attach maas-net maasctl eth1 eth1`
 >>###### Aquire console in container
->>   4. `lxc exec maas-controller bash`
+>>   4. `lxc exec maasctl bash`
 >
 >#### [OPTION B] Using the Libvirtd+ISO Installer:
 >>###### Connect virt-manager to Host QEMU via ssh
@@ -55,7 +55,7 @@ Note, due to UID/GID mappings, only one MAAS LXD Container is recommended per ho
 >>###### Attach 2nd Network to VM
 >>   3. Connect 2nd ethernet port to VM on 'maas-net' bridge
 >>###### Aquire console in VM
->>   4. ssh to new maas-controller
+>>   4. ssh to new maasctl
 
 #### 5. Configure 2nd NIC for your future maas network (Example config included)
 ````
@@ -118,7 +118,7 @@ Browse to your maas WebUI in a browser at: http://[physical-net_IP]:5240/MAAS
 
 #### 13. Confirm region and rack controller(s) show healthy
  1. Click "Controllers" tab
- 2. click "maas-controller.maas"
+ 2. click "maasctl.maas"
  3. services should all be 'green' excluding dhcp* & ntp*
 
 #### 14. Finish 'maas-net' configuration
@@ -129,7 +129,7 @@ Browse to your maas WebUI in a browser at: http://[physical-net_IP]:5240/MAAS
  4. Click 'Take action' Dropdown Menu (top right)
  5. Click 'Provide DHCP'
  6. Ensure start/end ranges & gateway IP are reasonable
- -- NOTE: Gateway IP should match the 'maas-controller' 'maas-net' interface
+ -- NOTE: Gateway IP should match the 'maasctl' 'maas-net' interface
  -- IE:   In this Example: '172.10.0.1'
  7. Click 'Profide DHCP'
 
