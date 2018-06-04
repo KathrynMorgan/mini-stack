@@ -1,5 +1,5 @@
 # CCIO Hypervisor
-# MAAS POD Configuration on Libvirt provider
+# PART_5 -- MAAS POD Configuration on Libvirt provider
 Prerequisites:
 - [Part_1 Single Port Host Network Configuration]
 - [Part_2 LXD On Open vSwitch Network]
@@ -88,12 +88,6 @@ Usage:
 [ on the libvirt host ]
     1. `virsh list (--all)
     2. `virsh console $id`
-
- ## Login to the MAAS CLI
- https://docs.maas.io/2.1/en/manage-cli
-
- ## Create a new VM from the MAAS CLI
- https://docs.maas.io/2.2/en/manage-cli-comp-hw
 
  <!-- Markdown link & img dfn's -->
 [Part_1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/
