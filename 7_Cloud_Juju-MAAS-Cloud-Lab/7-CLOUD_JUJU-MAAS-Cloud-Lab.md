@@ -29,9 +29,13 @@ cat <<EOF >> /etc/netplan/50-cloud-init.yaml
         dhcp4: true
 EOF
 ````
-###### 
+###### Raise Interface
 ip link set eth1 up
+
+###### Update Packages
 apt update ; apt install squashfuse snapd -y
+
+######
 snap install juju --classic
 mkdir ~/.juju
 
