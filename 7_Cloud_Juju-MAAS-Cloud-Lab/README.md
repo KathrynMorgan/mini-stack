@@ -8,97 +8,78 @@ Prerequisites:
 - [Part_5 MAAS POD Configuration on Libvirt provider]
 - [Part_6 LXD gateway and firewall appliance for maas-net OVS Bridge]
 
-###### Generate a MAAS API Key using your maas login username
+#### Generate a MAAS API Key using your maas login username
 [ On MAAS-controller ]
 1. Generate a MAAS API key for autnentication <br/>
 `maas-region apikey --username=$MAASUSERNAME`
 * Save API Key for registering juju later
 
-###### Create Juju Controler Image
-````sh
-lxc launch ubuntu:bionic jujuctl
-lxc network attach maas-net jujuctl eth1 eth1
-````
-###### Obtain root shell in the container
+#### Create Juju Controler [ juju-cli client ]
+1. Configure base 'jujuctl' controller <br/>
+`lxc launch ubuntu:bionic jujuctl` <br/>
+`lxc network attach maas-net jujuctl eth1 eth1`
+2. Obtain root shell in the container <br/>
 `lxc exec jujuctl bash`
-
-###### Add netplan config for netplan
+3. Add netplan config for netplan <br/>
 ````sh
 cat <<EOF >> /etc/netplan/50-cloud-init.yaml
     eth1:
         dhcp4: true
 EOF
 ````
-###### Raise Interface
-ip link set eth1 up
+4. Raise Interface <br/>
+`ip link set eth1 up`
+5. Update Packages <br/>
+`sudo apt update && sudo apt upgrade -y` <br/>
+`sudo apt install squashfuse snapd -y` <br/>
+6. Install juju client <br/>
+`snap install juju --classic`
+7. Create juju config folder <br/>
+`mkdir ~/.juju`
 
-###### Update Packages
-apt update ; apt install squashfuse snapd -y
-
-######
-snap install juju --classic
-mkdir ~/.juju
-
+#### Configure MAAS as a JUJU Cloud Provider
+1. Create maas cloud config yaml <br/>
+Example MAAS Server IP: 172.1.0.1 <br/>
+````sh
 cat <<EOF >>~/.juju/maaslab.yaml
 clouds:
     maaslab:
         type: maas
         auth-types: [oauth1]
-        endpoint: http://10.10.10.192:5240/MAAS
+        endpoint: http://172.1.0.1:5240/MAAS
 EOF
+````
+9. Add the cloud to your juju <br/>
+`juju add-cloud maaslab ~/.juju/maaslab.yaml`
+10. confirm maaslab added successfully <br/>
+`juju clouds | grep maaslab`
 
-juju add-cloud maaslab ~/.juju/maaslab.yaml
-juju clouds | grep maaslab
+11. Add Credentials for your new maaslab cloud <br/>
+`juju add-credential maaslab`
+* answer credential name request
+[ Example: maaslab-admin ]
+* copy paste the MAAS API Key
+12. Double Check your new juju cloud provider <br/>
+`juju show-cloud maaslab`
 
-## Add Credentials for your new maaslab cloud
- 1. juju add-credential maaslab
- 2. answer credential name request
- -- EG: maaslab-admin
- 3. copy paste the MAAS API Key
- 4. Double Check with: juju show-cloud maaslab
+#### Bootstrap a Juju controller
+PROTIP: Remember, if you followed previous guides, you can go to the
+libvirt host and use 'virsh list' and 'virsh console' to monitor
+the vm's console during bootstrap <br/>
 
- ## Bootstrap a new controller
- ## PROTIP: Remember, if you followed previous guides, you can go to the
- ##         libvirt host and use 'virsh list' and 'virsh console' to monitor
- ##         the vm's console during bootstrap
+`juju bootstrap maaslab --bootstrap-series=xenial maaslab maaslab-ctl01 --config bootstrap-timeout=1800 --constraints "cores=4 mem=4G"`
 
- juju bootstrap maaslab \
-   --bootstrap-series=xenial maaslab maaslab-ctl01 \
-   --config bootstrap-timeout=1800 \
-   --constraints "cores=4 mem=4G"
+#### Add new machines on your cloud
+1. Add 2 Libvirt guests configured with 2 cores and 2GB RAM <br/>
+`juju add-machine -n 2 --constraints "cores=2 mem=2G"`
+2. Add 2 new lxd containers <br/>
+`juju add-machine lxd -n 2`
 
- ## Add 2 new libvirt machines for giggles
- juju add-machine -n 2 --constraints "cores=4 mem=4G"
-
- ## Add 2 new lxd containers
- juju add-machine lxd -n 2
-
- ## Find juju WebGUI
- juju gui
-
-## Add maas-gw rule to fwd port 17070 to juju controller
-## ## from base host
-## ## Assume: juju-gui address 172.100.7
-## ##   
-lxc exec maas-net-gw01 bash
-vim /root/lxd-router/iptables-enabled/iptables.fwd
-****
-#!/bin/bash
-# JUJU GUI 17070
-# Set Forwarding IP Address
-fwd_JUJU_GUI="172.10.0.7"
-# Set Forwarding Table
-iptables -A PREROUTING -t nat -i $external_IFACE -p tcp --dport 17070 -j DNAT --to $fwd_JUJU_GUI:17070
-iptables -A FORWARD -i $external_IFACE -o $internal_IFACE -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-iptables -A FORWARD -p tcp -d $fwd_JUJU_GUI --dport 17070 -j ACCEPT
-****
-## Test JUJU GUI using your 'maas-net-gw01' LAN or Public IP Address
-## ## NOTE! it is not recommended to make this publicly accessible on your WAN address
-## ## EG: instead of https://172.10.0.7:17070/gui/u/admin/default using your 'juju controller' ip do
-## ##                https://10.10.10.195:17070/gui/u/admin/default where 10.10.10.195 is the lxd 'maas-net-gw01' IP
+#### Find juju WebGUI
+`juju gui`
 
 ## Launch your first juju charm
-juju deploy -n 1 haproxy
+`juju deploy -n 1 haproxy`
 
 <!-- Markdown link & img dfn's -->
 [Part_1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/
