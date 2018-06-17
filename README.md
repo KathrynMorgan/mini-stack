@@ -31,6 +31,7 @@
   + 100% virtual tenants
   + multi host rack systems
 
+<a href="https://github.com/KathrynMorgan/small-stack/blob/master/CCIO_Hypervisor-Small_Stack.svg" target="_blank">CCIO_Hypervisor-Small_Stack.svg</a>
 ````
 .
 ├── 1_Bare-Metal_Single-Port-OVS-Hypervisor
