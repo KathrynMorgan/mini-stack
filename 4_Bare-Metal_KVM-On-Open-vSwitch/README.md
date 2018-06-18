@@ -1,5 +1,4 @@
-# CCIO Hypervisor
-# Part 4 -- Libvirtd/KVM/QEMU On Open vSwitch bridge
+# Part 4 -- KVM On Open vSwitch
 #
 Prerequisites:
 - [Part_1 Single Port Host Network Configuration]
