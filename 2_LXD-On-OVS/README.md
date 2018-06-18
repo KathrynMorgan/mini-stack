@@ -3,7 +3,7 @@
 ###### NOTE: This will place the default bridge on your LAN without isolation
 
 Prerequisites:
-- [Part1 Single Port Host Network Configuration]
+- [Part_1 Single Port Host OVS Network]
 
 ![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/2_Bare-Metal_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg)
 <a href="https://github.com/KathrynMorgan/small-stack/blob/master/2_Bare-Metal_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg" target="_blank">lxd-on-openvswitch.svg</a>
@@ -82,4 +82,4 @@ lxc network show physical-net
 ````
 
 <!-- Markdown link & img dfn's -->
-[Part1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/
+[Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/small-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration

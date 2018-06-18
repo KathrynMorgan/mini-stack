@@ -1,10 +1,11 @@
 # Part_5 -- MAAS Region And Rack Server on OVS Sandbox
 ###### Install MAAS Region & Rack Controllers on Open vSwitch Network
+
 Prerequisites:
-- [Part_1 Single Port Host Network Configuration]
+- [Part_1 Single Port Host OVS Network]
 - [Part_2 LXD On Open vSwitch Network]
-- [Part_3 LXD Network Gateway]
-- [Part_4 KVM On Open vSwitch]
+- [Part_3 LXD Gateway OVS Network]
+- [Part_4 KVM On Open vSwitch Network]
 
 ![CCIO_Hypervisor - KVM-On-Open-vSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/5_MAAS-Rack_And_Region-Ctl-On_Open_vSwitch/web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
 
@@ -140,7 +141,7 @@ Browse to your maas WebUI in a browser at: http://[physical-net_IP]:5240/MAAS
 #### Reboot and confirm MAAS WebUI & MAAS Region+Rack controller are all healthy
 
 <!-- Markdown link & img dfn's -->
-[Part_1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/
-[Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_Bare-Metal_LXD-On-OVS
-[Part_3 LXD Network Gateway]: https://github.com/KathrynMorgan/small-stack/tree/master/3_LXD-Network-Gateway
-[Part_4 KVM On Open vSwitch]: https://github.com/KathrynMorgan/small-stack/tree/master/4_Bare-Metal_KVM-On-Open-vSwitch
+[Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/small-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
+[Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_LXD-On-OVS
+[Part_3 LXD Gateway OVS Network]: https://github.com/KathrynMorgan/small-stack/tree/master/3_LXD_Network_Gateway
+[Part_4 KVM On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/4_KVM_On_Open_vSwitch

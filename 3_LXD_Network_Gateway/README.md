@@ -1,7 +1,7 @@
 # PART_3 -- LXD Gateway & Firwall for Open vSwitch Network Isolation
 ###### Create an isolated OVS Network behind a dedicated IPTABLES Gateway Container
 Prerequisites:
-- [Part_1 Single Port Host Network Configuration]
+- [Part_1 Single Port Host OVS Network]
 - [Part_2 LXD On Open vSwitch Network]
 
 ![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/3_LXD-Network-Gateway/web/drawio/lxd-gateway.svg)
@@ -63,8 +63,5 @@ Define other interfaces in `/root/lxd-router/iptables-enabled/interfaces.conf`
 
 
  <!-- Markdown link & img dfn's -->
-[Part_1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/
-[Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_Bare-Metal_LXD-On-OVS
-[Part_3 Libvirtd/KVM/QEMU On Open vSwitch bridge]: https://github.com/KathrynMorgan/small-stack/tree/master/3_Bare-Metal_KVM-On-OVS
-[Part_4 MAAS Server On dedicated MAAS Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/4_Bare-Metal_MAAS-On-OVS_Simple
-[Part_5 MAAS POD Configuration on Libvirt provider]: https://github.com/KathrynMorgan/small-stack/tree/master/5_Bare-Metal_MAAS-POD_LibvirtD-Provider
+[Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/small-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
+[Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_LXD-On-OVS

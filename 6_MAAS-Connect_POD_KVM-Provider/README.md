@@ -1,11 +1,12 @@
-# PART_5 -- MAAS Connect POD on KVM Provider
+# PART_6 -- MAAS Connect POD on KVM Provider
 ###### Enable MAAS Control over Libvirt / KVM / QEMU Provider via POD method
 
 Prerequisites:
-- [Part_1 Single Port Host Network Configuration]
+- [Part_1 Single Port Host OVS Network]
 - [Part_2 LXD On Open vSwitch Network]
-- [Part_3 Libvirtd/KVM/QEMU On Open vSwitch bridge]
-- [Part_4 MAAS Server On dedicated MAAS Open vSwitch Network]
+- [Part_3 LXD Gateway OVS Network]
+- [Part_4 KVM On Open vSwitch Network]
+- [Part_5 MAAS Controller On Open vSwitch Network]
 
 ## Instructions:
 #### 1. Confirm both 'default' & 'maas' virsh networks are present before continuing
@@ -92,7 +93,8 @@ Usage:
     2. `virsh console $id`
 
  <!-- Markdown link & img dfn's -->
-[Part_1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/
-[Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_Bare-Metal_LXD-On-OVS
-[Part_3 Libvirtd/KVM/QEMU On Open vSwitch bridge]: https://github.com/KathrynMorgan/small-stack/tree/master/3_Bare-Metal_KVM-On-OVS
-[Part_4 MAAS Server On dedicated MAAS Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/4_Bare-Metal_MAAS-On-OVS_Simple
+[Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/small-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
+[Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_LXD-On-OVS
+[Part_3 LXD Gateway OVS Network]: https://github.com/KathrynMorgan/small-stack/tree/master/3_LXD_Network_Gateway
+[Part_4 KVM On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/4_KVM_On_Open_vSwitch
+[Part_5 MAAS Controller On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch
