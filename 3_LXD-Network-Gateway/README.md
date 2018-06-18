@@ -1,5 +1,5 @@
 # CCIO Hypervisor
-# PART_6 -- LXD gateway/firwall appliance for 'maas-net' OVS Bridge
+# PART_3 -- LXD gateway/firwall appliance for 'maas-net' OVS Bridge
 Prerequisites:
 - [Part_1 Single Port Host Network Configuration]
 - [Part_2 LXD On Open vSwitch Network]
