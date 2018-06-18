@@ -3,6 +3,9 @@
 Prerequisites:
 - [Part1 Single Port Host Network Configuration]
 
+![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/tree/master/2_Bare-Metal_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg)
+<a href="https://github.com/KathrynMorgan/small-stack/tree/master/2_Bare-Metal_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg" target="_blank">lxd-on-openvswitch.svg</a>
+
 #### 1. Install LXD Packages
 ````sh
 sudo apt install -y -t xenial-backports \
