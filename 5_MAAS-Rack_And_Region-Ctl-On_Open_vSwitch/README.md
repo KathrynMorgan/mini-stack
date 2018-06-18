@@ -3,8 +3,10 @@
 Prerequisites:
 - [Part_1 Single Port Host Network Configuration]
 - [Part_2 LXD On Open vSwitch Network]
-- [Part_3 Libvirtd/KVM/QEMU On Open vSwitch bridge]
+- [Part_3 LXD Network Gateway]
+- [Part_4 KVM On Open vSwitch]
 
+![CCIO_Hypervisor - KVM-On-Open-vSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/5_MAAS-Rack_And_Region-Ctl-On_Open_vSwitch/web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
 #### 1. Create maas-net OVS bridge via LXD commands
 ````sh
 lxc network create maas-net \
@@ -138,4 +140,5 @@ Browse to your maas WebUI in a browser at: http://[physical-net_IP]:5240/MAAS
 <!-- Markdown link & img dfn's -->
 [Part_1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/
 [Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_Bare-Metal_LXD-On-OVS
-[Part_3 Libvirtd/KVM/QEMU On Open vSwitch bridge]: https://github.com/KathrynMorgan/small-stack/tree/master/3_Bare-Metal_KVM-On-OVS
+[Part_3 LXD Network Gateway]: https://github.com/KathrynMorgan/small-stack/tree/master/3_LXD-Network-Gateway
+[Part_4 KVM On Open vSwitch]: https://github.com/KathrynMorgan/small-stack/tree/master/4_Bare-Metal_KVM-On-Open-vSwitch
