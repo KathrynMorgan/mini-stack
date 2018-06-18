@@ -7,7 +7,7 @@ Prerequisites:
 - [Part_3 LXD-Network-Gateway]
 
 
-![CCIO_Hypervisor - LXD On OpenvSwitch]()
+![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/4_Bare-Metal_KVM-On-Open-vSwitch/web/drawio/KVM-On-Open-vSwitch.svg)
 
 #### 1. Install Packages
 ````sh
@@ -49,3 +49,4 @@ sudo virsh net-dumpxml default
 <!-- Markdown link & img dfn's -->
 [Part_1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/
 [Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_Bare-Metal_LXD-On-OVS
+[Part_3 LXD-Network-Gateway]: https://github.com/KathrynMorgan/small-stack/tree/master/3_LXD-Network-Gateway
