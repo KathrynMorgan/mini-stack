@@ -1,5 +1,5 @@
-# CCIO Hypervisor
-# Part_5 -- MAAS Region And Rack Ctl on OVS Sandbox
+# Part_5 -- MAAS Region And Rack Server on OVS Sandbox
+###### Install MAAS Region & Rack Controllers on Open vSwitch Network
 Prerequisites:
 - [Part_1 Single Port Host Network Configuration]
 - [Part_2 LXD On Open vSwitch Network]
@@ -7,6 +7,8 @@ Prerequisites:
 - [Part_4 KVM On Open vSwitch]
 
 ![CCIO_Hypervisor - KVM-On-Open-vSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/5_MAAS-Rack_And_Region-Ctl-On_Open_vSwitch/web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
+
+## Instructions:
 #### 1. Create maas-net OVS bridge via LXD commands
 ````sh
 lxc network create maas-net \

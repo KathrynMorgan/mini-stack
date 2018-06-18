@@ -1,13 +1,15 @@
-# CCIO Hypervisor
-# Part_7 -- Juju Cloud with MAAS Provider
-Prerequisites:
-- [Part_1 Single Port Host Network Configuration]
-- [Part_2 LXD On Open vSwitch Network]
-- [Part_3 Libvirtd/KVM/QEMU On Open vSwitch bridge]
-- [Part_4 MAAS Server On dedicated MAAS Open vSwitch Network]
-- [Part_5 MAAS POD Configuration on Libvirt provider]
-- [Part_6 LXD gateway and firewall appliance for maas-net OVS Bridge]
+# Part_7 -- Juju MAAS Cloud
+###### Create a Juju Cloud on MAAS & Bootstrap the Juju Controller
 
+Prerequisites:
+- [Part_1 Single Port Host OVS Network]
+- [Part_2 LXD On Open vSwitch Network]
+- [Part_3 LXD Gateway OVS Network]
+- [Part_4 KVM On Open vSwitch Network]
+- [Part_5 MAAS Controller On Open vSwitch Network]
+- [Part_6 MAAS POD Configuration on Libvirt Provider]
+
+# Instructions:
 #### Generate a MAAS API Key using your maas login username
 [ On MAAS-controller ]
 1. Generate a MAAS API key for autnentication <br/>
@@ -82,9 +84,9 @@ the vm's console during bootstrap <br/>
 `juju deploy -n 1 haproxy`
 
 <!-- Markdown link & img dfn's -->
-[Part_1 Single Port Host Network Configuration]: https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/
-[Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_Bare-Metal_LXD-On-OVS
-[Part_3 Libvirtd/KVM/QEMU On Open vSwitch bridge]: https://github.com/KathrynMorgan/small-stack/tree/master/3_Bare-Metal_KVM-On-OVS
-[Part_4 MAAS Server On dedicated MAAS Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/4_Bare-Metal_MAAS-On-OVS_Simple
-[Part_5 MAAS POD Configuration on Libvirt provider]: https://github.com/KathrynMorgan/small-stack/tree/master/5_Bare-Metal_MAAS-POD_LibvirtD-Provider
-[Part_6 LXD gateway and firewall appliance for maas-net OVS Bridge]: https://github.com/KathrynMorgan/small-stack/tree/master/6_Network_LXD-Gateway-Router
+[Part_1 Single Port Host OVS Network]: 
+[Part_2 LXD On Open vSwitch Network]: 
+[Part_3 LXD Gateway OVS Network]: 
+[Part_4 KVM On Open vSwitch Network]: 
+[Part_5 MAAS Controller On Open vSwitch Network]: 
+[Part_6 MAAS POD Configuration on Libvirt Provider]: 

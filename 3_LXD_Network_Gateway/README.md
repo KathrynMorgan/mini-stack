@@ -1,11 +1,12 @@
-# CCIO Hypervisor
-# PART_3 -- LXD gateway/firwall appliance for 'maas-net' OVS Bridge
+# PART_3 -- LXD Gateway & Firwall for Open vSwitch Network Isolation
+###### Create an isolated OVS Network behind a dedicated IPTABLES Gateway Container
 Prerequisites:
 - [Part_1 Single Port Host Network Configuration]
 - [Part_2 LXD On Open vSwitch Network]
 
 ![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/3_LXD-Network-Gateway/web/drawio/lxd-gateway.svg)
-<a href="https://github.com/KathrynMorgan/small-stack/blob/master/3_LXD-Network-Gateway/web/drawio/lxd-gateway.svg" target="_blank">lxd-on-openvswitch.svg</a>
+
+## Instructions:
 
 ###### Launch and configure base gateway container
 ````sh

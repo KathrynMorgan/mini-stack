@@ -1,5 +1,4 @@
-# CCIO Hypervisor
-# Part 1 -- Single Port Host Open vSwitch Configuration
+# Part 1 -- Single Port Host Open vSwitch Network Configuration
 #### Provision a host network viable for cloud scale emulation and testing.
  NOTE:  Netplan does not support raising interfaces without ip addresses.
  Until the issue is resolved we will use ifupdown as a workaround.
@@ -12,10 +11,10 @@
 > - Impliment 'ifupdown' workaround RE: [BUG#1728134]
 > - Write Network Configuration
 
-
 ![CCIO_Hypervisor-Small_Stack_Diagram](https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/web/drawio/single-port-ovs-host.svg)
 <a href="https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/web/drawio/single-port-ovs-hosting.svg" target="_blank">single-port-ovs-host.svg</a>
 
+## Instructions:
 #### 1. Update system
 ```
 apt update \
