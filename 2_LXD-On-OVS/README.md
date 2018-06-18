@@ -5,7 +5,7 @@
 Prerequisites:
 - [Part_1 Single Port Host OVS Network]
 
-![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/2_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg)
+![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/2_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg)
 
 ## Instructions:
 #### 1. Install LXD Packages
@@ -81,4 +81,4 @@ lxc network show physical-net
 ````
 
 <!-- Markdown link & img dfn's -->
-[Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/small-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
+[Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration

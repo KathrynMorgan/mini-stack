@@ -84,9 +84,9 @@ the vm's console during bootstrap <br/>
 `juju deploy -n 1 haproxy`
 
 <!-- Markdown link & img dfn's -->
-[Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/small-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
-[Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/2_LXD-On-OVS
-[Part_3 LXD Gateway OVS Network]: https://github.com/KathrynMorgan/small-stack/tree/master/3_LXD_Network_Gateway
-[Part_4 KVM On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/4_KVM_On_Open_vSwitch
-[Part_5 MAAS Controller On Open vSwitch Network]: https://github.com/KathrynMorgan/small-stack/tree/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch
-[Part_6 MAAS POD Configuration on Libvirt Provider]: https://github.com/KathrynMorgan/small-stack/tree/master/6_MAAS-Connect_POD_KVM-Provider
+[Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
+[Part_2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/2_LXD-On-OVS
+[Part_3 LXD Gateway OVS Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/3_LXD_Network_Gateway
+[Part_4 KVM On Open vSwitch Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/4_KVM_On_Open_vSwitch
+[Part_5 MAAS Controller On Open vSwitch Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch
+[Part_6 MAAS POD Configuration on Libvirt Provider]: https://github.com/KathrynMorgan/mini-stack/tree/master/6_MAAS-Connect_POD_KVM-Provider
