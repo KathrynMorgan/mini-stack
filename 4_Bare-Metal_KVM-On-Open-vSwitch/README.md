@@ -1,5 +1,4 @@
 # Part 4 -- KVM On Open vSwitch
-#
 Prerequisites:
 - [Part_1 Single Port Host Network Configuration]
 - [Part_2 LXD On Open vSwitch Network]
