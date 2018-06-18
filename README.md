@@ -1,4 +1,4 @@
-# CCIO Official Hypervisor Container Development Stack [mini-stack]
+# Hypervisor Lab & Development Stack [mini-stack]
 
 ## Purpose:
 
@@ -32,4 +32,3 @@
   + multi host rack systems
 
 ![CCIO_Hypervisor-Small_Stack_Diagram](https://github.com/KathrynMorgan/small-stack/blob/master/web/drawio/CCIO_Hypervisor-Small_Stack.svg)
-<a href="https://github.com/KathrynMorgan/small-stack/blob/master/web/drawio/CCIO_Hypervisor-Small_Stack.svg" target="_blank">CCIO_Hypervisor-Small_Stack.svg</a>
