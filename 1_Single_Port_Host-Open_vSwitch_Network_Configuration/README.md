@@ -11,8 +11,7 @@
 > - Impliment 'ifupdown' workaround RE: [BUG#1728134]
 > - Write Network Configuration
 
-![CCIO_Hypervisor-Small_Stack_Diagram](https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/web/drawio/single-port-ovs-host.svg)
-<a href="https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/web/drawio/single-port-ovs-hosting.svg" target="_blank">single-port-ovs-host.svg</a>
+![CCIO_Hypervisor-Small_Stack_Diagram](https://github.com/KathrynMorgan/small-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
 
 ## Instructions:
 #### 1. Update system

@@ -4,7 +4,7 @@ Prerequisites:
 - [Part_1 Single Port Host OVS Network]
 - [Part_2 LXD On Open vSwitch Network]
 
-![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/3_LXD-Network-Gateway/web/drawio/lxd-gateway.svg)
+![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/3_LXD_Network_Gateway/web/drawio/lxd-gateway.svg)
 
 ## Instructions:
 

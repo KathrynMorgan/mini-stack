@@ -5,8 +5,7 @@
 Prerequisites:
 - [Part_1 Single Port Host OVS Network]
 
-![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/2_Bare-Metal_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg)
-<a href="https://github.com/KathrynMorgan/small-stack/blob/master/2_Bare-Metal_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg" target="_blank">lxd-on-openvswitch.svg</a>
+![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/2_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg)
 
 ## Instructions:
 #### 1. Install LXD Packages
