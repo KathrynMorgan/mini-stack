@@ -13,8 +13,8 @@
 > - Write Network Configuration
 
 
-![CCIO_Hypervisor-Small_Stack_Diagram](https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/web/drawio/CCIO_Hypervisor-Small_Stack.svg)
-<a href="https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/web/drawio/CCIO_Hypervisor-Small_Stack.svg" target="_blank">CCIO_Hypervisor-Small_Stack.svg</a>
+![CCIO_Hypervisor-Small_Stack_Diagram](https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/web/drawio/single-port-ovs-host.svg)
+<a href="https://github.com/KathrynMorgan/small-stack/blob/master/1_Bare-Metal_Single-Port-OVS-Hypervisor/web/drawio/single-port-ovs-hosting.svg" target="_blank">single-port-ovs-host.svg</a>
 
 #### 1. Update system
 ```
