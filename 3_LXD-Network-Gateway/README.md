@@ -3,9 +3,9 @@
 Prerequisites:
 - [Part_1 Single Port Host Network Configuration]
 - [Part_2 LXD On Open vSwitch Network]
-- [Part_3 Libvirtd/KVM/QEMU On Open vSwitch bridge]
-- [Part_4 MAAS Server On dedicated MAAS Open vSwitch Network]
-- [Part_5 MAAS POD Configuration on Libvirt provider]
+
+![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/small-stack/blob/master/3_LXD-Network-Gateway/web/drawio/lxd-gateway.svg)
+<a href="https://github.com/KathrynMorgan/small-stack/blob/master/3_LXD-Network-Gateway/web/drawio/lxd-gateway.svg" target="_blank">lxd-on-openvswitch.svg</a>
 
 ###### Launch and configure base gateway container
 ````sh
