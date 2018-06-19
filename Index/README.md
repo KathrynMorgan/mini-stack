@@ -17,7 +17,6 @@
 <br/>
 ## [PART_6 -- MAAS Connect POD on KVM Provider](https://github.com/KathrynMorgan/mini-stack/tree/master/6_MAAS-Connect_POD_KVM-Provider)
 ## [PART_7 -- Juju MAAS Cloud](https://github.com/KathrynMorgan/mini-stack/tree/master/7_Juju_MAAS_Cloud)
-<br/>
 ## [Part_7 -- Juju MAAS Cloud](https://github.com/KathrynMorgan/mini-stack/tree/master/7_Juju_MAAS_Cloud)
 <br/>
 .
