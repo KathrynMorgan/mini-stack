@@ -1,6 +1,6 @@
 # Hypervisor Lab & Development Stack [mini-stack]
 
-## [Get Started!](https://github.com/KathrynMorgan/mini-stack/tree/master/Index)
+## [Get Started Here!](https://github.com/KathrynMorgan/mini-stack/tree/master/Index)
 
 ## Purpose:
 
