@@ -42,4 +42,5 @@ number of criteria included in the following.
   + Bare Metal Hosts
   + Physical Switching Gear
 
+#### Example of a single host build following these steps:
 ![CCIO_Hypervisor-Small_Stack_Diagram](https://github.com/KathrynMorgan/small-stack/blob/master/web/drawio/CCIO_Hypervisor-Small_Stack.svg)
