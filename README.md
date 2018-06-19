@@ -1,6 +1,7 @@
 # Hypervisor Lab & Development Stack [mini-stack]
 
 ## [Get Started Here!](https://github.com/KathrynMorgan/mini-stack/tree/master/Index)
+###### This set of guides & build tools is aimed at the Single Host Laptop/Desktop "Lab Server" Paradigm
 
 ## Purpose:
 
