@@ -5,7 +5,7 @@ This set of guides & build tools is aimed at the Single Host Laptop/Desktop "Lab
 By following these guides you will be able to: <br/>
   1. Demostrate the potential of modest hardware <br/>
   2. Improve your understandng and fluency in fitting common commercial software components together <br/> 
-  3. Help overcome barriers in consuming automation tools to improve your workflow beyond the burden of menial tasks <br/>
+  3. Overcome barriers in consuming automation tools to improve your workflow beyond the burden of menial tasks <br/>
 
 #### [Get Started Here!](https://github.com/KathrynMorgan/mini-stack/tree/master/Index)
 
