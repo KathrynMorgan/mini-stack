@@ -11,7 +11,7 @@ By following these guides you will be able to: <br/>
 
 ## Purpose:
 
-This tooling provides a common platform to quickly and seamlessly build virtual environments.
+This tooling provides a common platform to quickly and seamlessly build virtual environments. <br/>
 <br/>
 The original inspiration for this project came from endless hours of testing different 
 virtual network building tools and strategies in search of a paradigm that meets a 
