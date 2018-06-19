@@ -3,9 +3,9 @@
 Intended for both the new hobby sysadmin and experienced DevOps professional. <br/>
 This set of guides & build tools is aimed at the Single Host Laptop/Desktop "Lab Server" Paradigm and can be expanded upon once the core fundamentals are understood. <br/>
 By following these guides you will be able to: <br/>
-  A. Demostrate the potential of modest hardware <br/>
-  B. Improve your understandng and fluency in fitting common commercial software components together <br/> 
-  C. Help overcome barriers in consuming automation tools to improve your workflow beyond the burden of menial tasks <br/>
+  + A. Demostrate the potential of modest hardware <br/>
+  + B. Improve your understandng and fluency in fitting common commercial software components together <br/> 
+  + C. Help overcome barriers in consuming automation tools to improve your workflow beyond the burden of menial tasks <br/>
 
 #### [Get Started Here!](https://github.com/KathrynMorgan/mini-stack/tree/master/Index)
 
