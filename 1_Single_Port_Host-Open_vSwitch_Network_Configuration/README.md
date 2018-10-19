@@ -37,13 +37,21 @@ ovs-vsctl show
 ovs-vsctl add-br physical-net
 ```
 
-#### 5. Create host virtual interface on bridge
+#### 5. Generate a unique "mgmt0" iface hardware address
+```
+echo "$FQDN physical-net mgmt0" \
+   | md5sum \
+   | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/'
+```
+
+#### 6. Create host virtual interface on bridge
 ```
 ovs-vsctl add-port physical-net mgmt0 \
-  -- set interface mgmt0 type=internal
+  -- set interface mgmt0 type=internal \
+  -- set interface mgmt0 mac="$HWADDRESS"
 ovs-vsctl show
 ```
-#### 6. Workaround NetPlan + Open vSwitch [BUG: 1728134]
+#### 7. Workaround NetPlan + Open vSwitch [BUG: 1728134]
 > ###### 6.a Comment out all netplan config files
 ```
 sed 's/^/#/g' /etc/netplan/50-cloud-init.yaml
@@ -85,7 +93,7 @@ vim /etc/systemd/resolved.conf
 [Resolve]
 DNS=8.8.8.8
 ````
-#### 7. Attach bridge to LAN
+#### 8. Attach bridge to LAN
 ````
 ovs-vsctl add-port physical-net ens3
 ````
