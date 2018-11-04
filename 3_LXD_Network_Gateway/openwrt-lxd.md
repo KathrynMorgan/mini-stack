@@ -1,17 +1,17 @@
 # OpenWRT LXD Gateway on bare Ubuntu OS
 
-###### 1. Install Packages
+#### 1. Install Packages
 ````sh
 apt update && apt upgrade -y && apt dist-upgrade -y
 apt install -y openvswitch-switch ifupdown lxd htop
 ````
 
-###### 2. Eliminate netplan due to ovs support (BUG: 1728134)
+#### 2. Eliminate netplan due to ovs support (BUG: 1728134)
 ````sh
 sed 's/^/#/g' /etc/netplan/*.yaml
 ````
 
-###### 3. Create default "interfaces" file
+#### 3. Create default "interfaces" file
 ````sh
 cat <<EOF >>/etc/network/interfaces
 # /etc/network/interfaces
@@ -23,7 +23,7 @@ source /etc/network/interfaces.d/*.cfg
 EOF
 ````
 
-###### 4. Create wan bridge interfaces file
+#### 4. Create wan bridge interfaces file
 ````sh
 cat <<EOF >>/etc/network/interfaces.d/wan.cfg
 allow-hotplug wan
@@ -31,7 +31,7 @@ iface wan inet manual
 EOF
 ````
 
-###### 5. Create ens3 interfaces file
+#### 5. Create ens3 interfaces file
 ````sh
 cat <<EOF >>/etc/network/interfaces.d/ens3.cfg
 # Raise ens3 on ovs-br 'wan' with no IP
@@ -40,7 +40,7 @@ iface ens3 inet manual
 EOF
 ````
 
-###### 6. Create lan bridge interfaces file
+#### 6. Create lan bridge interfaces file
 ````sh
 cat <<EOF >>/etc/network/interfaces.d/lan.cfg
 allow-hotplug lan
@@ -48,7 +48,7 @@ iface lan inet manual
 EOF
 ````
 
-###### 7. Create mgmt0 interfaces file
+#### 7. Create mgmt0 interfaces file
 ````sh
 cat <<EOF >>/etc/network/interfaces.d/mgmt0.cfg
 # Raise host mgmt0 iface on ovs-br 'lan' with no IP
@@ -62,14 +62,14 @@ iface mgmt0 inet static
 EOF
 ````
 
-###### 8. Generate unique MAC address for mgmt0 iface
+#### 8. Generate unique MAC address for mgmt0 iface
 ````sh
 export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" \
 | md5sum \
 | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 ````
 
-###### 9. Create Bridges && add ports
+#### 9. Create Bridges && add ports
 ````sh
 ovs-vsctl add-br wan \
   -- add-port wan ens3 \
@@ -110,18 +110,18 @@ profiles:
 EOF
 ````
 
-###### 11. Add bcio remote
+#### 11. Add bcio remote
 ````sh
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
 
-###### 12. Initialize Gateway as privileged container
+#### 12. Initialize Gateway as privileged container
 ````sh
 lxc init bcio:openwrt gateway
 lxc config set gateway security.privileged true
 ````
 
-###### 13. Attach Interfaces
+#### 13. Attach Interfaces
   - eth1 = WAN Bridge
   - eth0 = LAN Bridge
 ````sh
@@ -129,7 +129,7 @@ lxc network attach wan gateway eth1 eth1
 lxc network attach lan gateway eth0 eth0
 ````
 
-###### 14. Start gateway & set gateway config options
+#### 14. Start gateway & set gateway config options
 ````sh
 lxc start gateway
 lxc exec gateway -- /bin/ash -c "uci set network.lan.ipaddr='192.168.1.1'"
@@ -138,7 +138,7 @@ lxc exec gateway -- /bin/ash -c "uci set network.lan.proto='static'"
 lxc exec gateway -- /bin/ash -c "uci commit"
 ````
 
-###### 15. Reboot host system & inherit!
+#### 15. Reboot host system & inherit!
 ````sh
 reboot
 ````
