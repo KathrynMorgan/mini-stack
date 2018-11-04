@@ -1,0 +1,133 @@
+########################################################################
+## Install Packages
+apt update && apt upgrade -y && apt dist-upgrade -y
+apt install -y openvswitch-switch ifupdown lxd htop
+
+
+########################################################################
+## Eliminate netplan due to ovs support (BUG: 1728134)
+sed 's/^/#/g' /etc/netplan/*.yaml
+
+
+########################################################################
+## Add ifupdown configuration
+
+## Create default "interfaces" file
+cat <<EOF >>/etc/network/interfaces
+# /etc/network/interfaces
+auto lo                                                                                   
+iface lo inet loopback
+
+# Run interfaces.d config files
+source /etc/network/interfaces.d/*.cfg
+EOF
+
+## Create wan bridge interfaces file
+cat <<EOF >>/etc/network/interfaces.d/wan.cfg
+allow-hotplug wan
+iface wan inet manual
+EOF
+
+## Create ens3 interfaces file
+cat <<EOF >>/etc/network/interfaces.d/ens3.cfg
+# Raise ens3 on ovs-br 'wan' with no IP
+allow-hotplug ens3
+iface ens3 inet manual
+EOF
+
+## Create lan bridge interfaces file
+cat <<EOF >>/etc/network/interfaces.d/lan.cfg
+allow-hotplug lan
+iface lan inet manual
+EOF
+
+## Create mgmt0 interfaces file
+cat <<EOF >>/etc/network/interfaces.d/mgmt0.cfg
+# Raise host mgmt0 iface on ovs-br 'lan' with no IP
+allow-hotplug mgmt0
+iface mgmt0 inet static
+  address 192.168.1.5
+  gateway 192.168.1.1
+  netmask 255.255.255.0
+  nameservers 192.168.1.1
+  mtu 1500
+EOF
+
+
+########################################################################
+# Configure OVS
+
+## Generate unique MAC address for mgmt0 iface
+export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" \
+| md5sum \
+| sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+
+## Create Bridges && add ports
+ovs-vsctl add-br wan \
+  -- add-port wan ens3 \
+  -- add-br lan \
+  -- add-port lan mgmt0 \
+  -- set interface mgmt0 type=internal \
+  -- set interface mgmt0 mac="$HWADDRESS" \
+
+
+########################################################################
+# Initialize LXD
+cat <<EOF | lxd init --preseed
+config:
+  images.auto_update_interval: "0"
+cluster: null
+networks: []
+storage_pools:
+- config:
+    size: 15GB
+  description: ""
+  name: default
+  driver: btrfs
+profiles:
+- config: {}
+  description: ""
+  devices:
+    eth0:
+      name: eth0
+      nictype: macvlan
+      parent: lan
+      type: nic
+    root:
+      path: /
+      pool: default
+      type: disk
+  name: default
+EOF
+
+
+########################################################################
+## Container Build
+
+## Add bcio remote
+lxc remote add bcio https://images.braincraft.io --public --accept-certificate
+
+## Initialize Gateway as privileged container
+lxc init bcio:openwrt gateway
+lxc config set gateway security.privileged true
+
+## Attach Interfaces
+# eth1 = WAN Bridge
+# eth0 = LAN Bridge
+lxc network attach wan gateway eth1 eth1
+lxc network attach lan gateway eth0 eth0
+
+## Start gateway & set gateway config options
+lxc start gateway
+lxc exec gateway -- /bin/ash -c "uci set network.lan.ipaddr='192.168.1.1'"
+lxc exec gateway -- /bin/ash -c "uci set network.lan.netmask='255.255.255.0'"
+lxc exec gateway -- /bin/ash -c "uci set network.lan.proto='static'"
+lxc exec gateway -- /bin/ash -c "uci commit"
+
+## Reboot host system & inherit!
+reboot
+
+
+########################################################################
+## Find your WebUI in a lan side browser @ 192.168.1.1 username:password admin:password
+## TODO: Fix https://github.com/mikma/lxd-openwrt/issues/3 & rebuild/publish image
