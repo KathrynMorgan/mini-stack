@@ -48,28 +48,14 @@ iface lan inet manual
 EOF
 ````
 
-#### 7. Create mgmt0 interfaces file
-````sh
-cat <<EOF >>/etc/network/interfaces.d/mgmt0.cfg
-# Raise host mgmt0 iface on ovs-br 'lan' with no IP
-allow-hotplug mgmt0
-iface mgmt0 inet static
-  address 192.168.1.5
-  gateway 192.168.1.1
-  netmask 255.255.255.0
-  nameservers 192.168.1.1
-  mtu 1500
-EOF
-````
-
-#### 8. Generate unique MAC address for mgmt0 iface
+#### 7. Generate unique MAC address for mgmt0 iface
 ````sh
 export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" \
 | md5sum \
 | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 ````
 
-#### 9. Create Bridges && add ports
+#### 8. Create Bridges && add ports
 ````sh
 ovs-vsctl add-br wan \
   -- add-port wan ens3 \
@@ -80,7 +66,7 @@ ovs-vsctl add-br wan \
 ````
 
 
-#### 10. Initialize LXD
+####  9. Initialize LXD
 ````sh
 cat <<EOF | lxd init --preseed
 config:
@@ -110,18 +96,18 @@ profiles:
 EOF
 ````
 
-#### 11. Add bcio remote
+#### 10. Add bcio remote
 ````sh
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
 
-#### 12. Initialize Gateway as privileged container
+#### 11. Initialize Gateway as privileged container
 ````sh
 lxc init bcio:openwrt gateway
 lxc config set gateway security.privileged true
 ````
 
-#### 13. Attach Interfaces
+#### 12. Attach Interfaces
   - eth1 = WAN Bridge
   - eth0 = LAN Bridge
 ````sh
@@ -129,13 +115,27 @@ lxc network attach wan gateway eth1 eth1
 lxc network attach lan gateway eth0 eth0
 ````
 
-#### 14. Start gateway & set gateway config options
+#### 13. Start gateway & set gateway config options
 ````sh
 lxc start gateway
 lxc exec gateway -- /bin/ash -c "uci set network.lan.ipaddr='192.168.1.1'"
 lxc exec gateway -- /bin/ash -c "uci set network.lan.netmask='255.255.255.0'"
 lxc exec gateway -- /bin/ash -c "uci set network.lan.proto='static'"
 lxc exec gateway -- /bin/ash -c "uci commit"
+````
+
+#### 14. Create mgmt0 interfaces file
+````sh
+cat <<EOF >>/etc/network/interfaces.d/mgmt0.cfg
+# Raise host mgmt0 iface on ovs-br 'lan' with no IP
+allow-hotplug mgmt0
+iface mgmt0 inet static
+  address 192.168.1.5
+  gateway 192.168.1.1
+  netmask 255.255.255.0
+  nameservers 192.168.1.1
+  mtu 1500
+EOF
 ````
 
 #### 15. Reboot host system & inherit!
