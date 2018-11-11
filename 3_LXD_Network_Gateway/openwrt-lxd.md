@@ -118,6 +118,7 @@ lxc network attach lan gateway eth0 eth0
 #### 13. Start gateway & set gateway config options
 ````sh
 lxc start gateway
+lxc exec gateway -- /bin/ash -c "passwd"
 lxc exec gateway -- /bin/ash -c "uci set network.lan.ipaddr='192.168.1.1'"
 lxc exec gateway -- /bin/ash -c "uci set network.lan.netmask='255.255.255.0'"
 lxc exec gateway -- /bin/ash -c "uci set network.lan.proto='static'"
@@ -143,5 +144,7 @@ EOF
 reboot
 ````
 
-#### Find your WebUI in a lan side browser @ 192.168.1.1 username:password admin:password
+#### Find your WebUI in a lan side browser @ 192.168.1.1 
+###### Username: "root" 
+###### Password "(The password you created in step 13)"
 #### TODO: Fix https://github.com/mikma/lxd-openwrt/issues/3 & rebuild/publish image
