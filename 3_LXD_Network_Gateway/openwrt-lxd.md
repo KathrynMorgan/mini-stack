@@ -76,7 +76,7 @@ EOF
 #### 08. Create WAN Bridge && add WAN port to bridge
 ````sh
 ovs-vsctl add-br wan -- add-port wan ens3
-```
+````
 
 #### 09. Generate unique MAC address for mgmt0 iface
 ````sh
