@@ -128,10 +128,16 @@ lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 
 #### 13. Launch Gateway
 ````sh
-lxc init bcio:openwrt gateway -p openwrt
+lxc launch bcio:openwrt gateway -p openwrt
 ````
 
-#### 14. Reboot host system & inherit!
+#### 14. Watch container for eth0 & br-lan ip initialization
+###### "ctrl + c" to exit "watch" cmd
+````sh
+watch -c lxc list
+````
+
+#### 15. Reboot host system & inherit!
 ````sh
 reboot
 ````
