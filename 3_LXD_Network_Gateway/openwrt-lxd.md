@@ -23,7 +23,7 @@ sed 's/^/#/g' /etc/netplan/*.yaml
 
 #### 03. Create default "interfaces" file
 ````sh
-cat <<EOF >>/etc/network/interfaces
+cat <<EOF >/etc/network/interfaces
 # /etc/network/interfaces
 auto lo                                                                                   
 iface lo inet loopback
@@ -35,7 +35,7 @@ EOF
 
 #### 04. Create wan bridge interfaces file
 ````sh
-cat <<EOF >>/etc/network/interfaces.d/wan.cfg
+cat <<EOF >/etc/network/interfaces.d/wan.cfg
 allow-hotplug wan
 iface wan inet manual
 EOF
@@ -44,7 +44,7 @@ EOF
 #### 05. Create ens3 interfaces file
 ###### (Substitute 'ens3' for your devices physical port)
 ````sh
-cat <<EOF >>/etc/network/interfaces.d/ens3.cfg
+cat <<EOF >/etc/network/interfaces.d/ens3.cfg
 # Raise ens3 on ovs-br 'wan' with no IP
 allow-hotplug ens3
 iface ens3 inet manual
@@ -53,7 +53,7 @@ EOF
 
 #### 06. Create lan bridge interfaces file
 ````sh
-cat <<EOF >>/etc/network/interfaces.d/lan.cfg
+cat <<EOF >/etc/network/interfaces.d/lan.cfg
 allow-hotplug lan
 iface lan inet manual
 EOF
@@ -61,7 +61,7 @@ EOF
 
 #### 07. Create mgmt0 interfaces file
 ````sh
-cat <<EOF >>/etc/network/interfaces.d/mgmt0.cfg
+cat <<EOF >/etc/network/interfaces.d/mgmt0.cfg
 # Raise host mgmt0 iface on ovs-br 'lan' with no IP
 allow-hotplug mgmt0
 iface mgmt0 inet static
