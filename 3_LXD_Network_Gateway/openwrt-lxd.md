@@ -1,6 +1,7 @@
 # OpenWRT LXD Gateway on bare Ubuntu OS
 ## Tested on Ubuntu Bionic 18.04 LTS
-## Instructions intended for use on clean Ubuntu OS (No previous configuration)
+## Instructions intended for use on clean Ubuntu OS 
+#### (No previous configuration of network/ovs/lxd accounted for)
 
 #### 00. Add bcio remote
 ````sh
