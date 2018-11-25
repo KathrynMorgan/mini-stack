@@ -3,6 +3,8 @@
 ## Instructions intended for use on clean Ubuntu OS 
 #### (No previous configuration of network/ovs/lxd accounted for)
 
+=================================================================================
+
 #### 00. Add bcio remote
 ````sh
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
@@ -133,7 +135,9 @@ lxc init bcio:openwrt gateway -p openwrt
 ````sh
 reboot
 ````
-       
+
+=================================================================================
+
 #### Find your WebUI in a lan side browser @ 192.168.1.1 
 ###### Username: root 
 ###### Password: admin
