@@ -1,17 +1,24 @@
 # OpenWRT LXD Gateway on bare Ubuntu OS
+## Tested on Ubuntu Bionic 18.04 LTS
+## Instructions intended for use on clean Ubuntu OS (No previous configuration)
 
-#### 1. Install Packages
+#### 00. Add bcio remote
 ````sh
-apt update && apt upgrade -y && apt dist-upgrade -y
-apt install -y openvswitch-switch ifupdown lxd htop
+lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
 
-#### 2. Eliminate netplan due to ovs support (BUG: 1728134)
+#### 01. Install Packages
+````sh
+apt update && apt upgrade -y && apt dist-upgrade -y
+apt install -y openvswitch-switch ifupdown lxd htop tree lnav tmux
+````
+
+#### 02. Eliminate netplan due to ovs support (BUG: 1728134)
 ````sh
 sed 's/^/#/g' /etc/netplan/*.yaml
 ````
 
-#### 3. Create default "interfaces" file
+#### 03. Create default "interfaces" file
 ````sh
 cat <<EOF >>/etc/network/interfaces
 # /etc/network/interfaces
@@ -23,7 +30,7 @@ source /etc/network/interfaces.d/*.cfg
 EOF
 ````
 
-#### 4. Create wan bridge interfaces file
+#### 04. Create wan bridge interfaces file
 ````sh
 cat <<EOF >>/etc/network/interfaces.d/wan.cfg
 allow-hotplug wan
@@ -31,7 +38,8 @@ iface wan inet manual
 EOF
 ````
 
-#### 5. Create ens3 interfaces file
+#### 05. Create ens3 interfaces file
+###### (Substitute 'ens3' for your devices physical port)
 ````sh
 cat <<EOF >>/etc/network/interfaces.d/ens3.cfg
 # Raise ens3 on ovs-br 'wan' with no IP
@@ -40,7 +48,7 @@ iface ens3 inet manual
 EOF
 ````
 
-#### 6. Create lan bridge interfaces file
+#### 06. Create lan bridge interfaces file
 ````sh
 cat <<EOF >>/etc/network/interfaces.d/lan.cfg
 allow-hotplug lan
@@ -48,25 +56,36 @@ iface lan inet manual
 EOF
 ````
 
-#### 7. Generate unique MAC address for mgmt0 iface
+#### 07. Create mgmt0 interfaces file
 ````sh
-export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" \
-| md5sum \
-| sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+cat <<EOF >>/etc/network/interfaces.d/mgmt0.cfg
+# Raise host mgmt0 iface on ovs-br 'lan' with no IP
+allow-hotplug mgmt0
+iface mgmt0 inet static
+  address 192.168.1.5
+  gateway 192.168.1.1
+  netmask 255.255.255.0
+  nameservers 192.168.1.1
+  mtu 1500
+EOF
 ````
 
-#### 8. Create Bridges && add ports
+#### 08. Create WAN Bridge && add WAN port to bridge
 ````sh
-ovs-vsctl add-br wan \
-  -- add-port wan ens3 \
-  -- add-br lan \
-  -- add-port lan mgmt0 \
-  -- set interface mgmt0 type=internal \
-  -- set interface mgmt0 mac="$HWADDRESS" \
+ovs-vsctl add-br wan -- add-port wan ens3
+```
+
+#### 09. Generate unique MAC address for mgmt0 iface
+````sh
+export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 ````
 
+#### 10. Create LAN Bridge && add LAN Host MGMT0 Virtual Interface to Bridge
+````sh
+ovs-vsctl add-br lan -- add-port lan mgmt0 -- set interface mgmt0 type=internal -- set interface mgmt0 mac="$HWADDRESS"
+````
 
-####  9. Initialize LXD
+#### 11. Initialize LXD
 ````sh
 cat <<EOF | lxd init --preseed
 config:
@@ -96,55 +115,24 @@ profiles:
 EOF
 ````
 
-#### 10. Add bcio remote
+#### 12. Create OpenWRT LXD Profile
 ````sh
-lxc remote add bcio https://images.braincraft.io --public --accept-certificate
+lxc profile copy default openwrt
+lxc profile set openwrt security.privileged true
+lxc profile device set openwrt eth0 parent wan
+lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 ````
 
-#### 11. Initialize Gateway as privileged container
+#### 13. Launch Gateway
 ````sh
-lxc init bcio:openwrt gateway
-lxc config set gateway security.privileged true
+lxc init bcio:openwrt gateway -p openwrt
 ````
 
-#### 12. Attach Interfaces
-  - eth1 = WAN Bridge
-  - eth0 = LAN Bridge
-````sh
-lxc network attach wan gateway eth1 eth1
-lxc network attach lan gateway eth0 eth0
-````
-
-#### 13. Start gateway & set gateway config options
-````sh
-lxc start gateway
-lxc exec gateway -- /bin/ash -c "passwd"
-lxc exec gateway -- /bin/ash -c "uci set network.lan.ipaddr='192.168.1.1'"
-lxc exec gateway -- /bin/ash -c "uci set network.lan.netmask='255.255.255.0'"
-lxc exec gateway -- /bin/ash -c "uci set network.lan.proto='static'"
-lxc exec gateway -- /bin/ash -c "uci commit"
-````
-
-#### 14. Create mgmt0 interfaces file
-````sh
-cat <<EOF >>/etc/network/interfaces.d/mgmt0.cfg
-# Raise host mgmt0 iface on ovs-br 'lan' with no IP
-allow-hotplug mgmt0
-iface mgmt0 inet static
-  address 192.168.1.5
-  gateway 192.168.1.1
-  netmask 255.255.255.0
-  nameservers 192.168.1.1
-  mtu 1500
-EOF
-````
-
-#### 15. Reboot host system & inherit!
+#### 14. Reboot host system & inherit!
 ````sh
 reboot
 ````
-
+       
 #### Find your WebUI in a lan side browser @ 192.168.1.1 
-###### Username: "root" 
-###### Password "(The password you created in step 13)"
-#### TODO: Fix https://github.com/mikma/lxd-openwrt/issues/3 & rebuild/publish image
+###### Username: root 
+###### Password: admin
