@@ -17,6 +17,20 @@ network:
 EOF
 ````
 
+#### 5. Write systemd-networkd config to raise 'lan' bridge
+
+````
+cat <<EOF > /etc/systemd/network/lan.network                                                    
+[Match]
+Name=lan
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+
 #### 09. Generate unique MAC address for mgmt1 iface
 ````sh
 export HWADDRESS=$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')

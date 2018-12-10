@@ -42,19 +42,33 @@ LinkLocalAddressing=no
 EOF
 ````
 
-#### 5. Attach bridge to LAN
+#### 5. Write systemd-networkd config to raise 'wan' bridge
+
+````
+cat <<EOF > /etc/systemd/network/wan.network                                                    
+[Match]
+Name=wan
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+
+#### 6. Attach bridge to LAN
 
 ````
 ovs-vsctl add-port wan ens3
 systemctl restart systemd-networkd.service
 ````
 
-#### 6. Generate MAC address for virtual interface 'mgmt0'
+#### 7. Generate MAC address for virtual interface 'mgmt0'
 ```
 export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 ```
 
-#### 6. Create host virtual interface on bridge
+#### 8. Create host virtual interface on bridge
 ```
 ovs-vsctl add-port wan mgmt0 \
   -- set interface mgmt0 type=internal \
@@ -76,7 +90,7 @@ network:
 EOF
 ````
 
-#### 9. Apply configuration
+#### 10. Apply configuration
 ````
 netplan apply --debug
 ````
