@@ -51,7 +51,7 @@ lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/au
 
 #### 0. Test maasctl ssh key provisioning
 ````sh
-lxc exec maasctl -- su --l maas /bin/bash -c 'virsh -c qemu+ssh://root@192.168.2.21/system list --all'
+lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@192.168.2.21/system list --all'
 ````
 
 #### 6. Confirm the MAAS server's user 'maas' can reach the virsh console of the target libvirt provider
