@@ -12,12 +12,12 @@ Prerequisites:
 ````sh
 apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0
 ````
-#### 3. Backup & Destroy default NAT Network
+#### 2. Backup & Destroy default NAT Network
 ````sh
 virsh net-dumpxml default | tee ~/virsh-net-default-bak.xml
 virsh net-destroy default && virsh net-undefine default
 ````
-#### 4. Write 'default' network json
+#### 3. Write 'default' network json
 ````sh
 cat <<EOF >>virsh-net-default-lan.json
 <network>
@@ -28,12 +28,12 @@ cat <<EOF >>virsh-net-default-lan.json
 </network>
 EOF
 ````
-#### 5. Create network from json
+#### 4. Create network from json
 ````sh
 virsh net-define virsh-net-default-lan.json
 virsh net-start default && virsh net-autostart default
 ````
-#### 6. Verify virsh network:
+#### 5. Verify virsh network:
 ````sh
 sudo virsh net-list --all
 sudo virsh net-dumpxml default
