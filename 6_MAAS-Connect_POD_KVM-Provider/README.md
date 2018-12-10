@@ -40,7 +40,7 @@ ovs-vsctl add-port maas mgmt2 -- set interface mgmt2 type=internal -- set interf
 ( In maasctl Container )    
 ````sh
 chsh -s /bin/bash maas    
-su --login maas /bin/bash -c "ssh-keygen -f ~/.ssh/id_rsa -N ''"    
+su -l maas /bin/bash -c "ssh-keygen -f ~/.ssh/id_rsa -N ''"    
 ````
 
 #### 5. Provision libvirt host with MAAS user public ssh key
