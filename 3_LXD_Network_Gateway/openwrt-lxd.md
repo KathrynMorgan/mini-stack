@@ -1,4 +1,4 @@
-#### 00. Add bcio remote
+#### 0. Add bcio remote
 ````sh
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
