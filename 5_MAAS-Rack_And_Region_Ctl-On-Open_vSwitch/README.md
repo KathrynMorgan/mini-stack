@@ -18,6 +18,7 @@ ovs-vsctl add-br maas
 #### 0. Create maas container profile
 ````
 lxc profile create maasctl
+wget -O ~/profile-maasctl.yaml https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/profile-maasctl.yaml
 lxc profile edit maasctl <~/profile-maasctl.yaml 
 ````
 #### 2. Write 'maas' network json
