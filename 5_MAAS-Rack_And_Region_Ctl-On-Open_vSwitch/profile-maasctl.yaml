@@ -1,0 +1,63 @@
+config:
+  raw.lxc: |-
+    lxc.cgroup.devices.allow = c 10:237 rwm
+    lxc.apparmor.profile = unconfined
+    lxc.cgroup.devices.allow = b 7:* rwm
+  security.privileged: "true"
+  user.network-config: |
+    #cloud-config
+    version: 2
+    ethernets:
+      eth0:
+        dhcp4: false
+        dhcp6: false
+        addresses: [ 192.168.2.10/24 ]
+        gateway4: 192.168.2.1
+        nameservers:
+          addresses: [ 192.168.2.1,10.0.0.1,8.8.8.8,1.1.1.1 ]
+          search: [ lab.maas ]
+  user.user-data: |
+    #cloud-config
+    timezone: Pacific/Honolulu
+    package_upgrade: true
+    packages:
+      - jq
+      - lnav
+      - python
+description: mini-stack maasctl container profile
+devices:
+  eth0:
+    name: eth0
+    nictype: macvlan
+    parent: lan
+    type: nic
+  loop0:
+    path: /dev/loop0
+    type: unix-block
+  loop1:
+    path: /dev/loop1
+    type: unix-block
+  loop2:
+    path: /dev/loop2
+    type: unix-block
+  loop3:
+    path: /dev/loop3
+    type: unix-block
+  loop4:
+    path: /dev/loop4
+    type: unix-block
+  loop5:
+    path: /dev/loop5
+    type: unix-block
+  loop6:
+    path: /dev/loop6
+    type: unix-block
+  loop7:
+    path: /dev/loop7
+    type: unix-block
+  root:
+    path: /
+    pool: default
+    type: disk
+name: maasctl
+used_by: []

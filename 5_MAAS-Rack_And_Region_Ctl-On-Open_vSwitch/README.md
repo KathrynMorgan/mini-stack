@@ -15,6 +15,11 @@ Prerequisites:
 ovs-vsctl add-br maas
 ````
 
+#### 0. Create maas container profile
+````
+lxc profile create maasctl
+lxc profile edit maasctl <~/profile-maasctl.yaml 
+````
 #### 2. Write 'maas' network json
 ````sh
 cat <<EOF >>virsh-net-maas.json
