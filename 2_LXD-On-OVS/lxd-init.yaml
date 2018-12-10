@@ -1,0 +1,24 @@
+config:
+  core.https_address: '[::]:8443'
+  core.trust_password: SuperSecretPassword
+networks: []
+storage_pools:
+- config: {}
+  description: ""
+  name: default
+  driver: dir
+profiles:
+- config: {}
+  description: ""
+  devices:
+    eth0:
+      name: eth0
+      nictype: macvlan
+      parent: wan
+      type: nic
+    root:
+      path: /
+      pool: default
+      type: disk
+  name: default
+cluster: null
