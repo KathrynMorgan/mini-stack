@@ -49,6 +49,11 @@ lxc profile device set openwrt eth0 parent wan
 lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 ````
 
+#### 00. Apply new configurations
+````sh
+systemctl restart systemd-networkd.service
+netplan apply --debug
+````
 #### 13. Launch Gateway
 ````sh
 lxc launch bcio:openwrt gateway -p openwrt
@@ -61,11 +66,6 @@ lxc launch bcio:openwrt gateway -p openwrt
 ###### "ctrl + c" to exit "watch" cmd    
 ````sh
 watch -c lxc list
-````
-
-#### 00. Acquire dhcp lease on interface 'mgmt1' from the new gateway
-````sh
-netplan apply --debug
 ````
 
 =================================================================================
