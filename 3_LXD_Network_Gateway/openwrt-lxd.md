@@ -60,12 +60,18 @@ lxc launch bcio:openwrt gateway -p openwrt
 ````
 
 #### 14. Watch container for eth0 & br-lan ip initialization    
-###### We are expecting to acquire:    
-###### 1. An IP from your local network on gateway container's 'eth0' interface
-###### 2. An IP of '192.168.1.1' on gateway container's 'br-lan' interface
+We are expecting to acquire:    
+An IP from your local network on gateway container's 'eth0' interface
+An IP of '192.168.1.1' on gateway container's 'br-lan' interface
 ###### "ctrl + c" to exit "watch" cmd    
 ````sh
 watch -c lxc list
+````
+
+#### 00. Enable OpenWRT WebUI on 'WAN'    
+WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
+````sh
+lxc exec gateway enable-webui-on-wan
 ````
 
 =================================================================================
