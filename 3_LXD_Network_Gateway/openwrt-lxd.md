@@ -1,18 +1,30 @@
-# OpenWRT LXD Gateway on bare Ubuntu OS
-## Tested on Ubuntu Bionic 18.04 LTS
-## Instructions intended for use on clean Ubuntu OS 
-#### (No previous configuration of network/ovs/lxd accounted for)
-
-=================================================================================
-
 #### 00. Add bcio remote
 ````sh
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
 
+#### 0. Add mgmt1 netplan config
+````
+cat <<EOF > /etc/netplan/80-mgmt1.yaml
+# Configure mgmt1 on 'lan' bridge
+# For more configuration examples, see: https://netplan.io/examples
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    mgmt1:
+      dhcp4: true
+EOF
+````
+
 #### 09. Generate unique MAC address for mgmt1 iface
 ````sh
 export HWADDRESS=$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+````
+
+#### 10. Create LAN Bridge && add LAN Host MGMT0 Virtual Interface to Bridge
+````sh
+ovs-vsctl add-br lan -- add-port lan mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt0 mac="$HWADDRESS"
 ````
 
 #### 12. Create OpenWRT LXD Profile
@@ -37,23 +49,9 @@ lxc launch bcio:openwrt gateway -p openwrt
 watch -c lxc list
 ````
 
-#### 0. Add mgmt0 netplan config
-````
-cat <<EOF > /etc/netplan/80-mgmt0.yaml
-# Configure mgmt0 on 'wan' bridge
-# For more configuration examples, see: https://netplan.io/examples
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    mgmt0:
-      dhcp4: true
-EOF
-````
-
-#### 10. Create LAN Bridge && add LAN Host MGMT0 Virtual Interface to Bridge
+#### 00. Acquire dhcp lease on interface 'mgmt1' from the new gateway
 ````sh
-ovs-vsctl add-br lan -- add-port lan mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt0 mac="$HWADDRESS"
+netplan apply --debug
 ````
 
 =================================================================================
