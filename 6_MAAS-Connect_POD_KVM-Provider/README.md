@@ -9,62 +9,59 @@ Prerequisites:
 - [Part_5 MAAS Controller On Open vSwitch Network]
 
 ## Instructions:
-#### 1. Confirm both 'default' & 'maas' virsh networks are present before continuing
+#### 2. Add mgmt2 netplan config
+````sh
+cat <<EOF > /etc/netplan/80-mgmt2.yaml
+# Configure mgmt2 on 'maas' bridge
+# For more configuration examples, see: https://netplan.io/examples
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    mgmt2:
+      dhcp4: true
+EOF
 ````
-root@:~# sudo virsh net-list --all
- Name                 State      Autostart     Persistent
-----------------------------------------------------------
- default              active     yes           yes
- maas                 active     yes           yes
-````
-#### 2. Create a new virtual host 'mgmt' interface on the 'maas-net' ovs bridge
-````
-sudo ovs-vsctl add-port maas-net mgmt1 -- set interface mgmt1 type=internal
-````
-#### 3. Write ifupdown network script for mgmt1
-````
-sudo vim /etc/network/interfaces
-````
-Example:
-````
-allow-hotplug mgmt1
-iface mgmt1 inet static
-  address 172.10.0.10
-  netmask 255.255.0.0
-  mtu 1500
-ifup mgmt1
-````
-Raise mgmt1 interface
-````
-sudo ifup mgmt1
-````
-Confirm interface configured correctly
-````
-ip a s mgmt1 (note ip address)
-````
-#### 4. Generate 'maas' user ssh keys
-[ In MAAS Server ]
-1. Set 'maas' user shell <br/>
-`sudo chsh -s /bin/bash maas`
-2. Change to maas user shell <br/>
-`sudo su - maas`
-3. Generate SSH keys for 'maas' user <br/>
-````ssh-keygen -f ~/.ssh/id_rsa -N ''````
 
-#### 5. Provision libvirt host with MAAS user public ssh key [ /var/lib/maas/.ssh/id_rsa.pub ]
-* If you built MAAS server in an LXD container on the libvirt host you are connecting as a pod then copy in one command: <br/>
-    `lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys`
+#### 4. Generate unique MAC address for mgmt2 iface
+````sh
+export HWADDRESS=$(echo "$HOSTNAME lan mgmt2" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+````
 
-* If your MAAS server is NOT in LXD on the host 'libvirt' provider you are connecting to then: <br/>
-Add the contents of '/var/lib/maas/.ssh/id_rsa.pub' to /root/.ssh/authorized_keys on the target libvirt provider
+#### 5. Create LAN Bridge && add LAN Host MGMT2 Virtual Interface to Bridge
+````sh
+ovs-vsctl add-port maas mgmt2 -- set interface mgmt2 type=internal -- set interface mgmt2 mac="$HWADDRESS"
+````
+
+#### 00. Set Static IP in OpenWRT Gateway WebUI for Libvirt Host mgmt2 Interface    
+
+
+#### 1. Set 'maas' user shell & Generate SSH keys for 'maas' user:    
+( In maasctl Container )    
+````sh
+chsh -s /bin/bash maas    
+su --login maas /bin/bash -c "ssh-keygen -f ~/.ssh/id_rsa -N ''"    
+````
+
+#### 5. Provision libvirt host with MAAS user public ssh key
+( /var/lib/maas/.ssh/id_rsa.pub )    
+````sh
+lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys    
+````
+
+#### 0. Test maasctl ssh key provisioning
+````sh
+lxc exec maasctl -- su --login maas /bin/bash -c 'virsh -c qemu+ssh://root@192.168.2.21/system list
+--all'
+````
 
 #### 6. Confirm the MAAS server's user 'maas' can reach the virsh console of the target libvirt provider
-[ In MAAS Server ]
-1. Change to 'maas' user shell <br/>
-`sudo su - maas`
-2. Test virsh command over ssh. <br/>
-`virsh -c qemu+ssh://root@172.1.0.100/system list --all`
-3. Confirm virsh output success and no passwords are required
+( In MAAS Server )    
+a. Change to 'maas' user shell    
+`sudo su - maas`    
+b. Test virsh command over ssh    
+`virsh -c qemu+ssh://root@192.168.2.21/system list --all`    
+c. Confirm virsh output success and no passwords are required    
 
 #### 7. Connect your libvirt provider as a POD in MAAS
 [ In MAAS WebUI ]
