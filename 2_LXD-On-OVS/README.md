@@ -60,7 +60,7 @@ lxc launch images:centos/7 test-centos
 lxc launch images:fedora/28 test-fedora
 ````
 
-#### Example(B) See your LXD Configurations
+#### Example(B): See your LXD Configurations
 ````sh
 lxc list
 lxc network list
