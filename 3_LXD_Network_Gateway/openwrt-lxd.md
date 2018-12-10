@@ -76,5 +76,23 @@ lxc exec gateway enable-webui-on-wan
 
 =================================================================================
 #### Find your WebUI in a lan side browser @ 192.168.1.1 
-###### Username: root 
-###### Password: admin
+Username: root 
+Password: admin
+
+#### ProTip:
+Expose your new 'lan' network on a physical port. (Example: ens4)
+````sh
+cat <<EOF > /etc/systemd/network/ens4.network                                                    
+[Match]
+Name=ens4
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+````sh
+ovs-vsctl add-port lan ens4
+systemctl restart systemd-networkd.service
+````
