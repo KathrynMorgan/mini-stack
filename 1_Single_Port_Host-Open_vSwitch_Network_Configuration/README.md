@@ -1,13 +1,13 @@
 # Part 1 -- Single Port Host Open vSwitch Network Configuration
-#### Provision a host network viable for cloud scale emulation and testing.
+#### Provision a host virtual entry network viable for cloud scale emulation and testing.
  NOTE:  Netplan does not support raising interfaces without ip addresses.
         Until the issue is resolved we will use systemd-networkd.
 >
 > Overview of Steps:
 > - Install required packages
 > - Enable Open vSwitch Service & Confirm running status
-> - Create a base 'wan' layer OVS Bridge
-> - Create a 'virtual' host ethernet port on the 'wan' bridge
+> - Create base OVS Bridge for interfacing with local physical network
+> - Create a virtual host ethernet port on the 'wan' bridge
 > - Impliment 'systemd-networkd' workaround RE: [BUG#1728134]
 
 ![CCIO_Hypervisor-mini_Stack_Diagram](https://github.com/KathrynMorgan/mini-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
@@ -20,7 +20,7 @@ apt update && apt upgrade -y
 
 #### 2. Install Packages
 ```
-apt install -y openvswitch-switch        ## On Other Systems
+apt install -y openvswitch-switch
 ```
 
 #### 3. Create OVS  'wan'  Bridge
