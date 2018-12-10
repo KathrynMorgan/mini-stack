@@ -1,104 +1,85 @@
 # Part 1 -- Single Port Host Open vSwitch Network Configuration
 #### Provision a host network viable for cloud scale emulation and testing.
  NOTE:  Netplan does not support raising interfaces without ip addresses.
- Until the issue is resolved we will use ifupdown as a workaround.
+        Until the issue is resolved we will use systemd-networkd.
 >
 > Overview of Steps:
 > - Install required packages
 > - Enable Open vSwitch Service & Confirm running status
-> - Create a base 'physical-net' layer OVS Bridge
-> - Create a 'virtual' host ethernet port on the 'phyisical-net' bridge
-> - Impliment 'ifupdown' workaround RE: [BUG#1728134]
-> - Write Network Configuration
+> - Create a base 'wan' layer OVS Bridge
+> - Create a 'virtual' host ethernet port on the 'wan' bridge
+> - Impliment 'systemd-networkd' workaround RE: [BUG#1728134]
 
 ![CCIO_Hypervisor-mini_Stack_Diagram](https://github.com/KathrynMorgan/mini-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
 
 ## Instructions:
 #### 1. Update system
 ```
-apt update \
-  && apt upgrade -y \
-  && apt dist-upgrade -y \
-  && apt autoremove -y
-```
-#### 2. Install Packages
-```
-apt install --install-recommends -y openvswitch-switch-dpdk   ## On Intel Systems
-apt install --install-recommends -y openvswitch-switch        ## On Other Systems
-apt install -y ifupdown                                       ## BUG: [BUG-1728134]
-```
-#### 3. Confirm OVS Running
-```
-systemctl status openvswitch-switch
-ovs-vsctl show
-```
-#### 4. Create OVS  'physical-net'  Bridge
-```
-ovs-vsctl add-br physical-net
+apt update && apt upgrade -y
 ```
 
-#### 5. Generate a unique "mgmt0" iface hardware address
+#### 2. Install Packages
 ```
-echo "$FQDN physical-net mgmt0" \
-   | md5sum \
-   | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/'
+apt install -y openvswitch-switch        ## On Other Systems
+```
+
+#### 3. Create OVS  'wan'  Bridge
+```
+ovs-vsctl add-br wan
+```
+
+#### 4. Add physical interface to bridge [EXAMPLE: 'ens3']
+
+````
+cat <<EOF > /etc/systemd/network/ens3.network                                                    
+[Match]
+Name=ens3
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+
+#### 5. Attach bridge to LAN
+
+````
+ovs-vsctl add-port wan ens3
+systemctl restart systemd-networkd.service
+````
+
+#### 6. Generate MAC address for virtual interface 'mgmt0'
+```
+export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 ```
 
 #### 6. Create host virtual interface on bridge
 ```
-ovs-vsctl add-port physical-net mgmt0 \
+ovs-vsctl add-port wan mgmt0 \
   -- set interface mgmt0 type=internal \
   -- set interface mgmt0 mac="$HWADDRESS"
 ovs-vsctl show
 ```
-#### 7. Workaround NetPlan + Open vSwitch [BUG: 1728134]
-> ###### 6.a Comment out all netplan config files
-```
-sed 's/^/#/g' /etc/netplan/50-cloud-init.yaml
-```
 
-> ###### 6.b Configure ifupdown script
+#### 0. Add mgmt0 netplan config
 ````
-vim /etc/network/interfaces
-````
-> Example:
-````
-# Loopback Network Interface
-auto lo
-iface lo inet loopback
-
-# physical-net OVS Bridge
-allow-hotplug physical-net
-iface physical-net inet manual
-
-# Bridge Port to physical-net OVS Bridge
-allow-hotplug ens3
-iface ens3 inet manual
-
-# host routable interface mgmt0
-allow-hotplug mgmt0
-iface mgmt0 inet static
-  address 10.10.10.150
-  network 10.10.10.0
-  gateway 10.10.10.10
-  netmask 255.255.255.0
-  mtu 1500
-````
-> ###### 6.c Configure preferred DNS Servers:
-````
-vim /etc/systemd/resolved.conf
-````
-> Example:
-````
-[Resolve]
-DNS=8.8.8.8
-````
-#### 8. Attach bridge to LAN
-````
-ovs-vsctl add-port physical-net ens3
+cat <<EOF > /etc/netplan/80-mgmt0.yaml
+# Configure mgmt0 on 'wan' bridge
+# For more configuration examples, see: https://netplan.io/examples
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    mgmt0:
+      dhcp4: true
+EOF
 ````
 
-# Reboot & Inherit !!
+#### 9. Apply configuration
+````
+netplan apply --debug
+````
 
 <!-- Markdown link & img dfn's -->
 [BUG: 1728134]: https://bugs.launchpad.net/netplan/+bug/1728134
