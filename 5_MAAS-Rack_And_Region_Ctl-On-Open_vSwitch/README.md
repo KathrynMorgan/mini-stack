@@ -10,26 +10,23 @@ Prerequisites:
 ![CCIO_Hypervisor - KVM-On-Open-vSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
 
 ## Instructions:
-#### 1. Create maas-net OVS bridge via LXD commands
+#### 1. Create 'maas' OVS bridge
 ````sh
-lxc network create maas-net \
-  -c bridge.driver=openvswitch \
-  -c ipv4.address=none \
-  -c ipv6.address=none \
-  -c ipv4.nat=false \
-  -c ipv6.nat false
+ovs-vsctl add-br maas
 ````
+
 #### 2. Write 'maas' network json
 ````sh
 cat <<EOF >>virsh-net-maas.json
 <network>
   <name>maas</name>
   <forward mode='bridge'/>
-  <bridge name='maas-net' />
+  <bridge name='maas' />
   <virtualport type='openvswitch'/>
 </network>
 EOF
 ````
+
 #### 3. Create & Start virsh 'maas' network
 ````sh
 virsh net-define virsh-maas.network
@@ -37,30 +34,17 @@ virsh net-start maas
 virsh net-autostart maas
 virsh net-list
 ````
+
 #### 4. Create an Ubuntu Bionic server 'maasctl'
-Note, due to UID/GID mappings, only one MAAS LXD Container is recommended per host.
-<br/>While workarounds are an option. I recommend building MAAS in virtual machines rather than containers if more than one MAAS node is expected to be built on a host.
->#### [OPTION A] Using LXD:
->>###### Create Container (assumes default network = 'physical-net')
+>#### Using LXD:
+>>###### Create Container (assumes default network = 'wan')
 >>   1. `lxc launch ubuntu:bionic maasctl`
 >>###### Enable privileged container TODO: test w/o sec escalation!!!
 >>   2. `lxc config set maasctl security.privileged true`
 >>###### Attach 2nd Network to Container
->>   3. `lxc network attach maas-net maasctl eth1 eth1`
+>>   3. `lxc network attach maas maasctl eth1 eth1`
 >>###### Aquire console in container
 >>   4. `lxc exec maasctl bash`
->
->#### [OPTION B] Using the Libvirtd+ISO Installer:
->>###### Connect virt-manager to Host QEMU via ssh
->>   0. Use virt-manager to attach to your host's QEMU
->>###### Download ISO for new VM
->>   1. `sudo wget -O /var/lib/libvirt/images/ubuntu-18.04-live-server-amd64.iso http://releases.ubuntu.com/18.04/ubuntu-18.04-live-server-amd64.iso`
->>###### Build new Ubuntu Bionic VM
->>   2. Use virt-manager to create a new vm 'maasctl' using your newly downloaded bionic iso
->>###### Attach 2nd Network to VM
->>   3. Connect 2nd ethernet port to VM on 'maas-net' bridge
->>###### Aquire console in VM
->>   4. ssh to new maasctl
 
 #### 5. Configure 2nd NIC for your future maas network (Example config included)
 ````
@@ -69,13 +53,13 @@ sudo vim /etc/netplan/50-cloud-init.yaml
 Example:
 ````sh
 network:
-    version: 2
-    ethernets:
-        eth0:         #### physical-net interface
-            dhcp4: true
-        eth1:         #### maas-net interface
-            addresses:
-              - 172.10.0.1/16
+  version: 2
+  ethernets:
+    eth0:          #### wan interface
+      dhcp4: true
+    eth1:          #### maas interface
+      addresses:
+        - 172.10.0.1/16
 ````
 ````
 sudo netplan apply && netplan generate
@@ -97,20 +81,20 @@ sudo virsh net-undefine default
 sudo maas init
 ````
 
-#### 9. Configure MAAS Region Controller to use your 'maas-net' bridge IP for PXE
+#### 9. Configure MAAS Region Controller to use your 'maas' bridge IP for PXE
 Example: `172.10.0.1`
 ````sh
 sudo dpkg-reconfigure maas-region-controller
 ````
 
-#### 10. Configure MAAS Rack Controller to use your 'maas-net' bridge IP for API etc.
+#### 10. Configure MAAS Rack Controller to use your 'maas' bridge IP for API etc.
 Example: http://172.10.0.1:5240/MAAS
 ````sh
 sudo dpkg-reconfigure maas-rack-controller
 ````
 #### 11. Login to WebUI && Complete Setup
 Example: http://172.10.0.1:5240/MAAS <br/>
-Browse to your maas WebUI in a browser at: http://[physical-net_IP]:5240/MAAS
+Browse to your maas WebUI in a browser at: http://[wan_IP]:5240/MAAS
 
 #### 12. Walk through on-screen setup:
  1. Confirm region name (I use braincraft.io)
@@ -126,15 +110,15 @@ Browse to your maas WebUI in a browser at: http://[physical-net_IP]:5240/MAAS
  2. click "maasctl.maas"
  3. services should all be 'green' excluding dhcp* & ntp*
 
-#### 14. Finish 'maas-net' configuration
+#### 14. Finish 'maas' configuration
  1. Click 'Subnets'
- 2. Identify the 'maas-net' bridge network
+ 2. Identify the 'maas' bridge network
  -- IE: '172.10.0.0/16' in this case
- 3. For the 'maas-net' network click 'untagged' 'vlan' column engry
+ 3. For the 'maas' network click 'untagged' 'vlan' column engry
  4. Click 'Take action' Dropdown Menu (top right)
  5. Click 'Provide DHCP'
  6. Ensure start/end ranges & gateway IP are reasonable
- -- NOTE: Gateway IP should match the 'maasctl' 'maas-net' interface
+ -- NOTE: Gateway IP should match the 'maasctl' 'maas' interface
  -- IE:   In this Example: '172.10.0.1'
  7. Click 'Profide DHCP'
 
