@@ -15,12 +15,22 @@ Prerequisites:
 ovs-vsctl add-br maas
 ````
 
+#### 1. Connect 'maas' bridge to gateway
+````sh
+lxc network attach maas gateway eth2 eth2
+````
+
+#### 1. Add interface configuration in OpenWRT Gateway WebUI
+TODO: Convert to CLI task in OpenWRT Gateway
+IE: http://192.168.1.1/cgi-bin/luci/admin/network/iface_add
+
 #### 0. Create maas container profile
 ````
 lxc profile create maasctl
 wget -O ~/profile-maasctl.yaml https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/profile-maasctl.yaml
 lxc profile edit maasctl <~/profile-maasctl.yaml 
 ````
+
 #### 2. Write 'maas' network xml
 ````sh
 cat <<EOF >~/virsh-net-maas.xml
@@ -35,69 +45,66 @@ EOF
 
 #### 3. Create & Start virsh 'maas' network
 ````sh
-virsh net-define ~/virsh-maas.xml 
+virsh net-define ~/virsh-net-maas.xml 
 virsh net-start maas && virsh net-autostart maas
 ````
 
-#### 4. Create an Ubuntu Bionic server 'maasctl'
->#### Using LXD:
->>###### Create Container (assumes default network = 'wan')
->>   1. `lxc launch ubuntu:bionic maasctl`
->>   4. `lxc exec maasctl bash`
+#### 4. Create 'maasctl' Ubuntu Bionic LXD Container
+````
+lxc launch ubuntu:bionic maasctl -p maasctl
+lxc exec maasctl bash
+````
 
-#### 5. Configure 2nd NIC for your future maas network (Example config included)
-````
-sudo vim /etc/netplan/50-cloud-init.yaml
-````
-Example:
-````sh
-network:
-  version: 2
-  ethernets:
-    eth0:          #### wan interface
-      dhcp4: true
-    eth1:          #### maas interface
-      addresses:
-        - 172.10.0.1/16
-````
-````
-sudo netplan apply && netplan generate
-sudo reboot
-````
 #### 6. Install MAAS Region+Rack Controller Packages & Dependencies
 ````sh
-sudo apt update
-sudo apt-add-repository ppa:maas/stable -y
-sudo apt install -y maas libvirt-bin
+apt update
+apt-add-repository ppa:maas/stable -y
+apt install -y maas libvirt-bin
 ````
+
 #### 7. Remove the auto-created libvirt bridge
+(in the maasctl container)
 ````sh
-sudo virsh net-destroy default
-sudo virsh net-undefine default
-````
-#### 8. Create User & Login
-````sh
-sudo maas init
+virsh net-destroy default
+virsh net-undefine default
 ````
 
 #### 9. Configure MAAS Region Controller to use your 'maas' bridge IP for PXE
-Example: `172.10.0.1`
+Example: `192.168.2.10`
 ````sh
 sudo dpkg-reconfigure maas-region-controller
 ````
 
 #### 10. Configure MAAS Rack Controller to use your 'maas' bridge IP for API etc.
-Example: http://172.10.0.1:5240/MAAS
+Example: http://192.168.2.10:5240/MAAS
 ````sh
 sudo dpkg-reconfigure maas-rack-controller
 ````
+
+#### 8. Create User & Login
+````sh
+sudo maas init
+````
+EXAMPLE:
+````
+Create first admin account
+Username: admin
+Password:
+Again:
+Email: admin@localhost
+Import SSH keys [] (lp:user-id or gh:user-id): lp:user
+````
+
+Add maas webui rule to OpenWRT Gateway
+Forward port 5240 > port 192.168.2.10:80
+http://192.168.1.1/cgi-bin/luci/admin/network/firewall/forwards
+
 #### 11. Login to WebUI && Complete Setup
-Example: http://172.10.0.1:5240/MAAS <br/>
-Browse to your maas WebUI in a browser at: http://[wan_IP]:5240/MAAS
+Browse to your maas WebUI in a browser at: http://<gateway-ip>:5240/MAAS
 
 #### 12. Walk through on-screen setup:
- 1. Confirm region name (I use braincraft.io)
- 2. Set DNS Forwarder   (I use 8.8.8.8 etc.)
+ 1. Confirm region name (EG: 'lab.maas')
+ 2. Set DNS Forwarder   (EG: '192.168.2.1 8.8.8.8')
  3. Leave Ubuntu Archive* && apt/http proxy server as default for now
  4. Leave Image selection to default options for now
  5. Click 'Continue'
@@ -112,13 +119,11 @@ Browse to your maas WebUI in a browser at: http://[wan_IP]:5240/MAAS
 #### 14. Finish 'maas' configuration
  1. Click 'Subnets'
  2. Identify the 'maas' bridge network
- -- IE: '172.10.0.0/16' in this case
+ -- IE: '192.168.2.0/24'
  3. For the 'maas' network click 'untagged' 'vlan' column engry
  4. Click 'Take action' Dropdown Menu (top right)
  5. Click 'Provide DHCP'
  6. Ensure start/end ranges & gateway IP are reasonable
- -- NOTE: Gateway IP should match the 'maasctl' 'maas' interface
- -- IE:   In this Example: '172.10.0.1'
  7. Click 'Profide DHCP'
 
 #### Reboot and confirm MAAS WebUI & MAAS Region+Rack controller are all healthy
