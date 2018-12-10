@@ -1,3 +1,4 @@
+cat <<EOF | lxd init --preseed
 config:
   core.https_address: '[::]:8443'
   core.trust_password: SuperSecretPassword
@@ -22,3 +23,4 @@ profiles:
       type: disk
   name: default
 cluster: null
+EOF

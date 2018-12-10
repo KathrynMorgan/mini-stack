@@ -10,112 +10,9 @@
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
 
-#### 01. Install Packages
+#### 09. Generate unique MAC address for mgmt1 iface
 ````sh
-apt update && apt upgrade -y && apt dist-upgrade -y
-apt install -y openvswitch-switch ifupdown lxd htop tree lnav tmux
-````
-
-#### 02. Eliminate netplan due to ovs support (BUG: 1728134)
-````sh
-sed 's/^/#/g' /etc/netplan/*.yaml
-````
-
-#### 03. Create default "interfaces" file
-````sh
-cat <<EOF >/etc/network/interfaces
-# /etc/network/interfaces
-auto lo                                                                                   
-iface lo inet loopback
-
-# Run interfaces.d config files
-source /etc/network/interfaces.d/*.cfg
-EOF
-````
-
-#### 04. Create wan bridge interfaces file
-````sh
-cat <<EOF >/etc/network/interfaces.d/wan.cfg
-allow-hotplug wan
-iface wan inet manual
-EOF
-````
-
-#### 05. Create ens3 interfaces file
-###### (Substitute 'ens3' for your devices physical port)
-````sh
-cat <<EOF >/etc/network/interfaces.d/ens3.cfg
-# Raise ens3 on ovs-br 'wan' with no IP
-allow-hotplug ens3
-iface ens3 inet manual
-EOF
-````
-
-#### 06. Create lan bridge interfaces file
-````sh
-cat <<EOF >/etc/network/interfaces.d/lan.cfg
-allow-hotplug lan
-iface lan inet manual
-EOF
-````
-
-#### 07. Create mgmt0 interfaces file
-````sh
-cat <<EOF >/etc/network/interfaces.d/mgmt0.cfg
-# Raise host mgmt0 iface on ovs-br 'lan' with no IP
-allow-hotplug mgmt0
-iface mgmt0 inet static
-  address 192.168.1.5
-  gateway 192.168.1.1
-  netmask 255.255.255.0
-  nameservers 192.168.1.1
-  mtu 1500
-EOF
-````
-
-#### 08. Create WAN Bridge && add WAN port to bridge
-````sh
-ovs-vsctl add-br wan -- add-port wan ens3
-````
-
-#### 09. Generate unique MAC address for mgmt0 iface
-````sh
-export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
-````
-
-#### 10. Create LAN Bridge && add LAN Host MGMT0 Virtual Interface to Bridge
-````sh
-ovs-vsctl add-br lan -- add-port lan mgmt0 -- set interface mgmt0 type=internal -- set interface mgmt0 mac="$HWADDRESS"
-````
-
-#### 11. Initialize LXD
-````sh
-cat <<EOF | lxd init --preseed
-config:
-  images.auto_update_interval: "0"
-cluster: null
-networks: []
-storage_pools:
-- config:
-    size: 15GB
-  description: ""
-  name: default
-  driver: btrfs
-profiles:
-- config: {}
-  description: ""
-  devices:
-    eth0:
-      name: eth0
-      nictype: macvlan
-      parent: lan
-      type: nic
-    root:
-      path: /
-      pool: default
-      type: disk
-  name: default
-EOF
+export HWADDRESS=$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 ````
 
 #### 12. Create OpenWRT LXD Profile
@@ -131,19 +28,35 @@ lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 lxc launch bcio:openwrt gateway -p openwrt
 ````
 
-#### 14. Watch container for eth0 & br-lan ip initialization
-###### "ctrl + c" to exit "watch" cmd
+#### 14. Watch container for eth0 & br-lan ip initialization    
+###### We are expecting to acquire:    
+###### 1. An IP from your local network on gateway container's 'eth0' interface
+###### 2. An IP of '192.168.1.1' on gateway container's 'br-lan' interface
+###### "ctrl + c" to exit "watch" cmd    
 ````sh
 watch -c lxc list
 ````
 
-#### 15. Reboot host system & inherit!
+#### 0. Add mgmt0 netplan config
+````
+cat <<EOF > /etc/netplan/80-mgmt0.yaml
+# Configure mgmt0 on 'wan' bridge
+# For more configuration examples, see: https://netplan.io/examples
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    mgmt0:
+      dhcp4: true
+EOF
+````
+
+#### 10. Create LAN Bridge && add LAN Host MGMT0 Virtual Interface to Bridge
 ````sh
-reboot
+ovs-vsctl add-br lan -- add-port lan mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt0 mac="$HWADDRESS"
 ````
 
 =================================================================================
-
 #### Find your WebUI in a lan side browser @ 192.168.1.1 
 ###### Username: root 
 ###### Password: admin
