@@ -28,7 +28,7 @@ apt install -y openvswitch-switch
 ovs-vsctl add-br wan
 ```
 
-#### 4. Add physical interface to bridge [EXAMPLE: 'ens3']
+#### 4. Write systemd-networkd config to raise interface without IP address [EXAMPLE: 'ens3']
 
 ````
 cat <<EOF > /etc/systemd/network/ens3.network                                                    
