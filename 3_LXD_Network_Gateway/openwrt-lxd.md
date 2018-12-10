@@ -73,11 +73,7 @@ WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
 ````sh
 lxc exec gateway enable-webui-on-wan
 ````
-
-=================================================================================
-#### Find your WebUI in a lan side browser @ 192.168.1.1 
-Username: root 
-Password: admin
+#### Find your WebUI in a lan side browser @ 192.168.1.1  [Username: root Password: admin]
 
 #### ProTip:
 Expose your new 'lan' network on a physical port. (Example: ens4)
