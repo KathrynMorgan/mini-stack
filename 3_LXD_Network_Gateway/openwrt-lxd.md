@@ -75,6 +75,16 @@ lxc exec gateway enable-webui-on-wan
 ````
 Find your WebUI in a lan side browser @ 192.168.1.1  [Username: root Password: admin]
 
+#### 10. Copy LXD 'default' profile to 'wan'
+````sh
+lxc profile copy default wan
+````
+
+#### 11. Set LXD 'default' profile to use the 'lan' network
+````sh
+lxc profile device set default eth0 parent lan
+````
+
 #### ProTip: Enable your new 'lan' network on a physical port. (Example: ens4)
 ````sh
 cat <<EOF > /etc/systemd/network/ens4.network                                                    
