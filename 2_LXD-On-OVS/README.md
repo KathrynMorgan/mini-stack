@@ -25,7 +25,7 @@ sudo lxd init
 ````
 ###### Example Interactive Init
 ````
-root@precision:~# lxd init
+root@bionic:~# lxd init
 Would you like to use LXD clustering? (yes/no) [default=no]: no
 Do you want to configure a new storage pool? (yes/no) [default=yes]: yes
 Name of the new storage pool [default=default]: default
