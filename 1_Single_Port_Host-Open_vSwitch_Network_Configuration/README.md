@@ -81,5 +81,12 @@ EOF
 netplan apply --debug
 ````
 
+#### Useful Commands
+````
+ip r
+ip a s
+ovs-vsctl show
+systemd-resolve --status
+````
 <!-- Markdown link & img dfn's -->
 [BUG: 1728134]: https://bugs.launchpad.net/netplan/+bug/1728134
