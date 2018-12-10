@@ -55,6 +55,7 @@ systemctl restart systemd-networkd.service
 netplan apply --debug
 ````
 #### 7. Launch Gateway
+Find your WebUI in a lan side browser @ 192.168.1.1  [Username: root Password: admin]
 ````sh
 lxc launch bcio:openwrt gateway -p openwrt
 ````
@@ -73,7 +74,6 @@ WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
 ````sh
 lxc exec gateway enable-webui-on-wan
 ````
-Find your WebUI in a lan side browser @ 192.168.1.1  [Username: root Password: admin]
 
 #### 10. Copy LXD 'default' profile to 'wan'
 ````sh
