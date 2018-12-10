@@ -8,7 +8,7 @@
 > - Enable Open vSwitch Service & Confirm running status
 > - Create base OVS Bridge for interfacing with local physical network
 > - Create a virtual host ethernet port on the 'wan' bridge
-> - Impliment 'systemd-networkd' workaround RE: [BUG#1728134]
+> - Impliment 'systemd-networkd' workaround RE: [BUG: 1728134]
 
 ![CCIO_Hypervisor-mini_Stack_Diagram](https://github.com/KathrynMorgan/mini-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
 
