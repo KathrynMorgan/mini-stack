@@ -53,14 +53,14 @@ lxc launch ubuntu: c01
 lxc list
 ````
 
-#### 5. Launch alternate images via example:
+#### Example(A): Launch alternate images:
 ````
 lxc launch ubuntu:bionic test-bioinic
 lxc launch images:centos/7 test-centos
 lxc launch images:fedora/28 test-fedora
 ````
 
-#### 6. See your LXD Configurations
+#### Example(B) See your LXD Configurations
 ````sh
 lxc list
 lxc network list
