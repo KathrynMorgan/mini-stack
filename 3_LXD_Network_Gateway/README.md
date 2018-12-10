@@ -7,60 +7,109 @@ Prerequisites:
 ![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/3_LXD_Network_Gateway/web/drawio/lxd-gateway.svg)
 
 ## Instructions:
-
-###### Launch and configure base gateway container
+#### 1. Add bcio remote
 ````sh
-lxc launch ubuntu:bionic maas-gw01
-lxc config set maas-gw01 security.privileged true
-lxc network attach physical-net maas-gw01 eth0 eth0
-lxc network attach maas-net maas-gw01 eth1 eth1
-lxc restart maas-gw01
+lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
 
-###### Configure Base Firewall/Router iptables
-1. Acquire a console <br/>
-`lxc exec maas-gw01 bash`
-2. Update & Upgrade your container <br/>
-`sudo apt update && sudo apt upgrade -y`
-3. Install required packages <br/>
-`apt install -y isc-dhcp-server network-manager`
-4. Clone the lxd-router repo <br/>
-`git clone https://gitlab.com/kat.morgan/lxd-router.git`
-5. Add the "eth1" interface static IP in your netplan config <br/>
-Example:
-````sh
-cat <<EOF >> /etc/netplan/50-cloud-init.yaml
-        eth1:
-            addresses: [ 172.10.0.4/16 ]
+#### 2. Add mgmt1 netplan config
+````
+cat <<EOF > /etc/netplan/80-mgmt1.yaml
+# Configure mgmt1 on 'lan' bridge
+# For more configuration examples, see: https://netplan.io/examples
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    mgmt1:
+      dhcp4: true
 EOF
 ````
-6. Apply configuration <br/>
-`netplan apply && netplan generate`
-7. Raise eth1 <br/>
-`ip link set eth1 up`
-8. Link executables <br/>
-`ln lxd-router/bin/* /usr/bin/``
-9. Link systemd unit <br/>
-`ln lxd-router/systemd/firewall-up.service /etc/systemd/system`
-10. Start & Enable the new systemd unit <br/>
-`systemctl start firewall-up && systemctl enable firewall-up`
 
-#### OPTIONAL:
-Define other interfaces in `/root/lxd-router/iptables-enabled/interfaces.conf`
+#### 3. Write systemd-networkd config to raise 'lan' bridge
 
-#### TODO:
+````
+cat <<EOF > /etc/systemd/network/lan.network                                                    
+[Match]
+Name=lan
 
-       Improve ipv4 forwarding via systemd
-         # cat /etc/systemd/network/tun0.network
-         [Match]
-         Name=tun0
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
 
-         [Network]
-         IPForward=ipv4
-       Refrences:
-         - https://serverfault.com/questions/753977/how-to-properly-permanent-enable-ip-forwarding-in-linux-with-systemd/754723
-         - https://github.com/systemd/systemd/blob/a2088fd025deb90839c909829e27eece40f7fce4/NEWS
+#### 4. Generate unique MAC address for mgmt1 iface
+````sh
+export HWADDRESS=$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+````
 
+#### 5. Create LAN Bridge && add LAN Host MGMT0 Virtual Interface to Bridge
+````sh
+ovs-vsctl add-br lan -- add-port lan mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt0 mac="$HWADDRESS"
+````
+
+#### 6. Create OpenWRT LXD Profile
+````sh
+lxc profile copy default openwrt
+lxc profile set openwrt security.privileged true
+lxc profile device set openwrt eth0 parent wan
+lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
+````
+
+#### 7. Apply new configurations
+````sh
+systemctl restart systemd-networkd.service
+netplan apply --debug
+````
+#### 8. Launch Gateway
+Find your WebUI in a lan side browser @ 192.168.1.1  [Username: root Password: admin]
+````sh
+lxc launch bcio:openwrt gateway -p openwrt
+````
+
+#### 9. Watch container for eth0 & br-lan ip initialization    
+We are expecting to acquire:    
+An IP from your local network on gateway container's 'eth0' interface    
+An IP of '192.168.1.1' on gateway container's 'br-lan' interface    
+###### "ctrl + c" to exit "watch" cmd    
+````sh
+watch -c lxc list
+````
+
+#### 10. Enable OpenWRT WebUI on 'WAN'    
+WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
+````sh
+lxc exec gateway enable-webui-on-wan
+````
+
+#### 11. Copy LXD 'default' profile to 'wan'
+````sh
+lxc profile copy default wan
+````
+
+#### 12. Set LXD 'default' profile to use the 'lan' network
+````sh
+lxc profile device set default eth0 parent lan
+````
+
+#### ProTip: Enable your new 'lan' network on a physical port. (Example: ens4)
+````sh
+cat <<EOF > /etc/systemd/network/ens4.network                                                    
+[Match]
+Name=ens4
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+````sh
+ovs-vsctl add-port lan ens4
+systemctl restart systemd-networkd.service
+````
 
  <!-- Markdown link & img dfn's -->
 [Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
