@@ -10,34 +10,28 @@ Prerequisites:
 ## Instructions: 
 #### 1. Install Packages
 ````sh
-sudo apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0
+apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0
 ````
-#### 2. Check Libvirt Status
+#### 3. Backup & Destroy default NAT Network
 ````sh
-sudo systemctl status libvirtd
-````
-#### 3. Destroy default NAT Network
-````sh
-sudo virsh net-destroy default
-sudo virsh net-undefine default
+virsh net-dumpxml default | tee ~/virsh-net-default-bak.xml
+virsh net-destroy default && virsh net-undefine default
 ````
 #### 4. Write 'default' network json
-Note! Change line ````bridge name='physical-net'```` to match your host's local network level bridge
 ````sh
-cat <<EOF >>virsh-net-default.json
+cat <<EOF >>virsh-net-default-lan.json
 <network>
   <name>default</name>
   <forward mode='bridge'/>
-  <bridge name='physical-net' />
+  <bridge name='lan' />
   <virtualport type='openvswitch'/>
 </network>
 EOF
 ````
 #### 5. Create network from json
 ````sh
-sudo virsh net-define virsh-net-default.json
-sudo virsh net-start default
-sudo virsh net-autostart default
+virsh net-define virsh-net-default-lan.json
+virsh net-start default && virsh net-autostart default
 ````
 #### 6. Verify virsh network:
 ````sh
