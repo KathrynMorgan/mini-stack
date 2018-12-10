@@ -21,9 +21,9 @@ lxc profile create maasctl
 wget -O ~/profile-maasctl.yaml https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/profile-maasctl.yaml
 lxc profile edit maasctl <~/profile-maasctl.yaml 
 ````
-#### 2. Write 'maas' network json
+#### 2. Write 'maas' network xml
 ````sh
-cat <<EOF >>virsh-net-maas.json
+cat <<EOF >~/virsh-net-maas.xml
 <network>
   <name>maas</name>
   <forward mode='bridge'/>
@@ -35,21 +35,14 @@ EOF
 
 #### 3. Create & Start virsh 'maas' network
 ````sh
-virsh net-define virsh-maas.network
-virsh net-start maas
-virsh net-autostart maas
-virsh net-list
+virsh net-define ~/virsh-maas.xml 
+virsh net-start maas && virsh net-autostart maas
 ````
 
 #### 4. Create an Ubuntu Bionic server 'maasctl'
 >#### Using LXD:
 >>###### Create Container (assumes default network = 'wan')
 >>   1. `lxc launch ubuntu:bionic maasctl`
->>###### Enable privileged container TODO: test w/o sec escalation!!!
->>   2. `lxc config set maasctl security.privileged true`
->>###### Attach 2nd Network to Container
->>   3. `lxc network attach maas maasctl eth1 eth1`
->>###### Aquire console in container
 >>   4. `lxc exec maasctl bash`
 
 #### 5. Configure 2nd NIC for your future maas network (Example config included)

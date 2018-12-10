@@ -29,7 +29,7 @@ devices:
   eth0:
     name: eth0
     nictype: macvlan
-    parent: lan
+    parent: maas
     type: nic
   loop0:
     path: /dev/loop0
