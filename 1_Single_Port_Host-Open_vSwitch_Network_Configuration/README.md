@@ -76,7 +76,7 @@ ovs-vsctl add-port wan mgmt0 \
 ovs-vsctl show
 ```
 
-#### 0. Add mgmt0 netplan config
+#### 9. Add mgmt0 netplan config
 ````
 cat <<EOF > /etc/netplan/80-mgmt0.yaml
 # Configure mgmt0 on 'wan' bridge
