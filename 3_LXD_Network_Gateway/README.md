@@ -45,9 +45,9 @@ EOF
 export HWADDRESS=$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 ````
 
-#### 5. Create LAN Bridge && add LAN Host MGMT0 Virtual Interface to Bridge
+#### 5. Create LAN Bridge && add LAN Host MGMT1 Virtual Interface to Bridge
 ````sh
-ovs-vsctl add-br lan -- add-port lan mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt0 mac="$HWADDRESS"
+ovs-vsctl add-br lan -- add-port lan mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt1 mac="$HWADDRESS"
 ````
 
 #### 6. Create OpenWRT LXD Profile
@@ -79,6 +79,7 @@ watch -c lxc list
 ````
 
 #### 10. Enable OpenWRT WebUI on 'WAN'    
+CREDENTIALS: [USER:PASS] [root:admin]
 WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
 ````sh
 lxc exec gateway enable-webui-on-wan
