@@ -14,16 +14,38 @@ apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0
 ````
 #### 2. Backup & Destroy default NAT Network
 ````sh
-virsh net-dumpxml default | tee ~/virsh-net-default-bak.xml
+mkdir ~/bak && virsh net-dumpxml default | tee ~/bak/virsh-net-default-bak.xml
 virsh net-destroy default && virsh net-undefine default
 ````
-#### 3. Write 'default' network json
+#### 3. Write xml config for 'default' network on 'lan' bridge
 ````sh
-cat <<EOF >>virsh-net-default-lan.json
+cat <<EOF >/tmp/virsh-net-default-on-lan.json
 <network>
   <name>default</name>
   <forward mode='bridge'/>
   <bridge name='lan' />
+  <virtualport type='openvswitch'/>
+</network>
+EOF
+````
+#### 4. Write xml config 'lan' network on 'lan' bridge
+````sh
+cat <<EOF >/tmp/virsh-net-lan-on-lan.json
+<network>
+  <name>lan</name>
+  <forward mode='bridge'/>
+  <bridge name='lan' />
+  <virtualport type='openvswitch'/>
+</network>
+EOF
+````
+#### 3. Write xml config 'wan' network on 'wan' bridge
+````sh
+cat <<EOF >>virsh-net-wan-on-wan.json
+<network>
+  <name>wan</name>
+  <forward mode='bridge'/>
+  <bridge name='wan' />
   <virtualport type='openvswitch'/>
 </network>
 EOF
