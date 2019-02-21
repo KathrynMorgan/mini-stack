@@ -50,10 +50,10 @@ cat <<EOF >/tmp/virsh-net-wan-on-wan.json
 </network>
 EOF
 ````
-#### 6. Create network from json
+#### 6. Create networks from config files
 ````sh
-virsh net-define virsh-net-default-lan.json
-virsh net-start default && virsh net-autostart default
+for i in virsh-net-default-on-lan.json virsh-net-lan-on-lan.json virsh-net-wan-on-wan.json; do virsh net-define /tmp/$i; done
+for i in wan default lan; do virsh net-start $i; virsh net-autostart $i; done
 ````
 #### 7. Verify virsh network:
 ````sh
