@@ -39,9 +39,9 @@ cat <<EOF >/tmp/virsh-net-lan-on-lan.json
 </network>
 EOF
 ````
-#### 3. Write xml config 'wan' network on 'wan' bridge
+#### 5. Write xml config 'wan' network on 'wan' bridge
 ````sh
-cat <<EOF >>virsh-net-wan-on-wan.json
+cat <<EOF >/tmp/virsh-net-wan-on-wan.json
 <network>
   <name>wan</name>
   <forward mode='bridge'/>
@@ -50,12 +50,12 @@ cat <<EOF >>virsh-net-wan-on-wan.json
 </network>
 EOF
 ````
-#### 4. Create network from json
+#### 6. Create network from json
 ````sh
 virsh net-define virsh-net-default-lan.json
 virsh net-start default && virsh net-autostart default
 ````
-#### 5. Verify virsh network:
+#### 7. Verify virsh network:
 ````sh
 sudo virsh net-list --all
 sudo virsh net-dumpxml default
