@@ -79,7 +79,7 @@ watch -c lxc list
 ````
 
 #### 10. Enable OpenWRT WebUI on 'WAN'    
-CREDENTIALS: [USER:PASS] [root:admin]
+CREDENTIALS: [USER:PASS] [root:admin]     
 WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
 ````sh
 lxc exec gateway enable-webui-on-wan
