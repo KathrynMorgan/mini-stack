@@ -58,7 +58,13 @@ for i in wan default lan; do virsh net-start $i; virsh net-autostart $i; done
 #### 7. Verify virsh network:
 ````sh
 sudo virsh net-list --all
-sudo virsh net-dumpxml default
+````
+````sh
+ Name                 State      Autostart     Persistent
+----------------------------------------------------------
+ default              active     yes           yes
+ lan                  active     yes           yes
+ wan                  active     yes           yes
 ````
 
 <!-- Markdown link & img dfn's -->
