@@ -9,33 +9,6 @@ Prerequisites:
 - [Part_5 MAAS Controller On Open vSwitch Network]
 
 ## Instructions:
-#### 2. Add mgmt2 netplan config
-````sh
-cat <<EOF > /etc/netplan/80-mgmt2.yaml
-# Configure mgmt2 on 'maas' bridge
-# For more configuration examples, see: https://netplan.io/examples
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    mgmt2:
-      dhcp4: true
-EOF
-````
-
-#### 4. Generate unique MAC address for mgmt2 iface
-````sh
-export HWADDRESS=$(echo "$HOSTNAME lan mgmt2" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
-````
-
-#### 5. Create LAN Bridge && add LAN Host MGMT2 Virtual Interface to Bridge
-````sh
-ovs-vsctl add-port maas mgmt2 -- set interface mgmt2 type=internal -- set interface mgmt2 mac="$HWADDRESS"
-````
-
-#### 00. Set Static IP in OpenWRT Gateway WebUI for Libvirt Host mgmt2 Interface    
-
-
 #### 1. Set 'maas' user shell & Generate SSH keys for 'maas' user:    
 ( In maasctl Container )    
 ````sh
@@ -51,7 +24,7 @@ lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/au
 
 #### 0. Test maasctl ssh key provisioning
 ````sh
-lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@192.168.2.21/system list --all'
+lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@precision/system list --all'
 ````
 
 #### 6. Confirm the MAAS server's user 'maas' can reach the virsh console of the target libvirt provider
@@ -59,7 +32,7 @@ lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@192.168.2.
 a. Change to 'maas' user shell    
 `sudo su - maas`    
 b. Test virsh command over ssh    
-`virsh -c qemu+ssh://root@192.168.2.21/system list --all`    
+`virsh -c qemu+ssh://root@precision/system list --all`    
 c. Confirm virsh output success and no passwords are required    
 
 #### 7. Connect your libvirt provider as a POD in MAAS
