@@ -1,0 +1,36 @@
+#!/bin/bash
+## MAAS Login Script
+#set -x
+
+## Pull profile/user name from commandline argument
+PROFILE=$1
+
+## Set your MAAS API IP:Port here
+MAAS_IP=$(ip address show eth0 | awk -F'[ /]' '/inet /{print $6}')
+MAAS_URL="http://${MAAS_IP}:5240/MAAS/api/2.0/"
+
+## Script will check for username on commandline 
+## If none is given, login will continue with the 'admin' user
+[[ ! -z $PROFILE ]] || PROFILE="admin"
+echo "LOGGING IN WITH PROFILE: ${PROFILE}"
+
+## Define API Key File Location
+API_KEY_FILE="$(pwd)/${PROFILE}-MAAS-API-KEY.txt"
+
+## Function to create $PROFILE Key File
+get_maas_key() {
+touch $API_KEY_FILE
+sudo maas-region apikey --username=$PROFILE | tee $API_KEY_FILE
+}
+
+## Check for $PROFILE Key File
+## If none is found, will generate key file
+[[ -f $API_KEY_FILE ]] || get_maas_key
+echo "USING KEY FILE: $API_KEY_FILE"
+
+# Login to MAAS API using $PROFILE & Key File
+maas login $PROFILE $MAAS_URL - < $API_KEY_FILE
+
+# Clear Vars
+unset PROFILE
+

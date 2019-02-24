@@ -9,19 +9,14 @@ Prerequisites:
 - [Part_5 MAAS Controller On Open vSwitch Network]
 
 ## Instructions:
-#### 01. Provision libvirt host with MAAS user public ssh key
-( /var/lib/maas/.ssh/id_rsa.pub )    
+#### 01. Provision Libvirt Host with maasctl ssh key & test
 ````sh
 lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys    
-````
-
-#### 02. Test maasctl ssh key provisioning
-````sh
 lxc exec maasctl -- su -l maas /bin/bash -c 'ssh-keyscan -H precision >>~/.ssh/known_hosts'
 lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@precision/system list --all'
 ````
 
-#### 03. Connect your libvirt provider as a POD in MAAS
+#### 02. Connect your libvirt provider as a POD in MAAS
 [ In MAAS WebUI ]
 1. click 'Pods' tab
 2. click 'Add pod'
@@ -34,7 +29,7 @@ lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@precision/
 8. Click 'Take Action' (top right)
 9. fill in fields w/ minimum options
 
-#### 04. Set instance kernel parameters
+#### 03. Set instance kernel parameters
 [ In MAAS WebUI ]
 1. Click 'Settings'
 2. click 'General'
