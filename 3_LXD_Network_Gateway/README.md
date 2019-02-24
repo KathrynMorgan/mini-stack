@@ -1,5 +1,5 @@
 # PART_3 -- LXD Gateway & Firwall for Open vSwitch Network Isolation
-###### Create an isolated OVS Network behind a dedicated IPTABLES Gateway Container
+###### Create a sandbox network environment using OVS Network(s) behind an OpenWRT Gateway using the [Unofficial OpenWRT Image Project](https://github.com/containercraft/openwrt-lxd)
 Prerequisites:
 - [Part_1 Single Port Host OVS Network]
 - [Part_2 LXD On Open vSwitch Network]
