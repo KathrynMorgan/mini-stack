@@ -9,35 +9,19 @@ Prerequisites:
 - [Part_5 MAAS Controller On Open vSwitch Network]
 
 ## Instructions:
-#### 01. Set 'maas' user shell & Generate SSH keys for 'maas' user:    
-( In maasctl Container )    
-````sh
-chsh -s /bin/bash maas    
-su -l maas /bin/bash -c "ssh-keygen -f ~/.ssh/id_rsa -N ''"    
-````
-
-#### 02. Provision libvirt host with MAAS user public ssh key
+#### 01. Provision libvirt host with MAAS user public ssh key
 ( /var/lib/maas/.ssh/id_rsa.pub )    
 ````sh
 lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys    
 ````
 
-#### 03. Test maasctl ssh key provisioning
+#### 02. Test maasctl ssh key provisioning
 ````sh
 lxc exec maasctl -- su -l maas /bin/bash -c 'ssh-keyscan -H precision >>~/.ssh/known_hosts'
-lxc exec maasctl -- su -l maas /bin/bash -c 'ssh -oStrictHostKeyChecking=accept-new root@precision hostname'
 lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@precision/system list --all'
 ````
 
-#### 04. Confirm the MAAS server's user 'maas' can reach the virsh console of the target libvirt provider
-( In MAAS Server )    
-a. Change to 'maas' user shell    
-`sudo su - maas`    
-b. Test virsh command over ssh    
-`virsh -c qemu+ssh://root@precision/system list --all`    
-c. Confirm virsh output success and no passwords are required    
-
-#### 05. Connect your libvirt provider as a POD in MAAS
+#### 03. Connect your libvirt provider as a POD in MAAS
 [ In MAAS WebUI ]
 1. click 'Pods' tab
 2. click 'Add pod'
@@ -50,7 +34,7 @@ c. Confirm virsh output success and no passwords are required
 8. Click 'Take Action' (top right)
 9. fill in fields w/ minimum options
 
-#### 06. Set instance kernel parameters
+#### 04. Set instance kernel parameters
 [ In MAAS WebUI ]
 1. Click 'Settings'
 2. click 'General'

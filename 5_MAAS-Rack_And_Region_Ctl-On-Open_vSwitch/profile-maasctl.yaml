@@ -34,6 +34,8 @@ config:
       - [virsh, pool-define-as, default, dir, --target, /var/lib/libvirt/images/]
       - [virsh, pool-autostart, default]
       - [virsh, pool-start, default]
+      - [chsh, -s, /bin/bash, maas]
+      - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:
