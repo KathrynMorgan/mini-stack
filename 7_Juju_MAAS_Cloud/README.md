@@ -10,36 +10,25 @@ Prerequisites:
 - [Part_6 MAAS POD Configuration on Libvirt Provider]
 
 # Instructions:
-#### Generate a MAAS API Key using your maas login username
-[ On MAAS-controller ]
-1. Generate a MAAS API key for autnentication <br/>
-`maas-region apikey --username=$MAASUSERNAME >>~/cloudctl-maas-api.key`
-`lxc file pull maasctl/root/cloudctl-maas-api.key .`
-
-#### Create Juju Controler [ juju-cli client ]
-1. Launch & Exec into 'cloudctl' controller <br/>
+`wget https://bladybladyblabla/profile.yaml`    
+`export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin`
 `lxc profile create cloudctl` <br/>
-`lxc profile edit cloudctl < profile-cloudctl.yaml` <br/>
+`lxc profile edit test4 < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" profile-cloudctl.yaml)`    
 `lxc launch ubuntu:bionic cloudctl -p cloudctl` <br/>
-`lxc file push ./cloudctl-maas-api.key cloudctl/root/`<br/>
 `lxc exec cloudctl bash`
-9. Add the cloud to your juju <br/>
 `juju add-cloud maasctl ~/.juju/maasctl.yaml`    
 `juju add-credential maasctl -f ~/.juju/credentials-maasctl.yaml`    
-12. Double Check your new juju cloud provider <br/>
 `juju show-cloud maasctl`
-
 #### Bootstrap a Juju controller
 PROTIP: Remember, if you followed previous guides, you can go to the
 libvirt host and use 'virsh list' and 'virsh console' to monitor
 the vm's console during bootstrap <br/>
-
 `juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "cores=4 mem=4G" maasctl jujuctl`
 
-#### Add new machines on your cloud
-1. Add 2 Libvirt guests configured with 2 cores and 2GB RAM <br/>
+#### Test adding new machines on your cloud
+01. Add 2 Libvirt guests configured with 2 cores and 2GB RAM <br/>
 `juju add-machine -n 2 --constraints "cores=2 mem=2G"`
-2. Add 2 new lxd containers <br/>
+t02. Add 2 new lxd containers <br/>
 `juju add-machine lxd -n 2`
 
 #### Find juju WebGUI
