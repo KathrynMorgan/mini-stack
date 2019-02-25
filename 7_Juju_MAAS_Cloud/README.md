@@ -11,14 +11,14 @@ Prerequisites:
 
 # Instructions:
 `wget https://bladybladyblabla/profile.yaml`    
-`export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin`
+`export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin`    
 `lxc profile create cloudctl` <br/>
 `lxc profile edit test4 < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" profile-cloudctl.yaml)`    
 `lxc launch ubuntu:bionic cloudctl -p cloudctl` <br/>
-`lxc exec cloudctl bash`
+`lxc exec cloudctl bash`    
 `juju add-cloud maasctl ~/.juju/maasctl.yaml`    
 `juju add-credential maasctl -f ~/.juju/credentials-maasctl.yaml`    
-`juju show-cloud maasctl`
+`juju show-cloud maasctl`    
 #### Bootstrap a Juju controller
 PROTIP: Remember, if you followed previous guides, you can go to the
 libvirt host and use 'virsh list' and 'virsh console' to monitor
