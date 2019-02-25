@@ -27,9 +27,9 @@ the vm's console during bootstrap <br/>
 
 #### Test adding new machines on your cloud
 01. Add 2 Libvirt guests configured with 2 cores and 2GB RAM <br/>
-`juju add-machine -n 2 --constraints "cores=2 mem=2G"`
+`juju add-machine -n 2 --constraints "cores=2 mem=2G"`    
 t02. Add 2 new lxd containers <br/>
-`juju add-machine lxd -n 2`
+`juju add-machine lxd -n 2`    
 
 #### Find juju WebGUI
 `juju gui`
