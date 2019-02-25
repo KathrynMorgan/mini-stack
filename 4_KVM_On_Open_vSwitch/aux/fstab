@@ -1,0 +1,1 @@
+UUID=27750376-fa26-4a71-9214-3c2bd2c8b65c /var/lib/libvirt btrfs default,noatime,nodiratime,space_cache,autodefrag,compress=lzo 0 0
