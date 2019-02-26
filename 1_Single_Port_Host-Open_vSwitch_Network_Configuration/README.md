@@ -29,7 +29,11 @@ ovs-vsctl add-br wan
 ```
 
 #### 4. Write systemd-networkd config to raise interface without IP address [EXAMPLE: 'ens3']
-
+```sh
+Set your physical nic
+ip a
+export phys_NIC="enp9s0"
+````
 ````
 cat <<EOF > /etc/systemd/network/ens3.network                                                    
 [Match]
