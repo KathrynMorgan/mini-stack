@@ -10,7 +10,7 @@ Prerequisites:
 ## Instructions:
 #### 1. Install LXD Packages
 ````sh
-apt install -y lxd criu squashfuse zfsutils-linux btrfs-tools
+apt install -y lxd squashfuse zfsutils-linux btrfs-tools
 ````
 
 #### 2. If using ZFS Storage Backend, load ZFS module

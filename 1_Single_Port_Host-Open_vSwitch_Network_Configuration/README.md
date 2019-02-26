@@ -28,16 +28,16 @@ apt install -y openvswitch-switch
 ovs-vsctl add-br wan
 ```
 
-#### 4. Write systemd-networkd config to raise interface without IP address [EXAMPLE: '${phys_NIC}']
+#### 4. Write systemd-networkd config to raise interface without IP address [EXAMPLE: '${wan_NIC}']
 ```sh
 Set your physical nic
 ip a
-export phys_NIC="enp9s0"
+export wan_NIC="enp9s0"
 ````
 ````
-cat <<EOF > /etc/systemd/network/${phys_NIC}.network                                                    
+cat <<EOF > /etc/systemd/network/${wan_NIC}.network                                                    
 [Match]
-Name=${phys_NIC}
+Name=${wan_NIC}
 
 [Network]
 DHCP=no
@@ -63,7 +63,7 @@ EOF
 #### 6. Attach bridge to LAN
 
 ````
-ovs-vsctl add-port wan ${phys_NIC}
+ovs-vsctl add-port wan ${wan_NIC}
 systemctl restart systemd-networkd.service
 ````
 
@@ -90,6 +90,7 @@ network:
   renderer: networkd
   ethernets:
     mgmt0:
+    optional: true
       dhcp4: true
 EOF
 ````

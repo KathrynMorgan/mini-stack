@@ -22,6 +22,7 @@ network:
   renderer: networkd
   ethernets:
     mgmt1:
+    optional: true
       dhcp4: true
 EOF
 ````
@@ -97,9 +98,12 @@ lxc profile device set default eth0 parent lan
 
 #### ProTip: Enable your new 'lan' network on a physical port. (Example: ens4)
 ````sh
-cat <<EOF > /etc/systemd/network/ens4.network                                                    
+export lan_NIC="ens4"
+````
+````sh
+cat <<EOF > /etc/systemd/network/${lan_NIC}.network                                                    
 [Match]
-Name=ens4
+Name=${lan_NIC}
 
 [Network]
 DHCP=no
@@ -108,7 +112,7 @@ LinkLocalAddressing=no
 EOF
 ````
 ````sh
-ovs-vsctl add-port lan ens4
+ovs-vsctl add-port lan ${lan_NIC}
 systemctl restart systemd-networkd.service
 ````
 
