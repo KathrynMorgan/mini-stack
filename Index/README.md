@@ -16,6 +16,9 @@
 ![Part_5 -- MAAS Region And Rack Server on OVS Sandbox](https://github.com/KathrynMorgan/mini-stack/blob/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
 <br/>
 ## [PART_6 -- MAAS Connect POD on KVM Provider](https://github.com/KathrynMorgan/mini-stack/tree/master/6_MAAS-Connect_POD_KVM-Provider)
+![CCIO Hypervisor - MAAS Libvirt POD Provider](https://github.com/KathrynMorgan/mini-stack/blob/master/6_MAAS-Connect_POD_KVM-Provider/web/drawio/maas-region-and-rack-ctl-on-ovs-sandbox.svg)
+<br/>
 ## [PART_7 -- Juju MAAS Cloud](https://github.com/KathrynMorgan/mini-stack/tree/master/7_Juju_MAAS_Cloud)
+![CCIO Hypervisor - JujuCTL Cloud Controller](https://github.com/KathrynMorgan/mini-stack/blob/master/7_Juju_MAAS_Cloud/web/drawio/juju_maas_cloud_controller.svg)
 <br/>
 <br/>
