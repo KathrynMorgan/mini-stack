@@ -8,6 +8,9 @@ Prerequisites:
 - [Part_4 KVM On Open vSwitch Network]
 - [Part_5 MAAS Controller On Open vSwitch Network]
 
+![CCIO Hypervisor - MAAS Libvirt POD
+Provider](https://github.com/KathrynMorgan/mini-stack/blob/master/6_MAAS-Connect_POD_KVM-Provider/web/drawio/maas-region-and-rack-ctl-on-ovs-sandbox.svg)
+
 ## Instructions:
 #### 01. Provision Libvirt Host with maasctl ssh key & test
 ````sh

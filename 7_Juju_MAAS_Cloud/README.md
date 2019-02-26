@@ -9,6 +9,9 @@ Prerequisites:
 - [Part_5 MAAS Controller On Open vSwitch Network]
 - [Part_6 MAAS POD Configuration on Libvirt Provider]
 
+![CCIO Hypervisor - JujuCTL Cloud
+Controller](://github.com/KathrynMorgan/mini-stack/blob/master/7_Juju_MAAS_Cloud/web/drawio/juju_maas_cloud_controller.svg)
+
 # Instructions:
 `wget https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/profile-cloudctl.yaml`    
 `export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin`    
