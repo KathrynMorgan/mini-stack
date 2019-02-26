@@ -13,7 +13,7 @@ Prerequisites:
 
 # Instructions:
 `wget https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/profile-cloudctl.yaml`    
-`export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin`) 
+`export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin)` 
 `lxc profile create cloudctl` <br/>
 `lxc profile edit test4 < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" profile-cloudctl.yaml)`    
 `lxc launch ubuntu:bionic cloudctl -p cloudctl` <br/>
