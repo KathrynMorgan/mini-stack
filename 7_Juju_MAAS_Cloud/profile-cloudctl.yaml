@@ -24,18 +24,18 @@ config:
               maasctl:
                   type: maas
                   auth-types: [oauth1]
-                  endpoint: http://192.168.1.10:5240/MAAS
+                  endpoint: http://192.168.1.10:5240/MAAS/api/2.0
         path: /root/maasctl.yaml
       - content: |
-        controller-credentials:
-          maasctl:
-            admin:
-              content:
-                auth-type: oauth1
-                maas-oauth: maasctl_api_key
-              models:
-                controller: admin
-                default: admin
+            controller-credentials:
+              maasctl:
+                admin:
+                  content:
+                    auth-type: oauth1
+                    maas-oauth: maasctl_api_key
+                  models:
+                    controller: admin
+                    default: admin
         path: /root/credentials-maasctl.yaml
     runcmd:
       - [snap, install, juju, --classic]

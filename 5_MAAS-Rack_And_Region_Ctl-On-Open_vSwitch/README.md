@@ -41,6 +41,7 @@ Browse to your maas WebUI in a browser at: http://<gateway-ip>:5240/MAAS
  3. services should all be 'green' excluding dhcp* & ntp*
 
 #### Reboot and confirm MAAS WebUI & MAAS Region+Rack controller are all healthy
+ProTip: Be sure to enable dhcp or a dhcp reservantion on the networking page .... << TODO Write Out Instructions    
 
 <!-- Markdown link & img dfn's -->
 [Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
