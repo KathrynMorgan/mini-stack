@@ -15,6 +15,7 @@ Prerequisites:
 ````sh
 lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys    
 lxc exec maasctl -- su -l maas /bin/bash -c 'ssh-keyscan -H precision >>~/.ssh/known_hosts'
+lxc exec maasctl -- su -l maas /bin/bash -c 'ssh -oStrictHostKeyChecking=accept-new root@precision.maas hostname'
 lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@precision/system list --all'
 ````
 
