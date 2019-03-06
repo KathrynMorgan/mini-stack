@@ -1,0 +1,9 @@
+# Configure mgmt1 on 'lan' bridge
+# For more configuration examples, see: https://netplan.io/examples
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    mgmt1:
+      optional: true
+      dhcp4: true
