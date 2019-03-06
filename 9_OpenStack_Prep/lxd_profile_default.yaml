@@ -1,0 +1,59 @@
+config:
+  user.vendor-data: |
+    #cloud-config
+    users:
+      - name: katamo
+        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
+        shell: /bin/bash
+        ssh_import_id: katamo
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    write_files:
+      - encoding: b64
+        content: |
+          LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpQcm9jLVR5cGU6IDQsRU5DUllQVEVECkRF
+          Sy1JbmZvOiBBRVMtMTI4LUNCQywxNUNGQjY3ODVGMUUzOTAzQTA5NTI0NUQ0MTc2MURCNwoKVWdH
+          R2JtcjI3OE5iSmJzR3ZmbnZoU2trd0VGYnZadzVPTWloQm1OZEJSdG5UTG50Q1h2QmxJNm02a1RW
+          ZjZFTQpwNmw1WnlmdDViNXVlS1hCWG5pRU9wek5pblFTYjJveWFpY25wNit3TStJQlNxK0c5a2Ri
+          NUhTUnlTM3Q3K3BPCnhCbzJVL0RWRFJneDZZd0pwZStGVS9uMVNHMC9vTk9Jb1RRN0hpbUFiTGpr
+          TXhEb0xteUM3YUI1bzRRTmEyYUMKem5KK1hWRkM5ZkNDbGxqb0NOZ21ReTZzbXFsbVNmSFh2cy8v
+          VG9OQnB1Vzc2SDJMNVhoU0pzRnZweHYyQ2IwWgpNZmlXTk4zVDY2MHhZTFdBUENndGFkL2JvMGVv
+          ajlBaEJYUE1CcTh4R2JJdlNqVW9wa3FmKzlORmxjOGsrb2ExCkFLbGxNRjloSXFCc1VpU2dLVmtO
+          aDdtNCt1WlhyRUhkaU1wdExXVVdPdVMrbFhPTDFYR3Nzb2RuRnQ5MHFlNFQKaUk5a3R4OC90SzBQ
+          U3oyQnlXa2RFcUdQQ2dtYk9STjFka1FRb09xempDR3paRGFHamZrL3EzTmw1UjBDSDFHTQpMdVh2
+          M0VwUUhYYlJSN3pSNjNmU04yOW93U1F0Unk3amdpTFRhTjhPMVhDS1FWbWVSMFNzV0JDcGUzQitv
+          YXJGCm13MGZ0ZGZaTk8wa1RrZmhlSVhqWWhLUmZXbXY4czB5ZFdtZG12dTN3aEFMbXM0eHI1RVVI
+          d0Fwd2g3YXM2OVkKYjd6RWwrRDRhazBwRkljM3ZGWnFkc3B6Ujd1MGZTS3krMnpNQXZwU3F1Tmlr
+          WUVrVFF6SkxQaE43WDJ4cHNXYQpHeGlkbDFvb2xma0xTV203NkpsUVAvYmc5QjBmVG5XMlRseFRw
+          a1pGUkxjZURjR3lTVXRWZzMxQzloc0FScXBsClJIYjRzYnlaTEZJSnIwRDFSQmpYWWd1R2JPekV5
+          dEh6SE9oeUs4YnpKUmFWM3huZHBNdjZLK1RUMzI1K2RQa1YKZE00Sk1tTm9iM1pzZEtPK0htWHYw
+          cW1QZHZzR2IyejA5S1p2MENuZTNsR0llZnFySWJKc3ZwTGkzRE4wZFNEOQpXKzZMNzdKQTRJM1g1
+          ZWhnYnRYZkhvYXREemY1dENKcFU3NFlxL3JQNE84UEJnR3MvUFN0a1hrbldvUThMeUs4CjBneEhw
+          bWM3RUNjcUpabjJrRitqTzZ3MW5TaGtHcmtpNENaY2s0MkFDUWw3YkxVWktVcVNZVlRDZk9UTFAr
+          WE8KeXpKS2txa1lzQm9zTkh3d0lLS2g4ZjhqTnBYRW9BZGVJc1lSaEUrNGJ2L0wyU2drOUo1OWgw
+          M3JuQ0lKRlloWAp6bW9pYmFZRkNBdVBka2x0di90d3FOSXlWRlB0SDhlenpSdXZrSnJlWUhYU01Z
+          dDB3V2gvQ3RMMDVVTW1YdUJzCmt0eVYvb3pPMHVFQVc5aWJ4ekc2eUVlRFNaWk5tOFkwU1JlT2pW
+          RU5hQ1pzaGZOZk9Kc1lZQkN4czhLcE5NRzIKNkV3aTJkcGt3ci8yS0RiWkhMTmtRWEpIWmgwUFdh
+          WmxFak1rVS9NQUtoZWFDZi9xeElJVmxHSWRlQUE5RWdmTQpHMVhqMlE0OHVlVllRcVcvNjRHbTZD
+          SU5waE53aU1Tc2pzUDhud1NDdW9FR0EwZ09rbjFFQ2k0OVlXeEhTMW4yClVaYjRUT0hhKzBQQlZm
+          dmdpWFpRR0xwVlpsRTVuaFRZUERoYjduN2FlYk1NNGNCUkthc0cxcEwrUVAxb0FhclcKVlU5Q2lJ
+          NGtuTDFPVFQrM1psaVdiR2l0S2NTci8zelIvVGIrZTEzcmdIRm1JOW0wUmhaeUJtK3VMWDJSbzc4
+          MgpWT25Oem52VTFoTUxSczZHUno2a3JObFRwOHdqSUtkOGdPbzB4VmZadTE4R2hlMTZRK0pqVjVi
+          dzVicTZ1K29sClhDbitNZjJuL012SEJYNmlYZnFWOExmb2w2dFRkRklFcFVQWEZRWTgxWnNxT1FJ
+          NEpKQjEydVFhd0MycmtjSEwKM3NZMi9CaDN6SVBWMENoM0xyMkF5elpqcWFLZFFmZFhqOXBtR21I
+          anI3ODRmZkJNdVlOVitTOXMvTlVWN1FuLwotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+        owner: katamo:katamo
+        path: /home/katamo/.ssh/id_rsa
+        permissions: '0600'
+description: Default LXD profile
+devices:
+  eth0:
+    name: eth0
+    nictype: macvlan
+    parent: lan
+    type: nic
+  root:
+    path: /
+    pool: default
+    type: disk
+name: default
+used_by: []

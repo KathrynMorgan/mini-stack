@@ -1,0 +1,20 @@
+config:
+  security.privileged: "true"
+description: Default LXD profile
+devices:
+  eth0:
+    name: eth0
+    nictype: macvlan
+    parent: wan
+    type: nic
+  eth1:
+    nictype: bridged
+    parent: lan
+    type: nic
+  root:
+    path: /
+    pool: default
+    type: disk
+name: openwrt
+used_by:
+- /1.0/containers/gateway

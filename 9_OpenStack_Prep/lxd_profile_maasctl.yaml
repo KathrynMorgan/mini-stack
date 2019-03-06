@@ -1,0 +1,79 @@
+config:
+  raw.lxc: |-
+    lxc.cgroup.devices.allow = c 10:237 rwm
+    lxc.apparmor.profile = unconfined
+    lxc.cgroup.devices.allow = b 7:* rwm
+  security.privileged: "true"
+  user.network-config: |
+    version: 2
+    ethernets:
+      eth0:
+        dhcp4: false
+        dhcp6: false
+        addresses: [ 192.168.1.10/24 ]
+        gateway4: 192.168.1.1
+        nameservers:
+          addresses: [ 192.168.1.1,8.8.8.8,1.1.1.1 ]
+          search: [ lan ]
+  user.user-data: |
+    #cloud-config
+    timezone: Pacific/Honolulu
+    package_upgrade: true
+    packages:
+      - bridge-utils
+      - maas
+      - qemu-kvm
+      - libvirt-bin
+      - virtinst
+      - jq
+      - lnav
+      - python
+    runcmd:
+      - [maas, createadmin, --username=admin, --password=admin, --email=admin]
+      - [adduser, maas, libvirtd]
+      - [virsh, pool-define-as, default, dir, --target, /var/lib/libvirt/images/]
+      - [virsh, pool-autostart, default]
+      - [virsh, pool-start, default]
+      - [chsh, -s, /bin/bash, maas]
+      - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
+description: ccio mini-stack maasctl container profile
+devices:
+  eth0:
+    name: eth0
+    nictype: macvlan
+    parent: lan
+    type: nic
+  kvm:
+    path: /dev/kvm
+    type: unix-char
+  loop0:
+    path: /dev/loop0
+    type: unix-block
+  loop1:
+    path: /dev/loop1
+    type: unix-block
+  loop2:
+    path: /dev/loop2
+    type: unix-block
+  loop3:
+    path: /dev/loop3
+    type: unix-block
+  loop4:
+    path: /dev/loop4
+    type: unix-block
+  loop5:
+    path: /dev/loop5
+    type: unix-block
+  loop6:
+    path: /dev/loop6
+    type: unix-block
+  loop7:
+    path: /dev/loop7
+    type: unix-block
+  root:
+    path: /
+    pool: default
+    type: disk
+name: maasctl
+used_by:
+- /1.0/containers/maasctl
