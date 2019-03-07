@@ -1,0 +1,159 @@
+#!/bin/bash
+
+#################################################################################
+# 
+cp -f /etc/skel/.bashrc ~/.bashrc
+systemctl set-default multi-user.target && systemctl default 
+echo "UUID=27750376-fa26-4a71-9214-3c2bd2c8b65c /var/lib/libvirt btrfs default,noatime,nodiratime,space_cache,autodefrag,compress=lzo 0 0" >>/etc/fstab
+
+#################################################################################
+# 
+sed -i 's/^#PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
+sed -i 's/^#ChallengeResponseAuthentication.*/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
+ssh-import-id lp:katamo
+sftp katamo@10.0.0.5
+tar xvf myprecious-ssh.tar.xz 
+rm myprecious-ssh.tar.xz 
+chown root:root .ssh -R
+
+#################################################################################
+#
+apt upgrade -y \
+  && apt dist-upgrade -y \
+  && apt autoremove -y
+apt install -y lnav vim git neofetch glances tmux pastebinit htop
+apt install -y openvswitch-switch lnav vim git
+apt install -y lxd criu squashfuse zfsutils-linux btrfs-tools
+apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0
+
+#################################################################################
+#
+git clone git@github.com:KathrynMorgan/mini-stack.git ~/Git/mini-stack/
+git config --global user.name katamo
+git config --global user.email kat.morgan@braincraft.io
+
+#################################################################################
+#
+cat <<EOF >/etc/netplan/80-mgmt0.yaml
+# Configure mgmt0 on 'wan' bridge
+# For more configuration examples, see: https://netplan.io/examples
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    mgmt0:
+      dhcp4: true
+EOF
+
+cat <<EOF >/etc/systemd/network/eth0.network
+[Match]
+Name=eth0
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+
+cat <<EOF >/etc/systemd/network/wan.network                                                    
+[Match]
+Name=wan
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+
+cat <<EOF >/tmp/net_restart.sh
+net_restart () {
+HWADDRESS=$(echo "$HOSTNAME wan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+
+ovs-vsctl \
+  add-br wan -- \
+  add-port wan eth0 -- \
+  add-port wan mgmt0 -- \
+  set interface mgmt0 type=internal -- \
+  set interface mgmt0 mac="$HWADDRESS" \
+  && unset $HWADDRESS
+
+systemctl restart systemd-networkd.service && netplan apply --debug
+
+ovs-vsctl show
+}
+net_restart
+EOF
+
+chmod +x /tmp/net_restart.sh && /bin/bash /tmp/net_restart.sh
+
+#################################################################################
+# 
+wget -O /tmp/profile-cloudctl.yaml https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/profile-cloudctl.yaml
+export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin)
+lxc profile create cloudctl && lxc profile edit cloudctl < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" profile-cloudctl.yaml)
+lxc launch ubuntu:bionic cloudctl -p cloudctl 
+lxc exec cloudctl bash
+wget https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/2_LXD-On-OVS/lxd-init.yaml
+vim lxd-init.yaml 
+lxd init --preseed < lxd-init.yaml 
+sudo usermod -aG lxd ubuntu
+lxc remote add bcio https://images.braincraft.io --public --accept-certificate
+
+#################################################################################
+cat <<EOF > /etc/netplan/80-mgmt1.yaml
+# Configure mgmt1 on 'lan' bridge
+# For more configuration examples, see: https://netplan.io/examples
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    mgmt1:
+      dhcp4: true
+EOF
+
+cat <<EOF > /etc/systemd/network/lan.network                                                    
+[Match]
+Name=lan
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+
+export HWADDRESS=$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+ovs-vsctl add-br lan -- add-port lan mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt1 mac="$HWADDRESS"
+
+mkdir ~/bak && virsh net-dumpxml default | tee ~/bak/virsh-net-default-bak.xml
+virsh net-destroy default && virsh net-undefine default
+cat <<EOF >/tmp/virsh-net-default-on-lan.json
+<network>
+  <name>default</name>
+  <forward mode='bridge'/>
+  <bridge name='lan' />
+  <virtualport type='openvswitch'/>
+</network>
+EOF
+
+cat <<EOF >/tmp/virsh-net-lan-on-lan.json
+<network>
+  <name>lan</name>
+  <forward mode='bridge'/>
+  <bridge name='lan' />
+  <virtualport type='openvswitch'/>
+</network>
+EOF
+
+cat <<EOF >/tmp/virsh-net-wan-on-wan.json
+<network>
+  <name>wan</name>
+  <forward mode='bridge'/>
+  <bridge name='wan' />
+  <virtualport type='openvswitch'/>
+</network>
+EOF
+
+update-alternatives --set editor /usr/bin/vim
+wget -O /tmp/profile-maasctl.yaml https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/profile-maasctl.yaml
+lxc profile create maasctl && lxc profile edit maasctl </tmp/profile-maasctl.yaml 
+lxc config device add gateway wlp2s0 nic nictype=physical parent=wlp2s0 name=wlp2s0
