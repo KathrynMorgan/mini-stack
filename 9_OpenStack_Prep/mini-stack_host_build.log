@@ -1,113 +1,40 @@
-cd
-cp /home/ubuntu/.bashrc .
-clear
-nmtui
-clear
-sed -i 's/^#PermitRootLogin./PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
-apt update && apt install openssh-server -y
-sed -i 's/^#PermitRootLogin./PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
-sed -i 's/^#ChallengeResponseAuthentication./ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
-clear
+#!/bin/bash
+
+#################################################################################
+# 
+cp -f /etc/skel/.bashrc ~/.bashrc
+systemctl set-default multi-user.target && systemctl default 
+echo "UUID=27750376-fa26-4a71-9214-3c2bd2c8b65c /var/lib/libvirt btrfs default,noatime,nodiratime,space_cache,autodefrag,compress=lzo 0 0" >>/etc/fstab
+
+#################################################################################
+# 
+sed -i 's/^#PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
+sed -i 's/^#ChallengeResponseAuthentication.*/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
 ssh-import-id lp:katamo
 sftp katamo@10.0.0.5
 tar xvf myprecious-ssh.tar.xz 
 rm myprecious-ssh.tar.xz 
 chown root:root .ssh -R
-clear
-mkdir Git
-cd Git/
-git clone https://github.com/KathrynMorgan/mini-stack.git
-apt install git
-clear
-ls
-clear
-ls
-git clone https://github.com/KathrynMorgan/mini-stack.git
-cd mini-stack/
-clear
-ls
-cd 1_Single_Port_Host-Open_vSwitch_Network_Configuration/
-ls
-history > tmp
-vim tmp 
-apt install vim -y --install-recommends
-vim tmp 
-clear
-mv tmp prep.txt
-cat ../4_KVM_On_Open_vSwitch/aux/fstab >>prep.txt 
-rm ../4_KVM_On_Open_vSwitch/aux/ -rf
-vim prep.txt 
-clear
-cd ..
+
+#################################################################################
+#
+apt upgrade -y \
+  && apt dist-upgrade -y \
+  && apt autoremove -y
+apt install -y lnav vim git neofetch glances tmux pastebinit htop
+apt install -y openvswitch-switch lnav vim git
+apt install -y lxd criu squashfuse zfsutils-linux btrfs-tools
+apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0
+
+#################################################################################
+#
+git clone git@github.com:KathrynMorgan/mini-stack.git ~/Git/mini-stack/
 git config --global user.name katamo
 git config --global user.email kat.morgan@braincraft.io
-git stage -A; git commit -m "tweaks"
-git push origin master
-rm .git -rf
-cd ..
-mkdir tmp
-cd tmp/
-git clone git@github.com:KathrynMorgan/mini-stack.git
-mv mini-stack/.git/ ../mini-stack/
-cd ..
-rm -rf tmp/
-cd mini-stack/
-git stage -A; git commit -m "tweaks"; git push origin master
-clear
-ip a
-apt upgrade -y && apt dist-upgrade -y && apt autoremove -y
-clear
-systemctl default 
-systemctl set-default multi-user.target 
-nmtui
-vim Git/mini-stack/1_Single_Port_Host-Open_vSwitch_Network_Configuration/prep.txt 
-clear
-reboot
-clear
-cd Git/
-cd mini-stack/
-clear
-vim 1_Single_Port_Host-Open_vSwitch_Network_Configuration/README.md 
-clear
-vim 1_Single_Port_Host-Open_vSwitch_Network_Configuration/
-apt install lnav
-clear
-apt install -y openvswitch-switch
-ovs-vsctl add-br wan
-clear
-ip a
-cat <<EOF >/etc/systemd/network/enp0s31f6.network
-[Match]
-Name=enp0s31f6
 
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
-EOF
-
-cat <<EOF > /etc/systemd/network/wan.network                                                    
-[Match]
-Name=wan
-
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
-EOF
-
-ovs-vsctl add-port wan enp0s31f6
-clear
-ip a
-ovs-vsctl show
-vim 1_Single_Port_Host-Open_vSwitch_Network_Configuration/README.md 
-export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
-vim 1_Single_Port_Host-Open_vSwitch_Network_Configuration/README.md 
-export HWADDRESS=$(echo "$HOSTNAME wan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
-ovs-vsctl add-port wan mgmt0   -- set interface mgmt0 type=internal   -- set interface mgmt0 mac="$HWADDRESS"
-ovs-vsctl show
-clear
-cat <<EOF > /etc/netplan/80-mgmt0.yaml
+#################################################################################
+#
+cat <<EOF >/etc/netplan/80-mgmt0.yaml
 # Configure mgmt0 on 'wan' bridge
 # For more configuration examples, see: https://netplan.io/examples
 network:
@@ -118,100 +45,61 @@ network:
       dhcp4: true
 EOF
 
-systemctl restart systemd-networkd.service
-netplan apply --debug
-clear; ip a
-exit
-clear
-exit
-clear
-cd Git/mini-stack/
-clear
-lxc list
-lxc stop c01
-lxc config edit c01
-lxc network attach c01 wan eth0 eth0
-lxc network attach wan c01 eth0 eth0
-lxc start c01
-clear; lxc list
-lxc exec c02 bash
-lxc delete --force c02
-lxc launch ubuntu: c02
-clear
-lxc list
-lxc exec c02 bash
-clear
-ls
-lxc exec maasctl bash
-clear
-vim 6_MAAS-Connect_POD_KVM-Provider/README.md 
-lxc exec gateway ash
-clear
-vim 6_MAAS-Connect_POD_KVM-Provider/README.md 
-clear
-lsblk
-mount -a
-lsblk
-vim /etc/fstab 
-vim 1_Single_Port_Host-Open_vSwitch_Network_Configuration/prep.txt 
-echo "UUID=27750376-fa26-4a71-9214-3c2bd2c8b65c /var/lib/libvirt btrfs default,noatime,nodiratime,space_cache,autodefrag,compress=lzo 0 0" >>/etc/fstab
-mount -a
-vim /etc/fstab 
-lsblk -o NAME,UUID,MOUNTPOINT
-apt-get install btrfs-utils
-apt-get install btrfs-tools
-clear
-mount -a
-mount /dev/nvme0n1p1 /var/lib/libvirt
-umount /var/lib/libvirt 
-vim /etc/fstab 
-mount -a
-vim 1_Single_Port_Host-Open_vSwitch_Network_Configuration/
-clear
-lxc exec gateway -- /etc/init.d/dnsmasq restart
-wget https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/profile-cloudctl.yaml
-lxc exec maasctl -- maas-region apikey --username=admin
-export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin
+cat <<EOF >/etc/systemd/network/eth0.network
+[Match]
+Name=eth0
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+
+cat <<EOF >/etc/systemd/network/wan.network                                                    
+[Match]
+Name=wan
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+
+cat <<EOF >/tmp/net_restart.sh
+net_restart () {
+HWADDRESS=$(echo "$HOSTNAME wan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+
+ovs-vsctl \
+  add-br wan -- \
+  add-port wan eth0 -- \
+  add-port wan mgmt0 -- \
+  set interface mgmt0 type=internal -- \
+  set interface mgmt0 mac="$HWADDRESS" \
+  && unset $HWADDRESS
+
+systemctl restart systemd-networkd.service && netplan apply --debug
+
+ovs-vsctl show
+}
+net_restart
+EOF
+
+chmod +x /tmp/net_restart.sh && /bin/bash /tmp/net_restart.sh
+
+#################################################################################
+# 
+wget -O /tmp/profile-cloudctl.yaml https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/profile-cloudctl.yaml
 export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin)
-lxc profile create cloudctl 
-lxc profile edit test4 < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" profile-cloudctl.yaml)
-lxc profile edit cloudctl < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" profile-cloudctl.yaml)
-clear
+lxc profile create cloudctl && lxc profile edit cloudctl < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" profile-cloudctl.yaml)
 lxc launch ubuntu:bionic cloudctl -p cloudctl 
 lxc exec cloudctl bash
-ls
-lxc profile edit cloudctl 
-lxc list
-lxc delete --force cloudctl
-lxc launch ubuntu:bionic cloudctl -p cloudctl 
-lxc exec cloudctl bash
-exit
-clear
-lxc exec cloudctl bash
-exit
-clear
-cd Git/mini-stack/
-clear
-ip r
-clear
-apt update && apt upgrade -y
-clear
-apt install -y lxd criu squashfuse zfsutils-linux btrfs-tools
 wget https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/2_LXD-On-OVS/lxd-init.yaml
 vim lxd-init.yaml 
-clear
-lxd init --help
 lxd init --preseed < lxd-init.yaml 
-lxc config show 
-lxd profile show default
-lxc profile show default
-clear
-lxc list
 sudo usermod -aG lxd ubuntu
-lxc launch ubuntu: c01
-clear
-lxc list
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
+
+#################################################################################
 cat <<EOF > /etc/netplan/80-mgmt1.yaml
 # Configure mgmt1 on 'lan' bridge
 # For more configuration examples, see: https://netplan.io/examples
@@ -242,36 +130,27 @@ lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 systemctl restart systemd-networkd.service
 netplan apply --debug
 lxc launch bcio:openwrt gateway -p openwrt
-clear
 ip a
-clear
 lxc list
 vim /etc/netplan/80-mgmt0.yaml 
-clear
 vim /etc/netplan/80-mgmt1.yaml 
-clear
 lxc list
 lxc exec gateway enable-webui-on-wan
 ip a s mgmt0
 lxc profile copy default wan
 lxc profile device set default eth0 parent lan
 lxc launch ubuntu: c02
-clear
 lxc list
 lxc restart c01
 lxc list
-clear
 lxc list
 ip r
 ip r del default via 10.0.0.1 dev wlps0
 ip r del default via 10.0.0.1 dev wlp2s0
 ip r del default via 10.0.0.1 dev mgmt0
 apt update
-clear
 ip r
-clear
 lxc exec gateway ash
-ls
 apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0
 mkdir ~/bak && virsh net-dumpxml default | tee ~/bak/virsh-net-default-bak.xml
 virsh net-destroy default && virsh net-undefine default
@@ -309,10 +188,8 @@ lxc profile create maasctl
 wget -O /tmp/profile-maasctl.yaml https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/profile-maasctl.yaml
 lxc profile edit maasctl </tmp/profile-maasctl.yaml 
 lxc profile edit maasctl 
-clear
 lxc launch ubuntu:bionic maasctl -p maasctl
 lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
-clear
 lxc list
 vim 5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/
 lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys    
@@ -320,62 +197,41 @@ lxc exec maasctl -- su -l maas /bin/bash -c 'ssh-keyscan -H precision >>~/.ssh/k
 lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@precision/system list --all'
 lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@precision.maas/system list --all'
 vim 7_Juju_MAAS_Cloud/README.md 
-ls
 vim 7_Juju_MAAS_Cloud/profile-cloudctl.yaml 
-clear
-ls
-ls aux/
 rm profile-cloudctl.yaml 
 rm lxd-init.yaml 
 vim 7_Juju_MAAS_Cloud/profile-cloudctl.yaml 
-clear
 apt install neofetch
-clear
 neofetch 
 neofetch --help
 neofetch --help | more
-clear
 neofetch 
 lxc list
-exit
-clear
 lxc exec cloudctl bash
-exit
 ip a s mgmt1
-exit
 ip a s mgmt1
 lxc exec gateway ash
-clear
 netplan apply
-clear
-exit
 lxc file push ./sftp-scripts.tar.xz cloudctl/root/
 rm sftp-scripts.tar.xz 
-exit
 lxc exec gateway bash
 lxc exec gateway ash
-clear
 lxc list
 ip a s 
 ip link set wlp2s0 down
-clear; ip a
 lxc config device add gateway wlp2s0 nic nictype=physical parent=wlp2s0 name=wlp2s0
 lxc start gateway 
 lxc exec gateway ash
 cd
-clear
 systemctl status sshd
 systemctl start sshd
 systemctl start ssh
 journalctl -xe
 vim /etc/ssh/sshd_config 
-clear
 systemctl start ssh
 systemctl start sshd
-clear
 glances
 apt install glances -y
-clear
 echo 'alias glances="glances 2>/dev/null"' >>.bashrc 
 glances
 source .bashrc 
@@ -392,13 +248,8 @@ lxc list
 lxc start gateway
 lxc exec gateway ash
 lxc snapshot gateway working+maas+squid+wpad
-clear
-exit
 reboot
-clear
 lxc exec gateway ash
-lspci
-lspci | grep -i wire
 lxc exec gateway ash
 lxc list
 lxc config device remove gateway wlp2s0
@@ -408,15 +259,6 @@ lxc config device add gateway wlp2s0 nic nictype=physical parent=wlp2s0 name=wlp
 lxc list
 lxc start gateway 
 reboot
-clear
-lsmod | grep ath
-lsmod | grep lsmod qca
-lsmod | grep qca
-lsmod | grep atheros
-lsmod | grep at
-lsmod | grep ath
-clear
-lsmod | grep ath
 lxc config set gateway linux.kernel_modules ath10k_pci,ath10k_core,ath,mac80211,cfg80211
 lxc list
 lxc stop gateway
@@ -424,89 +266,53 @@ lxc start gateway
 lxc config set gateway security.privileged true
 lxc config set gateway 
 lxc config set gateway ash 
-clear
 lxc list
 lxc start gateway 
 lxc exec gateway ash
-clear
 virsh destroy xjs
 virsh start xjs
 lxc exec gateway ash
 lxc list
-clear
 ip a
-clear
 lxc list
 lxc exec cloudctl bash
-exit
-clear
 lxc list
 lxc start gateway 
 lxc exec gateway ash
-lspci | grep -i wirele
-lspci -vv -s 02:00.0
-clear
 lxc exec gateway ash
-clear
 ip a
 ip a s wlp2s0
-clear
 lxc list
 lxc exec cloudctl bash
 netplan apply
 lxc exec cloudctl bash
-clear
 virsh list
 virsh console 5
-clear
 juju status
 virsh console 5
-clear
 virsh list
-clear; virsh list
-clear
 lxc list
-exit
 lxc exec gateway ash
-clear
-exit
 vim /etc/netplan/80-mgmt0.yaml 
 vim /etc/netplan/80-mgmt1.yaml 
 vim /etc/netplan/01-network-manager-all.yaml 
-clear
 lxc exec maasctl bash
-clear
-exit
 lxc exec maasctl bash
 cd Git/mini-stack/
-ls
 cd 5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/
-ls
 mkdir aux
 mv login maas-login aux/
 cd aux/
 lxc exec maasctl -- ls
 lxc file pull maasctl/root/curtin_userdata
 lxc file pull maasctl/root/curtin_userdata .
-ls
 vim curtin_userdata 
-clear
-ls
-cd ..
-ls
 vim 5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/README.md 
 vim 6_MAAS-Connect_POD_KVM-Provider/README.md 
 vim 7_Juju_MAAS_Cloud/README.md 
-clear
 git stage -A; git commit -m "tweaks"; git push origin master
-clear
-exit
 glances 
 /usr/bin/glances 2>/dev/null
-exit
-ls
-cd Git/
-ls
 cd mini-stack/
 find ./ -name "*.tar*"
 find ./ -name "*.xz*"
@@ -514,202 +320,126 @@ git pull
 git diff
 git diff >>~/mini-stack.diff
 cat ~/mini-stack.diff 
-clear
-ls
 git pull
 rm 1_Single_Port_Host-Open_vSwitch_Network_Configuration/README.md 
 rm 6_MAAS-Connect_POD_KVM-Provider/README.md 
 rm 7_Juju_MAAS_Cloud/README.md 
 git pull
-clear
 lxc exec gateway ash
 cd aux/
 lxc file pull gateway/root/openwrt-testing.tar
 lxc file pull gateway/root/openwrt-testing.tar .
-cd ..
 git stage -A; git commit -m "testing"; git push origin master
-clear
 git diff
 git stage -A; git commit -m "testing"; git push origin master
 lxc exec gateway ash
 vim 7_Juju_MAAS_Cloud/README.md 
 ovs-vsctl show
-ls
 alias
 ssh cjohnston@lds.chrisjohnston.org -p 2005
-clear
-ls
 vim 1_Single_Port_Host-Open_vSwitch_Network_Configuration/netplan-blocking.yaml 
 vim README.md 
 vim 1_Single_Port_Host-Open_vSwitch_Network_Configuration/README.md 
 vim 2_LXD-On-OVS/README.md 
 vim 3_LXD_Network_Gateway/README.md 
 vim 4_KVM_On_Open_vSwitch/README.md 
-clear
 lxc exec maasctl bash
-exit
-clear
 lxc list
 lxc exec c02 bash
-clear
 virsh console bionic
-clear
 virsh console bionic
 lxc exec maasctl bash
 groups katamo
 groups ubuntu
 usermod -aG sudo ubuntu
 lxc exec maasctl bash
-clear
 virsh console bionic
 lxc exec maasctl bash
 cd Git/mini-stack/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/
-ls
 rm curtin_userdata 
 lxc file pull maasctl/root/curtin_userdata .
-clear
-ls
-cd ..
-ls
-clear
-ls
 git stage -A; git commit -m "tweaks"; git push origin master
-clear
 cd
-clear
-ls
-clear
 lxc list
 lxc delete --force c01 c02
-clear
 lxc list
 virsh list --all
 cd Git/mini-stack/7_Juju_MAAS_Cloud/
 vim profile-cloudctl.yaml 
-cd ../
 git stage -A; git commit -m "tweaks"; git push origin master
-clear
 cd
-clear
-exit
-clear
 whereis sudo
 whereis usermod
 virsh console bionic
 lxc exec cloudctl bash
 virsh console bionic
-clear
-ls
 vim mini-stack.diff 
 vim Git/mini-stack/6_MAAS-Connect_POD_KVM-Provider/
-clear
 virsh list --all
 ping https://192.168.1.6:17070/gui/u/admin/openstack
 ping 192.168.1.6
-clear
-exit
-clear
 vim /etc/default/grub 
-clear
 /sys/module/kvm_intel/parameters/nested
 cat /sys/module/kvm_intel/parameters/nested
 modinfo kvm_intel | grep nested
-clear
 watch -c virsh list --all
 virt-install --help
-clear
 virt-install --help | more
-clear
 watch -c virsh list --all
 virt-install --help | more
 virt-install --help | grep location
 virt-install --option=location
 man virt-install 
-clear
 watch -c virsh list --all
-clear
 lxc exec maasctl bash
-clear
 ip a s mgmt1
-clear
 lxc list
-clear
 lxc exec gateway ash
 lxc exec gateway -- cat pastebinit | pastebinit
 apt install pastebinit
 lxc exec gateway -- cat pastebinit | pastebinit
-clear
-cd Git/
-ls
 cd mini-stack/
-ls
-clear
-ls
 git pull
-clear
-ls
 mv 7_Juju_MAAS_Cloud/ 8_Juju_MAAS_Cloud
 mkdir 7_Add_LXD_KVM_Node
 vim 7_Add_LXD_KVM_Node/README.md
 git stage -A; git commit -m "tweaks"; git push origin master
-clear
 cat /etc/netplan/
 cat /etc/netplan/01-network-manager-all.yaml 
-clear
 lxc list
 lxc restart gateway
 lxc config device remove gateway wlp2s0
 lxc start gateway
-clear
 lxc list
-clear; lxc list
 lxc restart cloudctl 
-clear; lxc list
 lxc restart maasctl
 lxc list
-clear
 ovs-vsctl show
 for i in $(ovs-vsctl show | awk '/could not open network device /{print $7}'); do ovs-vsctl del-port $i; done && clear && ovs-vsctl show
 vim ~/.ovs-clear
 chmod +x ~/.ovs-clear 
-clear
 lxc list
 lxc start maasctl
-clear; lxc list
 lxc launch ubuntu: c01
 lxc exec c01 bash
-clear
-ls
 mkdir 9_OpenStack_Prep
 cd 9_OpenStack_Prep/
-clear
 lxc exec maasctl bash
-clear
 virsh console stack-01
-clear
 cat /sys/module/kvm_intel/parameters/enable_shadow_vmcs 
 cat /sys/module/kvm_intel/parameters/nested
-clear
 vim /etc/modprobe.d/kvm_nested.conf
-clear
-ls
 ./virtinst01 
 apt-get install virt-install
 apt-cache search virtinstall
 apt-cache search virt | grep instal
 apt-get install virtinst
-clear
-ls
 ./virtinst01 
 vim virtinst01 
-clear
 ./virtinst01 
-clear
 virt-install --pxe --hvm --noreboot --graphics none --os-type=Linux --vcpus 2 --memory 2048 --name stack-01 --cpu host-passthrough --os-variant=ubuntu18.04 --boot network,hd,useserial=on --console pty,target_type=virtio --description 'Juju MAAS Cloud OpenStack Dev Host' --network 'network=lan,model=virtio,mac=02\:90\:d2\:df\:45\:1c' --network 'network=lan,model=virtio,mac=02\:90\:d2\:df\:45\:1c' —extra-args 'console=tty0 console=ttyS0,115200n8 net.ifnames=0' —disk path=/var/lib/libvirt/images/stack-01_vda.qcow2,format=qcow2,bus=virtio,cache=unsafe,size=16 —disk path=/var/lib/libvirt/images/stack-01_vdb.qcow2,format=qcow2,bus=virtio,cache=unsafe,size=16
 vim test
-clear
 source test 
-ls
 chmod +x test 
 ./test 
 vim test
@@ -717,39 +447,28 @@ vim test
 vim test
 ./test 
 vim test; ./test 
-clear
-ls
 cat virtinst01 | pastebinit
 vim virtinst01 
-clear
 ./virtinst01 
 vim virtinst01 
-clear
 vim virtinst01 
 virsh start stack-01
-clear
 virsh console stack-01
-ls
 mkdir Downloads
 cd Downloads/
-clear
 virsh dumpxml >bionic.xml
 
-clear
 lxc profile edit default
 update-alternatives editor
 update-alternatives --set editor
 update-alternatives --set editor vim.basic
 update-alternatives --set editor /usr/bin/vim
 update-alternatives --set editor /usr/bin/vim.basic 
-clear
 lxc profile edit default
 lxc delete --force c01
 lxc launch ubuntu: c01
 lxc exec c01 bash
-clear
 lxc delete --force c01
-clear
 lxc profile edit default
 lxc profile show default 
 lxc profile edit default
@@ -767,7 +486,6 @@ lxc profile edit test  < default.yaml
 lxc profile edit test  < default.yaml && lxc profile show test
 vim edit default.yaml && lxc profile edit test  < default.yaml && lxc profile show test
 vim default.yaml && lxc profile edit test  < default.yaml && lxc profile show test
-clear
 vim default.yaml && lxc profile edit test  < default.yaml && lxc profile show test
 lxc profile edit test 
 lxc profile show test 
@@ -781,92 +499,55 @@ lxc profile show default
 lxc profile edit default
 lxc profile show default
 lxc profile edit default
-clear
 lxc profile edit default
 lxc list
 lxc launch ubuntu: c01
 lxc profile edit default
-clear
 lxc list
 lxc delete --force c01
-clear
 lxc launch ubuntu: c01
 lxc exec c01 bash
-clear
-exit
 lxc exec c01 
 lxc exec c01 bash
-clear
-ls
 lxc exec maasctl 
 lxc exec maasctl bash
-clear
 lxc list
 lxc exec cloudctl bash
 reboot
-clear
 lxc exec maasctl bash
-exit
 lxc exec maasctl bash
-clear
-ls
 vim virtinst01 
 ./virtinst01 
-clear
-ls
 cat test 
 tmux
-clear
 virsh list --all
-exit
 glances
-clear
-ls
-clear
 virsh list --all
 cler
-clear
 lxc exec maasctl bash
-clear
 lxc snapshot maasctl pre-upgrade-2.5
-clear
 lxc exec maasctl bash
-exit
 virsh console pod
-clear
-exit
 cat /etc/default/grub 
-clear
 ping lds.chrisjohnston.org
-clear
 virsh console jujuctl
 virsh list --all
 virsh console jujuctl-01
-ls
 cat virtinst01 | pastebinit
-clear
 lxc list
 lxc exec maasctl 
 lxc exec maasctl  bash
 ip a
-clear
 virsh list --all
 virsh console bionic
-clear
 virsh console stack-01
-clear
 virsh list --all
 ip a s mgmt1
 lxc exec maasctl bash
-clear
 chmod +x iface-add.sh 
 ./iface-add.sh 
-clear
 virsh attach-device --help
 ./iface-add.sh 
-clear
-exit
-clear
 virsh list --all | grep {04...12}
 virsh list --all | awk -F: '{ if($4=="1-10") print $1}'
 virsh list --all | awk -F: '{ if($4=="1-10") print $1 $2 $3 $4}'
@@ -874,7 +555,6 @@ virsh list --all | awk '{print $1 $2 $3 $4}'
 virsh list --all | awk '{print $1 $2 $3}'
 virsh list --all | awk '{print $1 $2}'
 virsh list --all | awk '{print $2}'
-clear
 virsh list --all | awk '{print $2}'
 virsh list --all | awk -F: '{ if($2=="1-10") print $2}'
 virsh list --all | awk -F: '{ if($2=="01-10") print $2}'
@@ -893,77 +573,43 @@ virsh list --all | awk -F'[-]' '{print $1}'
 virsh list --all | awk -F'[-]' '{print $4}'
 virsh list --all | awk -F'[-]' '{print $3}'
 virsh list --all | awk -F'[-]' '/stack/{print $3}'
-clear
 virsh list --all | awk -F'[-]' '/stack/{print $3}'
-clear
 virsh --help | grep device
 virsh attach-device --help | grep device
-clear
 virsh attach-device --help | grep device
 virsh attach-device --help
-clear
 virsh attach-device --help
-clear
-ls
 source iface-add.sh 
 cat /tmp/clear
-clear
 source iface-add.sh 
-clear
-ls
 unset x
-clear
-ls /tmp
 vim /tmp/stack-04-lan.xml
-clear
 bash
-clear
-htop
 apt install htop
-clear
-exit
-clear
 lxc exec gateway -- /etc/init.d/dnsmasq reload
 lxc exec gateway -- /etc/init.d/dnsmasq restart
-exit
-clear
 virsh console stack-04
-clear
 virsh list 
 virsh console stack-05
 virsh console stack-06
 virsh console stack-06clear
-clear
 lxc restart gateway
-clear; lxc list
-exit
 lxc file push ./admin-openrc.sh cloudctl/root/
-exit
-ls
 lxc file push admin-openrc.sh cloudctl/root/
-exit
 lxc file push /etc/apt/sources.list cloudctl/etc/apt/sources.list
-exit
 lxc file push admin-openrc.sh cloudctl/root/
-exit
 rm admin-openrc.sh 
-exit
 lxc file push adminrc2.sh cloudctl/root/
 lxc file push adminrc3.sh cloudctl/root/
-exit
 lxc exec maasctl bash
 ip a
-clear
 ip a s mgmt0
 lxc exec maasctl bash
 ip a s mgmt0
 ip a s mgmt1
 lxc exec maasctl bash
-exit
 cp /var/lib/libvirt/images/stack-03_vdb.qcow2 /var/lib/libvirt/images/stack-04_vdb.qcow2
-exit
 cd
-clear
 ip a
 ip link set wan up
 ip link set lan up
@@ -972,211 +618,120 @@ vim /etc/netplan/80-mgmt0.yaml
 vim /etc/netplan/80-mgmt1.yaml 
 netplan apply
 systemctl restart systemd-networkd
-clear
 ip a
 lnav
 vim test 
-clear
-ls
 ./virtinst01 
 vim test 
-clear
 ./virtinst01 
 vim ./virtinst01 
-clear
 ./virtinst01 
 vim ./virtinst01 
-clear
 vim ./virtinst01 
 ./virtinst01 
-clear
-ls
 virsh list
 virsh destroy stack-osd-01 && virsh undefine stack-osd-01
-clear
 virsh list --all
 vim ./virtinst01 
-clear
 ./virtinst01 
 vim ./virtinst01 
-clear
 vim virtinst01 
 ./virtinst01 
 watch -c virsh list --all
 virsh list 
 virsh list --all
-clear
-ls
-clear
 virsh destroy stack-01
 virsh destroy stack-02
 virsh undefine stack-01
 virsh undefine stack-02
-clear
 rm -rf /var/lib/libvirt/images/stack-0*
-clear
 virsh console stack-osd-01
 virsh console stack-osd-02
-clear
 virsh list --all
-clear
 virsh list --all
 virsh undefine stack-osd-01
-clear
 rm -rf /var/lib/libvirt/images/stack-osd-01_vd*
-clear
 virsh console stack-osd-03
 lxc exec maasctl bash
 lxc exec maasctl bash
 lxc exec maasctl bash
-clear
-ls
 vim virtinst01 
 ./virtinst01 
-clear
 ./virtinst01 
 vim virtinst01 
-clear
 virsh list --all
 virsh console stack-01
-clear; virsh list --all
-ls
 vim virtinst01 
 ./virtinst01 1 jujuctl
 vim virtinst01 
 ./virtinst01 1 jujuctl
-clear
 ./virtinst01 ls
-ls
 vim virtinst01 
 vim ./virtinst01 
 ./virtinst01 8 stack
 vim ./virtinst01 
 ./virtinst01 12 stack
-clear
 virsh list --all
 for i in $(virsh list | awk '/stack/{print $2}'); echo $i; done
 for i in $(virsh list | awk '/stack/{print $2}'); do echo $i; done
-clear
 virsh list --all
 for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i; done
 for i in $(virsh list | awk '/stack/{print $2}'); do echo $i; done
-clear
 virsh list --all
-clear
 for i in $(virsh list | awk '/stack/{print $2}'); do echo $i; done
 virsh domiflist stack-04
-clear; for i in $(virsh list | awk '/stack/{print $2}'); do virsh domiflist $i; done
 for i in $(virsh list | awk '/stack/{print $2}'); do virsh domiflist $i; done
 for i in $(virsh list | awk '/stack/{print $2}'); do echo $i; done
 for i in $(virsh list --all | awk '/stack/{print $2}'); do virsh domiflist $i; done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i); done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i); echo ""; done
 for i in $(virsh list --all | awk '/stack/{print $2}'); do virsh domiflist $i; done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i | awk -F '/network/{print $5}'); echo ""; done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i | awk -F '/network/{print $4}'); echo ""; done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i | awk -F '/lan/{print $4}'); echo ""; done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i | awk -F '/lan/{print $3}'); echo ""; done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i | awk -F '/lan/{print $1}'); echo ""; done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i | awk -F '/lan/{print $0}'); echo ""; done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i | awk -F '/ lan /{print $4}'); echo ""; done
-clear; for i in $(virsh list --all | awk '/stack/{print $2}'); do echo $i $(virsh domiflist $i | grep lan); echo ""; done
 fclear
-clear
-ps -ax
-ps -ax | grep qemu-system
-clear
 virsh list
-clear
 virsh dumpxml >>iface-add.sh
 virsh dumpxml stack-12 >>iface-add.sh
 vim iface-add.sh 
-clear
-htop
-clear
 lxc list
 lxc stop maasctl; lxc stop cloudctl; lxc stop gateay; lxc stop c01
 lxc list
 lxc stop gateway
-clear
 lxc list
 virsh list --all
 virsh stop jujuctl
 virsh shutdown jujuctl
-clear; virsh list --all
-clear
 ovs-vsctl show
 alias
 ovs-vsctl del-port vethDLU75J -- del-port veth042K41
-clear; ovs-vsctl show
 ovs-vsctl del-port vethDLU75J -- del-port vethO42K41 -- veth4VY5SA
-clear; virsh list --all
-clear
 ovs-vsctl show
 ovs-vsctl del-port vethDLU75J
 ovs-vsctl del-port vethO42K41
 ovs-vsctl del-port veth4VY5SA
-clear; ovs-vsctl show
-clear
 reboot
-clear
 lxc list
 apt-get update && apt-get upgrade 
-clear
 lxc list
 lxc start gateway; sleep 10; lxc start maasctl; sleep 15; lxc start cloudctl
 virsh start jujuctl
-clear
 lxc list
 lxc delete --force c01
-clear
-exit
-htop
-htop
-clear
 lxc exec maasctl bash
 lxc stop gateway
 lxc start gateway
-clear
 lxc list
 lxc start maasctl
 virsh list --all
 lxc list
-clear
-htop
-exit
-htop
-exit
 cleawr
 celar
-clear
 bastion
-clear
-exit
-clear
 lxc list
 lxc restart gateway
 lxc restart maasctl
 lxc start maasctl
-clear
 lxc list
-clear
 cloudctl
 bastion
-exit
 virsh start stack-01
-clear
-exit
 cp /var/lib/libvirt/images/stack-01_vdb.qcow2 /var/lib/libvirt/images/stack-01_vda.qcow2 -f
-htop
-clear
 file Downloads/bionic.xml 
-exit
 top
-clear
-htop
-clear
-exit
-htop
-exit
 ip a s mgmt1
