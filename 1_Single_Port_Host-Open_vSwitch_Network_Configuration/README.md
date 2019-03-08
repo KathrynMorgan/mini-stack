@@ -53,26 +53,10 @@ LinkLocalAddressing=no
 EOF
 ````
 
-#### 6. Attach bridge to 'wan' Physical Network Port
+#### 4. Disable original Netplan Config & Write mgmt0 interface netplan config
+````sh
+for i in $( ls /etc/netplan/  ); do sed -i 's/^/#/g' /etc/netplan/$i ; done
 ````
-ovs-vsctl add-port wan ${wan_NIC}
-systemctl restart systemd-networkd.service
-````
-
-#### 7. Generate MAC address for virtual interface 'mgmt0'
-```
-export HWADDRESS=$(echo "$HOSTNAME lan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
-```
-
-#### 8. Create host virtual interface on bridge
-```
-ovs-vsctl add-port wan mgmt0 \
-  -- set interface mgmt0 type=internal \
-  -- set interface mgmt0 mac="$HWADDRESS"
-ovs-vsctl show
-```
-
-#### 9. Add mgmt0 netplan config
 ````
 cat <<EOF > /etc/netplan/80-mgmt0.yaml
 # Configure mgmt0 on 'wan' bridge
@@ -89,7 +73,24 @@ EOF
 
 #### 10. Apply configuration
 ````
-netplan apply --debug
+cat <<EOF >/tmp/net_restart.sh
+net_restart () {
+HWADDRESS=$(echo "$HOSTNAME wan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+
+ovs-vsctl \
+  add-br wan -- \
+  add-port wan ${wan_NIC} -- \
+  add-port wan mgmt0 -- \
+  set interface mgmt0 type=internal -- \
+  set interface mgmt0 mac="$HWADDRESS" \
+  && unset $HWADDRESS
+
+systemctl restart systemd-networkd.service && netplan apply --debug
+
+ovs-vsctl show
+}
+net_restart
+EOF
 ````
 
 #### Useful Commands
