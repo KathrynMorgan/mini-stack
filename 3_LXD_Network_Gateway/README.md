@@ -21,7 +21,7 @@ network:
   version: 2
   renderer: networkd
   ethernets:
-    mgmt0:
+    mgmt1:
       optional: true
       addresses:
         - 192.168.1.2/24
@@ -48,20 +48,12 @@ EOF
 
 #### 5. Apply configuration
 ````
-cat <<EOF >/tmp/lan_net_config.sh
-net_restart () {
-
 ovs-vsctl \
   add-br lan -- \
   add-port lan mgmt1 -- \
   set interface mgmt1 type=internal -- \
   set interface mgmt1 mac="$(echo "$HOSTNAME wan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
-
 ovs-vsctl show
-}
-net_restart
-EOF
-source /tmp/lan_net_config.sh
 ````
 
 #### 6. Create OpenWRT LXD Profile
@@ -94,8 +86,9 @@ WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
 lxc exec gateway enable-webui-on-wan
 ````
 
-#### 10. Reload host network configuration
+#### 10. Remove mgmt0 default route && Reload host network configuration
 ````sh
+sed -i -e :a -e '$d;N;2,3ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
 systemctl restart systemd-networkd.service && netplan apply --debug
 ````
 
