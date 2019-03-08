@@ -53,7 +53,6 @@ net_restart () {
 
 ovs-vsctl \
   add-br lan -- \
-  add-port lan ${wan_NIC} -- \
   add-port lan mgmt1 -- \
   set interface mgmt1 type=internal -- \
   set interface mgmt1 mac="$(echo "$HOSTNAME wan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
