@@ -26,14 +26,18 @@ for i in $( ls /etc/netplan/  ); do sed -i 's/^/#/g' /etc/netplan/$i ; done
 ````
 cat <<EOF > /etc/netplan/80-mgmt0.yaml
 # Configure mgmt0 on 'wan' bridge
-# For more configuration examples, see: https://netplan.io/examples
+# For more configuration examples, see: https://netplan.io/examples                                                   
 network:
   version: 2
   renderer: networkd
   ethernets:
     mgmt0:
       optional: true
-      dhcp4: true
+      addresses:
+        - $(hostname -I)
+      gateway4: $(ip r | awk '/default /{print $3}')
+      nameservers:
+        addresses: [$(ip r | awk '/default /{print $3}')]
 EOF
 ````
 
