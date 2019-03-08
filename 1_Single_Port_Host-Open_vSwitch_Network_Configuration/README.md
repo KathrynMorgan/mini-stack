@@ -88,6 +88,11 @@ net_restart
 EOF
 ````
 
+#### 6. Add OVS Orphan Port Cleaning Utility
+````sh
+wget -O /usr/bin/ovs-clear https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/aux/ovs-clear && chmod +x /usr/bin/ovs-clear
+````
+
 #### Useful Commands
 ````
 ip r
