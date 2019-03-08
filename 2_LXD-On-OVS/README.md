@@ -44,11 +44,11 @@ sudo usermod -aG lxd $USERNAME
 ````
 #### PROTIP: Launch Containers & check Configurations
 ###### Exhibit(A): Add cloud-init user-data to your default profile
+###### Download the example, edit, then apply as follows
 ````
 update-alternatives --set editor /usr/bin/vim.basic
 lxc profile edit default
 ````
-######## For an example edit, then apply as follows
 ````
 wget https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/2_LXD-On-OVS/aux/example-default-profile.yaml
 vim example-default-profile.yaml
