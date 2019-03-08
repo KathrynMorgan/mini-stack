@@ -24,7 +24,7 @@ network:
     mgmt0:
       optional: true
       addresses:
-        - 192.168.1.2
+        - 192.168.1.2/24
       gateway4: 192.168.1.1
       nameservers:
         search: [maas]
@@ -46,14 +46,25 @@ LinkLocalAddressing=no
 EOF
 ````
 
-#### 4. Generate unique MAC address for mgmt1 iface
-````sh
-export HWADDRESS=$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+#### 5. Apply configuration
 ````
+cat <<EOF >/tmp/lan_net_config.sh
+net_restart () {
 
-#### 5. Create LAN Bridge && add LAN Host MGMT1 Virtual Interface to Bridge
-````sh
-ovs-vsctl add-br lan -- add-port lan mgmt1 -- set interface mgmt1 type=internal -- set interface mgmt1 mac="$HWADDRESS"
+ovs-vsctl \
+  add-br lan -- \
+  add-port lan ${wan_NIC} -- \
+  add-port lan mgmt1 -- \
+  set interface mgmt1 type=internal -- \
+  set interface mgmt1 mac="$(echo "$HOSTNAME wan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
+
+systemctl restart systemd-networkd.service && netplan apply --debug
+
+ovs-vsctl show
+}
+net_restart
+EOF
+source /tmp/lan_net_config.sh
 ````
 
 #### 6. Create OpenWRT LXD Profile
@@ -64,11 +75,6 @@ lxc profile device set openwrt eth0 parent wan
 lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 ````
 
-#### 7. Apply new configurations
-````sh
-systemctl restart systemd-networkd.service
-netplan apply --debug
-````
 #### 8. Launch Gateway
 Find your WebUI in a lan side browser @ 192.168.1.1  [Username: root Password: admin]
 ````sh
