@@ -12,7 +12,7 @@ config:
       - name: ubuntu
         groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
         shell: /bin/bash
-        ssh_import_id: katamo
+        ssh_import_id: ${launchpad-id}
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
     write_files:
       - encoding: b64
