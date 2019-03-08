@@ -34,7 +34,7 @@ network:
     mgmt0:
       optional: true
       addresses:
-        - $(hostname -I)
+        - $(ip a s ${wan_NIC} | awk '/inet /{print $2}')
       gateway4: $(ip r | awk '/default /{print $3}')
       nameservers:
         addresses: [$(ip r | awk '/default /{print $3}')]
@@ -74,15 +74,13 @@ EOF
 ````
 cat <<EOF >/tmp/net_restart.sh
 net_restart () {
-HWADDRESS=$(echo "$HOSTNAME wan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 
 ovs-vsctl \
   add-br wan -- \
   add-port wan ${wan_NIC} -- \
   add-port wan mgmt0 -- \
   set interface mgmt0 type=internal -- \
-  set interface mgmt0 mac="$HWADDRESS" \
-  && unset $HWADDRESS
+  set interface mgmt0 mac="$(echo "$HOSTNAME wan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 
 systemctl restart systemd-networkd.service && netplan apply --debug
 
