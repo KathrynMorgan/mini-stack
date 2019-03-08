@@ -10,12 +10,7 @@ Prerequisites:
 ## Instructions:
 #### 1. Install LXD Packages
 ````sh
-apt install -y lxd squashfuse zfsutils-linux btrfs-tools
-````
-
-#### 2. If using ZFS Storage Backend, load ZFS module
-````sh
-sudo modprobe zfs
+apt install -y lxd squashfuse zfsutils-linux btrfs-tools && sudo modprobe zfs
 ````
 
 #### 3. Initialize LXD

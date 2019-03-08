@@ -15,11 +15,39 @@
 ## Instructions:
 #### 1. Update system && Install Packages
 ```
-apt update && apt upgrade -y
-apt install -y openvswitch-switch
+apt update && apt install -y openvswitch-switch
 ```
 
-#### 2. Disable original Netplan Config & Write mgmt0 interface netplan config
+#### 2. Create OVS  'wan'  Bridge Networkd Config
+````
+cat <<EOF > /etc/systemd/network/wan.network                                                    
+[Match]
+Name=wan
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+
+#### 3. Write Networkd config for physical network access: [EG: 'eth0']
+```sh
+export wan_NIC="eth0"
+````
+````
+cat <<EOF > /etc/systemd/network/${wan_NIC}.network                                                    
+[Match]
+Name=${wan_NIC}
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+
+#### 4. Disable original Netplan Config & Write mgmt0 interface netplan config
 ````sh
 for i in $( ls /etc/netplan/  ); do sed -i 's/^/#/g' /etc/netplan/$i ; done
 ````
@@ -38,35 +66,6 @@ network:
       gateway4: $(ip r | awk '/default /{print $3}')
       nameservers:
         addresses: [$(ip r | awk '/default /{print $3}')]
-EOF
-````
-
-#### 3. Create OVS  'wan'  Bridge Networkd Config
-````
-cat <<EOF > /etc/systemd/network/wan.network                                                    
-[Match]
-Name=wan
-
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
-EOF
-````
-
-#### 4. Write Networkd config for physical network access: [EG: 'eth0']
-```sh
-export wan_NIC="eth0"
-````
-````
-cat <<EOF > /etc/systemd/network/${wan_NIC}.network                                                    
-[Match]
-Name=${wan_NIC}
-
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
 EOF
 ````
 
