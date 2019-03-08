@@ -19,41 +19,7 @@ apt update && apt upgrade -y
 apt install -y openvswitch-switch
 ```
 
-#### 2. Create OVS  'wan'  Bridge && Bridge Networkd Config
-```
-ovs-vsctl add-br wan
-```
-````
-cat <<EOF > /etc/systemd/network/wan.network                                                    
-[Match]
-Name=wan
-
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
-EOF
-````
-
-#### 3. Write systemd-networkd config to raise interface without IP address [EXAMPLE: '${wan_NIC}']
-```sh
-Set your physical nic
-ip a
-export wan_NIC="enp9s0"
-````
-````
-cat <<EOF > /etc/systemd/network/${wan_NIC}.network                                                    
-[Match]
-Name=${wan_NIC}
-
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
-EOF
-````
-
-#### 4. Disable original Netplan Config & Write mgmt0 interface netplan config
+#### 1. Disable original Netplan Config & Write mgmt0 interface netplan config
 ````sh
 for i in $( ls /etc/netplan/  ); do sed -i 's/^/#/g' /etc/netplan/$i ; done
 ````
@@ -66,8 +32,37 @@ network:
   renderer: networkd
   ethernets:
     mgmt0:
-    optional: true
+      optional: true
       dhcp4: true
+EOF
+````
+
+#### 3. Create OVS  'wan'  Bridge Networkd Config
+````
+cat <<EOF > /etc/systemd/network/wan.network                                                    
+[Match]
+Name=wan
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+
+#### 3. Write Networkd config for physical network access: [EG: 'eth0']
+```sh
+export wan_NIC="eth0"
+````
+````
+cat <<EOF > /etc/systemd/network/${wan_NIC}.network                                                    
+[Match]
+Name=${wan_NIC}
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
 EOF
 ````
 
