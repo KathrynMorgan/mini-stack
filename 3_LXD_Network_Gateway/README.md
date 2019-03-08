@@ -57,8 +57,6 @@ ovs-vsctl \
   set interface mgmt1 type=internal -- \
   set interface mgmt1 mac="$(echo "$HOSTNAME wan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 
-systemctl restart systemd-networkd.service && netplan apply --debug
-
 ovs-vsctl show
 }
 net_restart
@@ -68,7 +66,7 @@ source /tmp/lan_net_config.sh
 
 #### 6. Create OpenWRT LXD Profile
 ````sh
-lxc profile copy default openwrt
+lxc profile copy original openwrt
 lxc profile set openwrt security.privileged true
 lxc profile device set openwrt eth0 parent wan
 lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
@@ -94,6 +92,11 @@ CREDENTIALS: [USER:PASS] [root:admin]
 WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
 ````sh
 lxc exec gateway enable-webui-on-wan
+````
+
+#### 10. Reload host network configuration
+````sh
+systemctl restart systemd-networkd.service && netplan apply --debug
 ````
 
 #### 11. Copy LXD 'default' profile to 'wan'

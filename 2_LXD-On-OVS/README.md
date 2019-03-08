@@ -42,6 +42,10 @@ Replace '$USERNAME' with your user name
 ````sh
 sudo usermod -aG lxd $USERNAME
 ````
+#### 5. Backup the original lxc profile
+````
+lxc profile copy default original
+````
 #### PROTIP: Launch Containers & check Configurations
 ###### Exhibit(A): Add cloud-init user-data to your default profile
 ###### Download the example, edit, then apply as follows
