@@ -42,20 +42,21 @@ Replace '$USERNAME' with your user name
 ````sh
 sudo usermod -aG lxd $USERNAME
 ````
-#### 4. Launch an Ubuntu lxd container:
+#### PROTIP: Launch Containers & check Configurations
+###### Exhibit(A): Add cloud-init user-data to your default profile
+````
+update-alternatives --set editor /usr/bin/vim
+````
+###### Exhibit(B): Launch Containers
 ````
 lxc launch ubuntu: c01
-lxc list
-````
-
-#### Example(A): Launch alternate images:
-````
 lxc launch ubuntu:bionic test-bioinic
 lxc launch images:centos/7 test-centos
 lxc launch images:fedora/28 test-fedora
+lxc exec c01 bash
 ````
 
-#### Example(B): See your LXD Configurations
+#### Exhibit(C): Check LXD Configurations
 ````sh
 lxc list
 lxc network list
