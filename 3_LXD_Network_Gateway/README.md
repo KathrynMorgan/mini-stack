@@ -46,13 +46,13 @@ LinkLocalAddressing=no
 EOF
 ````
 
-#### 5. Apply configuration
+#### 5. Build Bridge
 ````
 ovs-vsctl \
   add-br lan -- \
   add-port lan mgmt1 -- \
   set interface mgmt1 type=internal -- \
-  set interface mgmt1 mac="$(echo "$HOSTNAME wan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
+  set interface mgmt1 mac="$(echo "$HOSTNAME lan mgmt1" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 ovs-vsctl show
 ````
 
@@ -80,8 +80,8 @@ watch -c lxc list
 ````
 
 #### 10. Enable OpenWRT WebUI on 'WAN'    
-CREDENTIALS: [USER:PASS] [root:admin]     
-WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
+###### CREDENTIALS: [USER:PASS] [root:admin]     
+###### WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
 ````sh
 lxc exec gateway enable-webui-on-wan
 ````
@@ -102,9 +102,9 @@ lxc profile copy default wan
 lxc profile device set default eth0 parent lan
 ````
 
-#### ProTip: Enable your new 'lan' network on a physical port. (Example: ens4)
+#### ProTip: Enable your new 'lan' network on a physical port. (Example: eth1)
 ````sh
-export lan_NIC="ens4"
+export lan_NIC="eth1"
 ````
 ````sh
 cat <<EOF > /etc/systemd/network/${lan_NIC}.network                                                    
