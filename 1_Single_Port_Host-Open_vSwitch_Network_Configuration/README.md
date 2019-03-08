@@ -19,7 +19,7 @@ apt update && apt upgrade -y
 apt install -y openvswitch-switch
 ```
 
-#### 1. Disable original Netplan Config & Write mgmt0 interface netplan config
+#### 2. Disable original Netplan Config & Write mgmt0 interface netplan config
 ````sh
 for i in $( ls /etc/netplan/  ); do sed -i 's/^/#/g' /etc/netplan/$i ; done
 ````
@@ -50,7 +50,7 @@ LinkLocalAddressing=no
 EOF
 ````
 
-#### 3. Write Networkd config for physical network access: [EG: 'eth0']
+#### 4. Write Networkd config for physical network access: [EG: 'eth0']
 ```sh
 export wan_NIC="eth0"
 ````
@@ -66,7 +66,7 @@ LinkLocalAddressing=no
 EOF
 ````
 
-#### 10. Apply configuration
+#### 5. Apply configuration
 ````
 cat <<EOF >/tmp/net_restart.sh
 net_restart () {
