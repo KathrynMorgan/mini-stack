@@ -93,7 +93,7 @@ EOF
 wget -O /usr/bin/ovs-clear https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/aux/ovs-clear && chmod +x /usr/bin/ovs-clear
 ````
 
-#### Useful Commands
+#### PROTIP: Useful Commands
 ````
 ip r
 ip a s
