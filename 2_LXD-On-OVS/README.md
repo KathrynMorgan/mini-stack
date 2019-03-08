@@ -57,6 +57,7 @@ lxc profile edit default < example-default-profile.yaml
 ###### Exhibit(B): Add 'lxc' command alias 'ubuntu' to auto login to containers as user 'ubuntu'
 ````
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' .config/lxc/config.yml
+lxc ubuntu ${container_NAME}
 ````
 ###### Exhibit(B): Launch Containers
 ````
