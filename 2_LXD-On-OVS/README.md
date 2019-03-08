@@ -49,6 +49,10 @@ See aux/lxd_profile*(s) in this repo for examples of what you can add
 update-alternatives --set editor /usr/bin/vim.basic
 lxc profile edit default
 ````
+###### Exhibit(B): Add 'lxc' command alias 'ubuntu' to auto login to containers as user 'ubuntu'
+````
+sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' .config/lxc/config.yml
+````
 ###### Exhibit(B): Launch Containers
 ````
 lxc launch ubuntu: c01
