@@ -13,22 +13,29 @@
 ![CCIO_Hypervisor-mini_Stack_Diagram](https://github.com/KathrynMorgan/mini-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
 
 ## Instructions:
-#### 1. Update system
+#### 1. Update system && Install Packages
 ```
 apt update && apt upgrade -y
-```
-
-#### 2. Install Packages
-```
 apt install -y openvswitch-switch
 ```
 
-#### 3. Create OVS  'wan'  Bridge
+#### 2. Create OVS  'wan'  Bridge && Bridge Networkd Config
 ```
 ovs-vsctl add-br wan
 ```
+````
+cat <<EOF > /etc/systemd/network/wan.network                                                    
+[Match]
+Name=wan
 
-#### 4. Write systemd-networkd config to raise interface without IP address [EXAMPLE: '${wan_NIC}']
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+````
+
+#### 3. Write systemd-networkd config to raise interface without IP address [EXAMPLE: '${wan_NIC}']
 ```sh
 Set your physical nic
 ip a
@@ -46,22 +53,7 @@ LinkLocalAddressing=no
 EOF
 ````
 
-#### 5. Write systemd-networkd config to raise 'wan' bridge
-
-````
-cat <<EOF > /etc/systemd/network/wan.network                                                    
-[Match]
-Name=wan
-
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
-EOF
-````
-
-#### 6. Attach bridge to LAN
-
+#### 6. Attach bridge to 'wan' Physical Network Port
 ````
 ovs-vsctl add-port wan ${wan_NIC}
 systemctl restart systemd-networkd.service
