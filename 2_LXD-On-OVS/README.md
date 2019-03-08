@@ -44,11 +44,11 @@ sudo usermod -aG lxd $USERNAME
 ````
 #### PROTIP: Launch Containers & check Configurations
 ###### Exhibit(A): Add cloud-init user-data to your default profile
-See aux/lxd_profile*(s) in this repo for examples of what you can add
 ````
 update-alternatives --set editor /usr/bin/vim.basic
 lxc profile edit default
 ````
+    See aux/lxd_profile*(s) in this repo for examples of what you can add    
 ###### Exhibit(B): Add 'lxc' command alias 'ubuntu' to auto login to containers as user 'ubuntu'
 ````
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' .config/lxc/config.yml
