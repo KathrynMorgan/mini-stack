@@ -21,9 +21,14 @@ network:
   version: 2
   renderer: networkd
   ethernets:
-    mgmt1:
-    optional: true
-      dhcp4: true
+    mgmt0:
+      optional: true
+      addresses:
+        - 192.168.1.2
+      gateway4: 192.168.1.1
+      nameservers:
+        search: [maas]
+        addresses: [192.168.1.1]
 EOF
 ````
 
