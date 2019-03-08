@@ -48,7 +48,12 @@ sudo usermod -aG lxd $USERNAME
 update-alternatives --set editor /usr/bin/vim.basic
 lxc profile edit default
 ````
-    See aux/lxd_profile*(s) in this repo for examples of what you can add    
+######## For an example edit, then apply as follows
+````
+wget https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/2_LXD-On-OVS/aux/example-default-profile.yaml
+vim example-default-profile.yaml
+lxc profile edit default < example-default-profile.yaml
+````
 ###### Exhibit(B): Add 'lxc' command alias 'ubuntu' to auto login to containers as user 'ubuntu'
 ````
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' .config/lxc/config.yml
