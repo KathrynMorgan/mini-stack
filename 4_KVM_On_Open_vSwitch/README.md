@@ -14,7 +14,7 @@ apt install -y qemu qemu-kvm qemu-utils libvirt-bin libvirt0
 ````
 #### 2. Backup & Destroy default NAT Network
 ````sh
-mkdir ~/bak && virsh net-dumpxml default | tee ~/bak/virsh-net-default-bak.xml
+mkdir ~/bak 2>/dev/null ; virsh net-dumpxml default | tee ~/bak/virsh-net-default-bak.xml
 virsh net-destroy default && virsh net-undefine default
 ````
 #### 3. Write xml config for 'default' network on 'lan' bridge
@@ -78,5 +78,9 @@ sudo virsh net-list --all
 
 #### WIP:
 #### ENABLE Host 'root' Auth via key pair
+````
+sed -i 's/^PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
+sed -i 's/^ChallengeResponseAuthentication.*/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
 sed -i 's/^#PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
 sed -i 's/^#ChallengeResponseAuthentication.*/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
+````
