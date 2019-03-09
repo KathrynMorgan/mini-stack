@@ -1,6 +1,11 @@
 
 ```
-apt-get install -y openssh-server linux-generic-hwe-18.04
+cat <<EOF >/etc/apt/apt.conf.d/99-disable-ipv6
+Acquire::ForceIPv4 "true";
+EOF
+```
+```
+apt-get update && apt-get install -y openssh-server linux-generic-hwe-18.04
 sed -i 's/#HandleLidSwitch=suspend/HandleLidSwitch=ignore/g' /etc/systemd/logind.conf
 sed -i 's/#HandleLidSwitchDocked=ignore/HandleLidSwitchDocked=ignore/g' /etc/systemd/logind.conf
 sed -i 's/^#PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
