@@ -38,6 +38,7 @@ cat <<EOF >/tmp/virsh-net-lan-on-lan.json
   <virtualport type='openvswitch'/>
 </network>
 EOF
+
 ````
 #### 5. Write xml config 'wan' network on 'wan' bridge
 ````sh
