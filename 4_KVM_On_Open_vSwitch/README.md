@@ -77,8 +77,7 @@ sudo virsh net-list --all
 [Part_6 MAAS POD Configuration on Libvirt Provider]: https://github.com/KathrynMorgan/mini-stack/tree/master/6_MAAS-Connect_POD_KVM-Provider
 
 
-#### WIP:
-#### ENABLE Host 'root' Auth via key pair
+#### ProTip: ENABLE Host 'root' Auth via key pair
 ````
 sed -i 's/^PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
 sed -i 's/^ChallengeResponseAuthentication.*/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
