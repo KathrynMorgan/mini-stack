@@ -13,12 +13,17 @@ config:
         addresses: [ 192.168.1.10/24 ]
         gateway4: 192.168.1.1
         nameservers:
-          addresses: [ 192.168.1.1,8.8.8.8,1.1.1.1 ]
-          search: [ lan ]
+          addresses: [ 8.8.8.8,1.1.1.1 ]
+          search: [ maas ]
   user.user-data: |
     #cloud-config
     timezone: Pacific/Honolulu
     package_upgrade: true
+    apt:
+      preserve_sources_list: true
+      sources:
+        maas:
+          source: "ppa:maas/stable"
     packages:
       - bridge-utils
       - maas
@@ -29,13 +34,18 @@ config:
       - lnav
       - python
     runcmd:
-      - [maas, createadmin, --username=admin, --password=admin, --email=admin]
       - [adduser, maas, libvirtd]
+      - [chsh, -s, /bin/bash, maas]
+      - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
+      - [su, -l, maas, /bin/bash, -c, "ssh-import-id lp:katamo"]
+      - [echo, "192.168.1.2 mini-stack.maas mini-stack", ">>", "/etc/hosts"]
+      - [maas, createadmin, --username=admin, --password=admin, --email=admin]
       - [virsh, pool-define-as, default, dir, --target, /var/lib/libvirt/images/]
       - [virsh, pool-autostart, default]
       - [virsh, pool-start, default]
-      - [chsh, -s, /bin/bash, maas]
-      - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
+      - [apt-get, autoremove, "-y"]
+      - [wget, "-O", "~/login_maas", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login"]
+      - [chmod, "+x", "~/login_maas"]
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:
@@ -75,5 +85,3 @@ devices:
     pool: default
     type: disk
 name: maasctl
-used_by:
-- /1.0/containers/maasctl
