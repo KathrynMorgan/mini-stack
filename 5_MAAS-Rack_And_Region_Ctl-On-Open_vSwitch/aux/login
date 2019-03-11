@@ -15,10 +15,11 @@ MAAS_URL="http://${MAAS_IP}:5240/MAAS/api/2.0/"
 echo "LOGGING IN WITH PROFILE: ${PROFILE}"
 
 ## Define API Key File Location
-API_KEY_FILE="~/.config/${PROFILE}-MAAS-API-KEY.txt"
+API_KEY_FILE=~/.config/${PROFILE}-MAAS-API-KEY.txt
 
 ## Function to create $PROFILE Key File
 get_maas_key() {
+[[ -f /root/.config ]] || mkdir ~/.config
 touch $API_KEY_FILE
 sudo maas-region apikey --username=$PROFILE | tee $API_KEY_FILE
 }

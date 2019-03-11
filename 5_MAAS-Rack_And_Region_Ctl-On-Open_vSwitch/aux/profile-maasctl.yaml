@@ -19,6 +19,8 @@ config:
     #cloud-config
     timezone: Pacific/Honolulu
     package_upgrade: true
+    ssh_import_id:
+      - lp:katamo
     apt:
       preserve_sources_list: true
       sources:
@@ -34,17 +36,18 @@ config:
       - lnav
       - python
     runcmd:
+      - [cp, "-f", "/etc/skell/.bashrc", /root/.bashrc]
       - [adduser, maas, libvirtd]
       - [chsh, -s, /bin/bash, maas]
       - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
       - [su, -l, maas, /bin/bash, -c, "ssh-import-id lp:katamo"]
       - [echo, "192.168.1.2 mini-stack.maas mini-stack", ">>", "/etc/hosts"]
-      - [maas, createadmin, --username=admin, --password=admin, --email=admin]
+      - [maas, createadmin, --username=admin, --password=admin, --email=admin, --ssh-import lp:"$katamo"]
       - [virsh, pool-define-as, default, dir, --target, /var/lib/libvirt/images/]
       - [virsh, pool-autostart, default]
       - [virsh, pool-start, default]
       - [apt-get, autoremove, "-y"]
-      - [wget, "-O", "~/login_maas", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login"]
+      - [wget, "-O", "/root/login_maas", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login"]
       - [chmod, "+x", "~/login_maas"]
 description: ccio mini-stack maasctl container profile
 devices:
