@@ -36,7 +36,7 @@ config:
       - lnav
       - python
     runcmd:
-      - [cp, "-f", "/etc/skell/.bashrc", /root/.bashrc]
+      - [cp, "-f", "/etc/skell/.bashrc", "/root/.bashrc"]
       - [adduser, maas, libvirtd]
       - [chsh, -s, /bin/bash, maas]
       - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
@@ -47,8 +47,8 @@ config:
       - [virsh, pool-autostart, default]
       - [virsh, pool-start, default]
       - [apt-get, autoremove, "-y"]
-      - [wget, "-O", "/root/login_maas", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login"]
-      - [chmod, "+x", "~/login_maas"]
+      - [wget, "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
+      - [chmod, "+x", "~/login-maas-cli"]
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:

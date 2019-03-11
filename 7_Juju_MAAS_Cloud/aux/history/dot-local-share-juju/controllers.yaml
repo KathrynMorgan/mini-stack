@@ -1,0 +1,34 @@
+controllers:
+  jujuctl:
+    uuid: 57d51efe-6eaf-408a-89f8-a701e8b12b07
+    api-endpoints: ['[fda8:2a31:3432::5c4]:17070', '192.168.1.218:17070', '[fda8:2a31:3432:0:5054:ff:fe15:4d69]:17070',
+      '[fda8:2a31:3432::1:0:0]:17070']
+    ca-cert: |
+      -----BEGIN CERTIFICATE-----
+      MIIDrDCCApSgAwIBAgIUcSf1NPDi70xAH2f4xH12gc59AIUwDQYJKoZIhvcNAQEL
+      BQAwbjENMAsGA1UEChMEanVqdTEuMCwGA1UEAwwlanVqdS1nZW5lcmF0ZWQgQ0Eg
+      Zm9yIG1vZGVsICJqdWp1LWNhIjEtMCsGA1UEBRMkN2ExNGVlMWMtNzc1Yi00MTJl
+      LTgyNTMtY2NkM2NkYTVjOTc0MB4XDTE5MDIyMzA2MjgyOFoXDTI5MDMwMjA2Mjgy
+      OFowbjENMAsGA1UEChMEanVqdTEuMCwGA1UEAwwlanVqdS1nZW5lcmF0ZWQgQ0Eg
+      Zm9yIG1vZGVsICJqdWp1LWNhIjEtMCsGA1UEBRMkN2ExNGVlMWMtNzc1Yi00MTJl
+      LTgyNTMtY2NkM2NkYTVjOTc0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+      AQEA3EPep4GDv13JBshgFgEiYqgGDM4sW2og/+QNSjzPspz0COw3PjtSCM+2qzE4
+      TOOrzJ/VO18PdcWds27s6a7khmm2yLxulfNxEutKZEPV57ZI2Om0lhug9qvFS7bd
+      IJhI3lcoZiLg8xQU27xgdstly/RaIdwftIFcda2iURkBUtKndJ7p6aUW1TWnh43e
+      PgPNbtRUT9tiqLXwcCgfShcRgtBQ71iSeybzTIb5xI9xXpImGffNNRqlJ44pv4F/
+      fjtQScOOcMHhToOyBg3RdYC0bw7aUcfLs3I34okF/43nTo73no4dXB9bluuDcbQy
+      5tWe2s9U9r9yibO5drFEdg66SQIDAQABo0IwQDAOBgNVHQ8BAf8EBAMCAqQwDwYD
+      VR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUSq8tSVB2xwrxmu9wtEhqwwyR0iMwDQYJ
+      KoZIhvcNAQELBQADggEBADG+FVsaHs3foE7Ib2fdJD9f6a4ID2ykDpz0bMYLXTql
+      7cNElv2PVWZtRuTk9khA2p2l557P2ZdjRQYacuxkDqZ7L2bQ13USFj2zbwCf1w2X
+      nKKFZuSHgiFHg6SPk09bGrx6/eBRn4sihOCTc7wOzZTnmjoUXg3eEbs/lyDu/ACq
+      OYKXLJKWo6Xobq1Vnkg2bQdfJ/hdWkNZqAZZtpVhWLnn+UOpK8XKKr4TOd324Jvl
+      JBGbkExqkBSDoslhMA6sXRQg2/aa87N3Fi6M1aSd7md0Wy5bzZlt6tOIgSVAFQJL
+      TGF5oWGZ8swF0MakggzxuQ7e2ed/PiwhIN2Uow7dL08=
+      -----END CERTIFICATE-----
+    cloud: maasctl
+    agent-version: 2.5.1
+    controller-machine-count: 1
+    active-controller-machine-count: 0
+    machine-count: 1
+current-controller: jujuctl

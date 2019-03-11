@@ -1,0 +1,84 @@
+controllers:
+  jujuctl:
+    controller-config:
+      api-port: 17070
+      api-port-open-delay: 2s
+      audit-log-capture-args: false
+      audit-log-exclude-methods:
+      - ReadOnlyMethods
+      audit-log-max-backups: 10
+      audit-log-max-size: 300M
+      auditing-enabled: true
+      charmstore-url: https://api.jujucharms.com/charmstore
+      max-logs-age: 72h
+      max-logs-size: 4096M
+      max-prune-txn-batch-size: 1000000
+      max-prune-txn-passes: 100
+      max-txn-log-size: 10M
+      metering-url: https://api.jujucharms.com/omnibus/v3
+      prune-txn-query-count: 1000
+      prune-txn-sleep-time: 10ms
+      set-numa-control-policy: false
+      state-port: 37017
+    model-config:
+      agent-metadata-url: ""
+      agent-stream: released
+      apt-ftp-proxy: ""
+      apt-http-proxy: ""
+      apt-https-proxy: ""
+      apt-mirror: ""
+      apt-no-proxy: ""
+      authorized-keys: |
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3pmng4C06UtboGYmrmKYOR3WoZl8f+E5vjFerWKkKw4S2J6j2XURwkdHsdTFYFU5A6n9iVHZQI7rDzNPCkeuFZlrH4t91IUn15b21JpeMXl+GNp+y4A31fleO6qTkxHpRG7SDG9eMdDtYygqml2zsnkW649ehKaGjLHmsD4ychUNwyjwoMHcAejqs2iU6pDtXavrL+csRI6RyH3x2U1xk73fZDksBfe+EavmZ5NmXceYcB75ALSiMRt88F9A/KMAOisGWdJN9PtYtA+Y3Jq7EO9XQ9rqN7BLrgRp2QQicGdR+f5iIj6f7TAHhbiaTuSDptSUTsBJL8CJnZo0EoeBL juju-client-key
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/mBZTQYvv9TK+T4qzW4LahCXKaKCaMdf52/Dqy3GWOXnJm+IniMPi1l0bd/f+8BVl4eVMR2pQ5f9uzNzSTFcxL20Nb0hiOPCa3c9KHpZnUKAgCnJavY2cJQYrQ/E8pFdH0HYJsFD49/kZwg73f5/tT6AIVcvhZoVnd9h6GzXwqaS+0QCl/EZsRGsuDKAtt6RNqdrqeZNnHjQRpMvCRapXG99mBTtS6F8Xc2+hGLgRhmklvM5Cz+AbLH4/91/ds9a0ezYXD5Hqm8lyACic326P2lHlmBj2JfUW18b0VNazAUHLhJKpq7HOCwhpPHVRRnaLX1bxs5n2GtYnLpWL0pz3 tghadmin@myprecious
+      automatically-retry-hooks: true
+      backup-dir: ""
+      cloudinit-userdata: ""
+      container-image-metadata-url: ""
+      container-image-stream: released
+      container-inherit-properties: ""
+      container-networking-method: ""
+      default-series: bionic
+      development: false
+      disable-network-management: false
+      egress-subnets: ""
+      enable-os-refresh-update: true
+      enable-os-upgrade: true
+      fan-config: ""
+      firewall-mode: instance
+      ftp-proxy: ""
+      http-proxy: ""
+      https-proxy: ""
+      ignore-machine-addresses: false
+      image-metadata-url: ""
+      image-stream: released
+      juju-ftp-proxy: ""
+      juju-http-proxy: ""
+      juju-https-proxy: ""
+      juju-no-proxy: 127.0.0.1,localhost,::1
+      logforward-enabled: false
+      logging-config: ""
+      max-action-results-age: 336h
+      max-action-results-size: 5G
+      max-status-history-age: 336h
+      max-status-history-size: 5G
+      name: controller
+      net-bond-reconfigure-delay: 17
+      no-proxy: 127.0.0.1,localhost,::1
+      provisioner-harvest-mode: destroyed
+      proxy-ssh: false
+      resource-tags: ""
+      snap-http-proxy: ""
+      snap-https-proxy: ""
+      snap-store-assertions: ""
+      snap-store-proxy: ""
+      ssl-hostname-verification: true
+      test-mode: false
+      transmit-vendor-metrics: true
+      type: maas
+      update-status-hook-interval: 5m
+    controller-model-uuid: f6023724-7ae1-4b43-8191-01ad6b661d7a
+    credential: admin
+    cloud: maasctl
+    type: maas
+    endpoint: http://192.168.1.10:5240/MAAS/api/2.0

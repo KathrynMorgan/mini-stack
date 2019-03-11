@@ -1,0 +1,7 @@
+controllers:
+  jujuctl:
+    models:
+      admin/controller:
+        uuid: f6023724-7ae1-4b43-8191-01ad6b661d7a
+        type: iaas
+    current-model: admin/mini-stack

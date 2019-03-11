@@ -1,0 +1,55 @@
+byobu-enable
+[[ ! -f .juju/credentials-maasctl.yaml ]] && juju add-credential maasctl -f ~/.juju/credentials-maasctl.yaml
+juju add-cloud maasctl ~/.juju/maasctl.yaml
+juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "cores=4 mem=4G" maasctl jujuctl
+juju controllers
+juju add-model openstack
+juju models
+juju add-machine --constraints "cores=2 mem=2G"
+juju add-machine lxd:0
+juju machines
+juju gui
+juju status
+cp /etc/skel/.bashrc . -f
+ssh-import-id lp:katamo
+apt install tree
+cat .ssh/id_rsa | base64
+
+juju status
+juju controllers
+juju kill-controller jujuctl
+juju bootstrap --help
+juju bootstrap maasctl --constraints "tags=jujuctl"
+juju controllers
+juju bootstrap maasctl jujuctl --constraints "tags=jujuctl"
+juju bootstrap maasctl jujuctl --constraints "tags=jujuctl"
+juju gui
+
+juju add-machine -n 3 --constraints "tags=openstack"
+watch -c juju status --color
+
+apt-get install squashfs squashfuse
+sudo pip install python-openstackclient python3-dev python3-pip
+source adminrc_v2.sh 
+openstack server list
+
+for i in 0 1 2; do juju ssh nova-compute/$i "virsh list --all"; done
+
+openstack network create --share --external --provider-physical-network physnet1 --provider-network-type flat physnet1
+openstack floating ip create physnet1
+
+juju add-cloud mini-stack osctl
+juju autoload-credentials osctl
+juju bootstrap precision-stack stackctl --config network=physnet1
+
+for i in 0 1 2; do juju add-machine --constraints="tags=stack-0${i}"; done
+for i in 0 1 2; do for j in 0 1 2 3 ; do juju add-machine lxd:${j} --constraings="spaces=lan"; done; done
+
+juju remove-relation neutron-gateway ntp
+juju status
+
+juju debug-log
+juju debug-log --replay --level WARNING
+
+juju add-model mini-stack
+juju deploy mini-stack.yaml 
