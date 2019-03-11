@@ -12,10 +12,10 @@ Prerequisites:
 ![CCIO Hypervisor - JujuCTL Cloud Controller](https://github.com/KathrynMorgan/mini-stack/blob/master/8_Juju_MAAS_Cloud/web/drawio/juju_maas_cloud_controller.svg)
 
 # Instructions:
-`wget https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/profile-cloudctl.yaml`    
+`wget -P /tmp/ https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/aux/lxd_profile_cloudctl.yaml`    
 `export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin)`
 `lxc profile create cloudctl` <br/>
-`lxc profile edit cloudctl < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" profile-cloudctl.yaml)`    
+`lxc profile edit cloudctl < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" /tmp/profile-cloudctl.yaml)`    
 `lxc launch ubuntu:bionic cloudctl -p cloudctl` <br/>
 `lxc exec cloudctl bash`    
 `juju add-cloud maasctl ~/.juju/maasctl.yaml`    

@@ -38,7 +38,7 @@ config:
                 admin:
                   content:
                     auth-type: oauth1
-                    maas-oauth: TODO_FIX_ME
+                    maas-oauth: maasctl_api_key
                   models:
                     default: admin
                     controller: admin
