@@ -1,4 +1,3 @@
-byobu-enable
 [[ ! -f .juju/credentials-maasctl.yaml ]] && juju add-credential maasctl -f ~/.juju/credentials-maasctl.yaml
 juju add-cloud maasctl ~/.juju/maasctl.yaml
 juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "cores=4 mem=4G" maasctl jujuctl

@@ -23,6 +23,7 @@ config:
       - maas-cli
       - squashfuse
       - libvirt-bin
+      - python-pip
     write_files:
       - content: |
           clouds:
@@ -44,7 +45,8 @@ config:
         path: /root/credentials-maasctl.yaml
     runcmd:
       - [cp, "-f", "/etc/skell/.bashrc", "/root/.bashrc"]
-      - [snap, install, juju, --classic]
+      - [pip, install, python-openstackclient]
+      - [snap, install, juju, "--classic"]
       - [su, -l, ubuntu, /bin/bash, -c, "byobu-enable"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id lp:katamo"]
       - [apt-get, autoremove, "-y"]
