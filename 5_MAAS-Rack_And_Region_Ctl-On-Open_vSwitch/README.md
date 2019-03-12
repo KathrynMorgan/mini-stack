@@ -22,25 +22,18 @@ lxc launch ubuntu:bionic maasctl -p maasctl
 lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
 ````
 
-#### 03. Login to WebUI && Complete Setup
-Browse to your maas WebUI in a browser at: http://<gateway-ip>:5240/MAAS
+#### 03. Login to WebUI && Confirm region and rack controller(s) show healthy
+ 0. Browse to your maas WebUI @ http://<openwrt-gateway-pub-ip>:5240/MAAS
+ 1. click 'skip' through on-screen setup prompts (this was already done via cli)
+ 2. Click "Controllers" tab
+ 3. click "maasctl.maas"
+ 4. services should all be 'green' excluding dhcp* & ntp*
 
-#### 04. Walk through on-screen setup:
- 1. Confirm region name (EG: 'lab')
- 2. Set DNS Forwarder   (EG: '192.168.1.1 8.8.8.8')
- 3. Leave Ubuntu Archive* && apt/http proxy server as default for now
- 4. Leave Image selection to default options for now
- 5. Click 'Continue'
- 6. Import SSH key(s) for user
- 7. click 'Go to dashboard'
-
-#### 05. Confirm region and rack controller(s) show healthy
- 1. Click "Controllers" tab
- 2. click "maasctl.maas"
- 3. services should all be 'green' excluding dhcp* & ntp*
+###### NOTE: dhcp services are dependent on image sync to complete to rack
+controllers. Be sure to wait till sync has finished and the service has a moment
+to start
 
 #### Reboot and confirm MAAS WebUI & MAAS Region+Rack controller are all healthy
-ProTip: Be sure to enable dhcp or a dhcp reservantion on the networking page .... << TODO Write Out Instructions    
 
 <!-- Markdown link & img dfn's -->
 [Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
