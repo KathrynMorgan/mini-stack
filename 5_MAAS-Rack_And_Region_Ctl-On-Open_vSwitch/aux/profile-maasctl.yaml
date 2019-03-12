@@ -46,8 +46,6 @@ config:
       - [virsh, pool-define-as, default, dir, --target, /var/lib/libvirt/images/]
       - [virsh, pool-autostart, default]
       - [virsh, pool-start, default]
-      - [virsh, net-destroy, default]
-      - [virsh, net-undefine, default]
       - [apt-get, autoremove, "-y"]
       - [wget, -O, /root/login-maas-cli, "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
       - [chmod, "+x", "/root/login-maas-cli"]
