@@ -1,6 +1,18 @@
-#!/bin/bash -x
+#!/bin/bash 
+
+run_maas_login () {
+login-maas-cli
+[[ $? == "0" ]] || echo "Login Failed"
+}
+
+find_maas_rack_id () {
+primary_RACK=$(maas admin rack-controllers read \
+                                | jq ".[] | {system_id:.system_id}" \
+                                | awk -F'[",]' '/system_id/{print $4}' \
+              )
+}
+
 run_maas_setup () {
-primary_RACK=$(maas admin rack-controllers read | grep id)
 maas admin maas set-config name=maas_name value=maasctl
 maas admin maas set-config name=upstream_dns value=8.8.8.8
 maas admin maas set-config name=enable_third_party_drivers value=true
@@ -17,4 +29,8 @@ maas admin pods create type=virsh name=mini-stack.maas power_address=qemu+ssh://
 maas admin dnsresource-records update name=mini-stack domain=maas rrdata=192.168.1.2 rrtype=cname ip_addresses=192.168.1.2
 maas admin devices create hostname=mini-stack domain=maas mac_addresses=02:17:77:61:55:7b ip_addresses=192.168.1.2 ip_address=192.168.1.2
 }
+set -x
+
+run_maas_login
+find_maas_rack_id
 run_maas_setup
