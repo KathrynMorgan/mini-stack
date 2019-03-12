@@ -1,4 +1,5 @@
 ```
+lxc exec gateway ash
 opkg update
 opkg install squid luci-app-squid squid-mod-cachemgr
 ```
@@ -16,11 +17,6 @@ config redirect
         option target 'DNAT'
 
 EOF
-```
-
-```
-/etc/init.d/firewall reload
-/etc/init.d/firewall restart
 ```
 
 ```
@@ -89,6 +85,10 @@ squid -z
 squid
 ```
 
+```
+/etc/init.d/firewall reload
+/etc/init.d/firewall restart
+```
 
 
 
