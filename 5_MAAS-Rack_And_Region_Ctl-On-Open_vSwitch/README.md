@@ -29,9 +29,7 @@ lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
  3. click "maasctl.maas"
  4. services should all be 'green' excluding dhcp* & ntp*
 
-###### NOTE: dhcp services are dependent on image sync to complete to rack
-controllers. Be sure to wait till sync has finished and the service has a moment
-to start
+###### NOTE: dhcp services are dependent on image sync to complete to rack controllers. Be sure to wait till sync has finished and the service has a moment to start.
 
 #### Reboot and confirm MAAS WebUI & MAAS Region+Rack controller are all healthy
 
