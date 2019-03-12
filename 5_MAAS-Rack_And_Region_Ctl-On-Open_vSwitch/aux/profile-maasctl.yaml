@@ -52,7 +52,7 @@ config:
       - [wget, -O, /root/login-maas-cli, "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
       - [chmod, "+x", "/root/login-maas-cli"]
       - [ln, -f, -s, "/root/login-maas-cli", /usr/bin/login-maas-cli]
-      - ["source", "/root/login-maas-cli"]
+      - [login-maas-cli, admin]
       - [maas, admin, maas, set-config, name=maas_name, value=maasctl]
       - [maas, admin, maas, set-config, name=upstream_dns, value=8.8.8.8]
       - [maas, admin, maas, set-config, name=enable_third_party_drivers, value=true]
