@@ -15,6 +15,7 @@ config:
     package_upgrade: true
     packages:
       - jq
+      - vim
       - tree
       - tmux
       - byobu
@@ -44,17 +45,21 @@ config:
                   controller: admin
         path: /root/credentials-maasctl.yaml
     runcmd:
-      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
+      - [apt-get, autoremove, "-y"]
       - [pip, install, python-openstackclient]
       - [snap, install, juju, "--classic"]
       - [su, "-l", ubuntu, "/bin/bash", "-c", "byobu-enable"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id lp:katamo"]
-      - [apt-get, autoremove, "-y"]
-      - [wget, "-P", "/root/", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/aux/lxd_profile_cloudctl.yaml"]
-      - [chmod, "+x", "/root/login-maas-cli"]
-      - [mkdir, /root/.juju]
-      - [mv, /root/maasctl.yaml, /root/.juju/maasctl.yaml]
-      - [mv, /root/credentials-maasctl.yaml, /root/.juju/credentials-maasctl.yaml]
+      - [wget, "-P", "/home/ubuntu/", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/aux/login-maas-cli"]
+      - [chmod, "+x", "/home/ubuntu/login-maas-cli"]
+      - [virsh, net-destroy, default]
+      - [virsh, net-undefine, default]
+      - [mkdir, /home/ubuntu/.juju]
+      - [mv, /home/ubuntu/maasctl.yaml, /home/ubuntu/.juju/maasctl.yaml]
+      - [mv, /home/ubuntu/credentials-maasctl.yaml, /home/ubuntu/.juju/credentials-maasctl.yaml]
+      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
+      - [chown, "-R", "ubuntu:ubuntu", "/home/ubuntu"]
+      - [update-alternatives, "--set", "editor", "/usr/bin/vim.basic"]
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:
