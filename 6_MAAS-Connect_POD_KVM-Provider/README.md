@@ -16,7 +16,7 @@ Prerequisites:
 lxc exec maasctl -- /bin/bash -c 'echo "192.168.1.2 mini-stack.maas mini-stack" >>/etc/hosts'     
 lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/authorized_keys        
 lxc exec maasctl -- su -l maas /bin/bash -c 'ssh-keyscan -H mini-stack.maas >>~/.ssh/known_hosts'
-lxc exec maasctl -- su -l maas /bin/bash -c 'ssh -oStrictHostKeyChecking=accept-new root@mini-stack.maas.maas hostname'
+lxc exec maasctl -- su -l maas /bin/bash -c 'ssh -oStrictHostKeyChecking=accept-new root@mini-stack.maas hostname'
 lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@mini-stack.maas/system list --all'
 lxc exec maasctl -- "maas admin pods create type=virsh name=mini-stack.maas power_address=qemu+ssh://root@mini-stack/system cpu_over_commit_ratio=10 memory_over_commit_ratio=10"
 ````
