@@ -26,33 +26,32 @@ config:
       - python-pip
     write_files:
       - content: |
-          clouds:
-              maasctl:
-                  type: maas
-                  auth-types: [oauth1]
-                  endpoint: http://192.168.1.10:5240/MAAS
+        clouds:
+          maasctl:
+            type: maas
+            auth-types: [oauth1]
+            endpoint: http://192.168.1.10:5240/MAAS
         path: /root/maasctl.yaml
       - content: |
-            controller-credentials:
-              maasctl:
-                admin:
-                  content:
-                    auth-type: oauth1
-                    maas-oauth: maasctl_api_key
-                  models:
-                    default: admin
-                    controller: admin
+        credentials:
+          maasctl:
+            admin:
+              content:
+                auth-type: oauth1
+                maas-oauth: maasctl_api_key
+              models:
+                default: admin
+                controller: admin
         path: /root/credentials-maasctl.yaml
     runcmd:
-      - [cp, "-f", "/etc/skell/.bashrc", "/root/.bashrc"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
       - [pip, install, python-openstackclient]
       - [snap, install, juju, "--classic"]
       - [su, -l, ubuntu, /bin/bash, -c, "byobu-enable"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id lp:katamo"]
       - [apt-get, autoremove, "-y"]
-      - [wget, "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
+      - [wget, "-P", "/root/", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
       - [chmod, "+x", "~/login-maas-cli"]
-      - [sleep, 10]
       - [mkdir, /root/.juju]
       - [mv, /root/maasctl.yaml, /root/.juju/maasctl.yaml]
       - [mv, /root/credentials-maasctl.yaml, /root/.juju/credentials-maasctl.yaml]
