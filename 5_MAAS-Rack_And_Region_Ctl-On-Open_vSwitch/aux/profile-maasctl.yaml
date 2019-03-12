@@ -1,5 +1,5 @@
 config:
-  raw.lxc: |-
+ raw.lxc: |-
     lxc.cgroup.devices.allow = c 10:237 rwm
     lxc.apparmor.profile = unconfined
     lxc.cgroup.devices.allow = b 7:* rwm
@@ -47,8 +47,8 @@ config:
       - [virsh, pool-autostart, default]
       - [virsh, pool-start, default]
       - [apt-get, autoremove, "-y"]
-      - [wget, "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
-      - [chmod, "+x", "~/login-maas-cli"]
+      - [wget, -O, /root/login-maas-cli, "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
+      - [chmod, "+x", "/root/login-maas-cli"]
       - ["source", "/root/login-maas-cli"]
       - [maas, admin, maas, set-config, name=maas_name, value=maasctl]
       - [maas, admin, maas, set-config, name=upstream_dns, value=8.8.8.8]
