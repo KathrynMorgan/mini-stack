@@ -18,34 +18,19 @@ lxc exec maasctl -- /bin/bash -c 'cat /var/lib/maas/.ssh/id_rsa.pub' >>~/.ssh/au
 lxc exec maasctl -- su -l maas /bin/bash -c 'ssh-keyscan -H mini-stack.maas >>~/.ssh/known_hosts'
 lxc exec maasctl -- su -l maas /bin/bash -c 'ssh -oStrictHostKeyChecking=accept-new root@mini-stack.maas hostname'
 lxc exec maasctl -- su -l maas /bin/bash -c 'virsh -c qemu+ssh://root@mini-stack.maas/system list --all'
-lxc exec maasctl -- "maas admin pods create type=virsh name=mini-stack.maas power_address=qemu+ssh://root@mini-stack/system cpu_over_commit_ratio=10 memory_over_commit_ratio=10"
 ````
 
 #### 02. Connect your libvirt provider as a POD in MAAS
-[ In MAAS WebUI ]
-1. click 'Pods' tab
-2. click 'Add pod'
-3. Name the pod EG: host-libvirtd-provider
-4. Select Pod type 'Virsh'
-5. Add the qemu libvirtd provider address
--- Example: qemu+ssh://root@172.10.0.10/system
-6. Click 'add pod'
-7. Test pod by clicking on your new pod
-8. Click 'Take Action' (top right)
-9. fill in fields w/ minimum options
+````
+lxc exec maasctl -- /bin/bash -c 'maas admin pods create type=virsh name=mini-stack.maas power_address=qemu+ssh://root@192.168.1.2/system cpu_over_commit_ratio=10 memory_over_commit_ratio=10'
+````
 
-#### 03. Set instance kernel parameters
-[ In MAAS WebUI ]
-1. Click 'Settings'
-2. click 'General'
-3. Find 'Global Kernel Parameters'
-4. Include your preferred kernel boot arguments
-5. Save
-Example: `debug console=ttyS0,38400n8 console=tty0` <br/>
-Usage:
-[ on the libvirt host ]
-    1. `virsh list (--all)
-    2. `virsh console $id`
+#### 03. Test create new VM in your virsh pod:
+```
+lxc exec maasctl -- /bin/bash -c 'maas admin pod compose 1 cores=2 memory=2048 "storage=root:32(default)"'
+virsh list --all
+virsh console $new_vm_id
+```
 
  <!-- Markdown link & img dfn's -->
 [Part_1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
