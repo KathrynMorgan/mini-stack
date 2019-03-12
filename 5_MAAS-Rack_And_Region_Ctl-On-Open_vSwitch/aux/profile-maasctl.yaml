@@ -1,5 +1,5 @@
 config:
- raw.lxc: |-
+  raw.lxc: |-
     lxc.cgroup.devices.allow = c 10:237 rwm
     lxc.apparmor.profile = unconfined
     lxc.cgroup.devices.allow = b 7:* rwm
