@@ -34,3 +34,5 @@ set -x
 run_maas_login
 find_maas_rack_id
 run_maas_setup
+
+rm /usr/bin/run_maas_setup
