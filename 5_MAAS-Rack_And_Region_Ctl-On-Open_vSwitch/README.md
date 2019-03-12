@@ -23,7 +23,7 @@ lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
 ````
 
 #### 03. Login to WebUI && Confirm region and rack controller(s) show healthy
- 0. Browse to your maas WebUI @ http://<openwrt-gateway-pub-ip>:5240/MAAS
+ 0. Browse to your maas WebUI @ http://{openwrt-gateway-pub-ip}:5240/MAAS
  1. click 'skip' through on-screen setup prompts (this was already done via cli)
  2. Click "Controllers" tab
  3. click "maasctl.maas"
