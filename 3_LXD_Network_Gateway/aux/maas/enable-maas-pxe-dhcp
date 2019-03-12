@@ -1,0 +1,29 @@
+#!/bin/ash
+
+lan_IP=$(ip address show eth1 | awk -F'[ /]' '/inet /{print $6}')
+cp /etc/config/dhcp /root/bak/dhcp.original
+
+echo "
+config boot linux
+        option filename 'pxelinux.0'
+        option serveraddress '192.168.1.10'
+        option servername 'maasctl'
+        option force '1'
+" >>/etc/config/dhcp
+
+rm /usr/bin/enable-maas-pxe-dhcp 2> /dev/null
+mv /root/enable-maas-pxe-dhcp /root/bak/
+/etc/init.d/dnsmasq restart
+
+echo "
+            ~~~~~~~~~~~~~~~~~~~~~
+NOTICE: 
+
+  Configured MAAS PXE Support Successfully!
+
+  Login to OpenWRT Webui at:
+  http://${lan_IP}:80/cgi-bin/luci/
+
+
+            ~~~~~~~~~~~~~~~~~~~~~
+"
