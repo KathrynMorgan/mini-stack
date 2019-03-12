@@ -52,18 +52,8 @@ config:
       - [wget, -O, /root/login-maas-cli, "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
       - [chmod, "+x", "/root/login-maas-cli"]
       - [ln, -f, -s, "/root/login-maas-cli", /usr/bin/login-maas-cli]
-      - [login-maas-cli, admin]
-      - [maas, admin, maas, set-config, name=maas_name, value=maasctl]
-      - [maas, admin, maas, set-config, name=upstream_dns, value=8.8.8.8]
-      - [maas, admin, maas, set-config, name=enable_third_party_drivers, value=true]
-      - [maas, admin, maas, set-config, name=disk_erase_with_secure_erase, value=false]
-      - [maas, admin, tag, update, virtual, "kernel_opts='debug console=ttyS0,38400n8 console=tty0'"]
-      - [maas, admin, tag, set-config, name=kernel_opts, "value='debug console=ttyS0,38400n8 console=tty0'"]
-      - [maas, admin, fabric, update, 0, name=lan-ovs-bridge]
-      - [maas, admin, spaces, create, name=lan]
-      - [maas, admin, subnet, update, 1, name=untagged-lan, gateway_ip=192.168.1.1, dns_servers=192.168.1.10]
-      - [maas, admin, ipranges, create, type=dynamic, start_ip=192.168.1.100, end_ip=192.168.1.240]
-      - [maas, admin, vlan, update, lan-ovs-bridge, 0, name=lan, space=lan]
+      - [login-maas-cli]
+      - []
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:
