@@ -53,7 +53,7 @@ config:
       - [chmod, "+x", "/root/login-maas-cli"]
       - [ln, -f, -s, "/root/login-maas-cli", /usr/bin/login-maas-cli]
       - [login-maas-cli]
-      - []
+      - [wget, "-O-", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/run_maas_setup", "|", "bash"]
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:
