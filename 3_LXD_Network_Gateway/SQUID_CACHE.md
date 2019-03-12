@@ -92,8 +92,8 @@ squid
 
 
 
-TODO:
-https://forum.archive.openwrt.org/viewtopic.php?id=53770
-REFRENCE:
-https://openwrt.org/docs/guide-user/services/proxy/proxy.squid
-http://mini-stack/cgi-bin/cachemgr.cgi
+TODO:    
+https://forum.archive.openwrt.org/viewtopic.php?id=53770    
+REFRENCE:    
+https://openwrt.org/docs/guide-user/services/proxy/proxy.squid    
+http://mini-stack/cgi-bin/cachemgr.cgi    
