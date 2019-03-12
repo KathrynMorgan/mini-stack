@@ -50,7 +50,7 @@ config:
       - [su, "-l", ubuntu, "/bin/bash", "-c", "byobu-enable"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id lp:katamo"]
       - [apt-get, autoremove, "-y"]
-      - [wget, "-P", "/root/", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/login-maas-cli"]
+      - [wget, "-P", "/root/", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/aux/lxd_profile_cloudctl.yaml"]
       - [chmod, "+x", "/root/login-maas-cli"]
       - [mkdir, /root/.juju]
       - [mv, /root/maasctl.yaml, /root/.juju/maasctl.yaml]
