@@ -24,11 +24,11 @@ network:
     mgmt1:
       optional: true
       addresses:
-        - 192.168.1.2/24
-      gateway4: 192.168.1.1
+        - 10.10.0.2/24
+      gateway4: 10.10.0.1
       nameservers:
         search: [maas]
-        addresses: [192.168.1.1]
+        addresses: [10.10.0.1]
 EOF
 ````
 
@@ -65,10 +65,17 @@ lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 ````
 
 #### 8. Launch Gateway
-Find your WebUI in a lan side browser @ 192.168.1.1  [Username: root Password: admin]
 ````sh
 lxc launch bcio:openwrt gateway -p openwrt
 ````
+
+#### 9. Set openwrt 'lan' network
+###### Change the default 192.168.1.1 to an alternate subnet *if* the 'wan' network is also in a "192.168.1.0/xx" network space
+```
+lxc exec gw -- sed -i 's/192.168.1.1/10.10.0.1/g' /etc/config/network && lxc restart gw
+lxc exec gw -- opkg update
+lxc exec gw -- opkg install libustream-openssl ca-bundle ca-certificates pciutils
+```
 
 #### 9. Watch container for eth0 & br-lan ip initialization    
 We are expecting to acquire:    

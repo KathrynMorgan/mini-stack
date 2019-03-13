@@ -3,6 +3,9 @@
 lan_IP=$(ip address show eth1 | awk -F'[ /]' '/inet /{print $6}')
 cp /etc/config/dhcp /root/bak/dhcp.original
 
+sed -i "s/option local .*/option local '\/maas\/'/g" /etc/config/dhcp
+sed -i "s/option domain .*/option domain 'maas'/g" /etc/config/dhcp
+
 echo "
 config boot linux
         option filename 'pxelinux.0'

@@ -1,3 +1,21 @@
+opkg update
+opkg install squid luci-app-squid squid-mod-cachemgr
+
+echo <<EOF >>/etc/config/firewall
+
+config redirect
+        option proto 'tcp'
+        option src 'lan'
+        option src_ip '!192.168.1.1'
+        option src_dport '80'
+        option dest 'lan'
+        option dest_ip '192.168.1.1'
+        option dest_port '3128'
+        option target 'DNAT'
+
+EOF
+
+cat <<EOF > /etc/squid/squid.conf
 acl localnet src 10.0.0.0/8
 acl localnet src 172.16.0.0/12
 acl localnet src 192.168.0.0/16
@@ -46,9 +64,18 @@ logfile_daemon /dev/null
 http_port 3128 intercept
 
 # cache_dir aufs Directory-Name Mbytes L1 L2 [options]
-cache_dir aufs /tmp/squid/cache 900 16 512
+cache_dir aufs /tmp/squid/cache 4086 16 512
 
 # If you have 64 MB device RAM you can use 16 MB cache_mem, default is 8 MB
 cache_mem 256 MB             
 maximum_object_size_in_memory 64 MB
-maximum_object_size 32 MB
+maximum_object_size 64 MB
+EOF
+
+echo "/etc/squid/squid.conf" >>/etc/sysupgrade.conf
+squid -k reconfigure
+squid -z
+squid
+
+/etc/init.d/firewall reload
+/etc/init.d/firewall restart

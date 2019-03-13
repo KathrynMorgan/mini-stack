@@ -1,2 +1,0 @@
-sed -i "s/option local .*/option local '\/maas\/'/g" /etc/config/dhcp
-sed -i "s/option domain .*/option domain 'maas'/g" /etc/config/dhcp
