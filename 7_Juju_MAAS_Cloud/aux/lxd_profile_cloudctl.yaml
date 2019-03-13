@@ -48,16 +48,17 @@ config:
       - [apt-get, autoremove, "-y"]
       - [pip, install, python-openstackclient]
       - [snap, install, juju, "--classic"]
-      - [su, "-l", ubuntu, "/bin/bash", "-c", "byobu-enable"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id lp:katamo"]
       - [wget, "-P", "/usr/bin/", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/aux/login-maas-cli"]
       - [chmod, "+x", "/usr/bin/login-maas-cli"]
       - [virsh, net-destroy, default]
       - [virsh, net-undefine, default]
       - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/home/ubuntu/.bashrc"]
+      - [update-alternatives, "--set", "editor", "/usr/bin/vim.basic"]
       - [chown, "-R", "ubuntu:ubuntu", "/home/ubuntu"]
       - [chown, "-R", "ubuntu:ubuntu", "/home/ubuntu/.*"]
-      - [update-alternatives, "--set", "editor", "/usr/bin/vim.basic"]
+      - [su, "-l", ubuntu, "/bin/bash", "-c", "byobu-enable"]
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:
