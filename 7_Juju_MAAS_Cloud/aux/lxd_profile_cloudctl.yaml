@@ -43,7 +43,7 @@ config:
                 models:
                   default: admin
                   controller: admin
-        path: /home/home/.juju/credentials-maasctl.yaml
+        path: /home/ubuntu/.juju/credentials-maasctl.yaml
     runcmd:
       - [apt-get, autoremove, "-y"]
       - [pip, install, python-openstackclient]
@@ -57,7 +57,6 @@ config:
       - [cp, "-f", "/etc/skel/.bashrc", "/home/ubuntu/.bashrc"]
       - [update-alternatives, "--set", "editor", "/usr/bin/vim.basic"]
       - [chown, "-R", "ubuntu:ubuntu", "/home/ubuntu"]
-      - [chown, "-R", "ubuntu:ubuntu", "/home/ubuntu/.*"]
       - [su, "-l", ubuntu, "/bin/bash", "-c", "byobu-enable"]
 description: ccio mini-stack maasctl container profile
 devices:
