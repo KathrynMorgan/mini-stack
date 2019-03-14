@@ -6,7 +6,6 @@ config interface 'loopback'
 	option netmask '255.0.0.0'
 
 config globals 'globals'
-#       option ula_prefix 'fdda:1999:c85d::/48'
 
 config interface 'wan'
 	option ifname 'eth0'

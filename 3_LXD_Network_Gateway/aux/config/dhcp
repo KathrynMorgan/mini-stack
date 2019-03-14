@@ -1,12 +1,16 @@
 
 config dnsmasq
 	option domainneeded '1'
+	option boguspriv '1'
+	option filterwin2k '0'
 	option localise_queries '1'
 	option rebind_protection '1'
 	option rebind_localhost '1'
 	option local '/lan/'
 	option domain 'lan'
 	option expandhosts '1'
+	option nonegcache '0'
+	option authoritative '1'
 	option readethers '1'
 	option leasefile '/tmp/dhcp.leases'
 	option resolvfile '/tmp/resolv.conf.auto'
@@ -27,9 +31,3 @@ config odhcpd 'odhcpd'
 	option leasetrigger '/usr/sbin/odhcpd-update'
 	option loglevel '4'
 
-config host
-	option name 'mini-stack'
-	option dns '1'
-	option mac '02:17:77:61:55:7b'
-	option ip '10.10.0.2'
-	option leasetime '12h'

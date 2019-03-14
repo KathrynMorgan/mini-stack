@@ -1,15 +1,27 @@
-lxc exec gateway ash
-opkg update
-opkg install squid luci-app-squid squid-mod-cachemgr libustream-openssl ca-bundle ca-certificates
+wget -O /etc/config/dhcp      
+wget -O /etc/config/dropbear  
+wget -O /etc/config/firewall  
+wget -O /etc/config/luci      
+wget -O /etc/config/network   
+wget -O /etc/config/rpcd     
+wget -O /etc/config/squid    
+wget -O /etc/config/system    
+wget -O /etc/config/ucitrack 
+wget -O /etc/config/uhtpd    
+wget -O /etc/squid/squid.conf  
 
 echo "/etc/squid/squid.conf" >>/etc/sysupgrade.conf
-squid -k reconfigure
+
+/etc/init.d/squid enable
+/etc/init.d/squid stop
+mkdir -p /usr/lib/squid/log_file_daemon
+mkdir -p /tmp/squid/cache
+chmod 0777 /tmp/squid/ -R
 squid -z
-squid
+/etc/init.d/squid start
+squid -k reconfigure
 
-/etc/init.d/firewall reload
-/etc/init.d/firewall restart
-
+reboot
 
 #################################################################################
 #TODO:    

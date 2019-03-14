@@ -1,0 +1,9 @@
+lxc exec gateway -- sed -i 's/192.168.1.1/10.10.0.1/g' /etc/config/network && lxc restart gateway
+/etc/init.d/squid enable
+/etc/init.d/squid stop
+mkdir -p /usr/lib/squid/log_file_daemon
+mkdir -p /tmp/squid/cache
+chmod 0777 /tmp/squid/ -R
+squid -k reconfigure
+squid -z
+/etc/init.d/squid start
