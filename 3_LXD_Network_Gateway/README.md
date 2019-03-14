@@ -70,27 +70,16 @@ lxc launch bcio:openwrt gateway -p openwrt
 ````
 
 #### 9. Set openwrt 'lan' network
-###### Change the default 192.168.1.1 to an alternate subnet *if* the 'wan' network is also in a "192.168.1.0/xx" network space
 ```
 lxc exec gateway -- sed -i 's/192.168.1.1/10.10.0.1/g' /etc/config/network && lxc restart gateway
-lxc exec gateway -- opkg update
-lxc exec gateway -- opkg install libustream-openssl ca-bundle ca-certificates pciutils
 ```
-
-#### 9. Watch container for eth0 & br-lan ip initialization    
-We are expecting to acquire:    
-An IP from your local network on gateway container's 'eth0' interface    
-An IP of '192.168.1.1' on gateway container's 'br-lan' interface    
-###### "ctrl + c" to exit "watch" cmd    
-````sh
-watch -c lxc list
-````
 
 #### 10. Enable OpenWRT WebUI on 'WAN'    
 ###### CREDENTIALS: [USER:PASS] [root:admin]     
 ###### WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
 ````sh
-lxc exec gateway enable-webui-on-wan
+lxc exec gateway ash
+
 ````
 
 #### 10. Remove mgmt0 default route && Reload host network configuration
