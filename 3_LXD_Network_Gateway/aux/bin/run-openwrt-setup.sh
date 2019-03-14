@@ -1,3 +1,5 @@
+#!/bin/bash 
+
 pull_config_files () {
 wget -O /etc/config/dhcp      https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/config/dhcp
 wget -O /etc/config/dropbear  https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/config/dropbear
@@ -24,6 +26,8 @@ squid -z
 squid -k reconfigure
 }
 
+pull_config_files
+run_squid_config
 echo "Build Complete" && reboot
 
 #################################################################################
