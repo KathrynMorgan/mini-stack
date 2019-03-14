@@ -1,0 +1,18 @@
+#!/bin/bash
+
+lxc exec gateway -- sed -i 's/192.168.1.1/10.10.0.1/g' /etc/config/network && lxc restart gateway
+
+for conf in \
+  https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/dhcp \
+  https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/squid \
+  https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/network \
+  https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/firewall \
+  ; do wget -P /tmp/ ${conf} ; done
+
+for i in dhcp firewall network squid; do lxc file edit gateway/etc/config/${i} < <(cat /tmp/${i}); done
+
+lxc exec gateway -- squid -k reconfigure
+lxc exec gateway -- squid -z
+lxc exec gateway -- /etc/init.d/squid stop
+lxc exec gateway -- /etc/init.d/squid reload
+lxc exec gateway -- /etc/init.d/squid start
