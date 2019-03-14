@@ -72,9 +72,9 @@ lxc launch bcio:openwrt gateway -p openwrt
 #### 9. Set openwrt 'lan' network
 ###### Change the default 192.168.1.1 to an alternate subnet *if* the 'wan' network is also in a "192.168.1.0/xx" network space
 ```
-lxc exec gw -- sed -i 's/192.168.1.1/10.10.0.1/g' /etc/config/network && lxc restart gw
-lxc exec gw -- opkg update
-lxc exec gw -- opkg install libustream-openssl ca-bundle ca-certificates pciutils
+lxc exec gateway -- sed -i 's/192.168.1.1/10.10.0.1/g' /etc/config/network && lxc restart gateway
+lxc exec gateway -- opkg update
+lxc exec gateway -- opkg install libustream-openssl ca-bundle ca-certificates pciutils
 ```
 
 #### 9. Watch container for eth0 & br-lan ip initialization    
