@@ -1,5 +1,11 @@
 #!/bin/bash 
 
+run_backup () {
+    mkdir /root/bak/
+    cp -r /etc/config /root/bak/
+    cp /etc/squid/squid.conf /root/bak/
+}
+
 pull_config_files () {
 wget -O /etc/config/dhcp      https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/config/dhcp
 wget -O /etc/config/dropbear  https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/config/dropbear
@@ -15,20 +21,24 @@ wget -O /etc/squid/squid.conf https://raw.githubusercontent.com/KathrynMorgan/mi
 }
 
 run_squid_config () {
-mkdir -p /tmp/squid/cache
-mkdir -p /usr/lib/squid/log_file_daemon
 echo "/etc/squid/squid.conf" >>/etc/sysupgrade.conf
+mkdir -p /tmp/squid/cache
+touch /tmp/squid/mime.conf
+mkdir -p /usr/lib/squid/log_file_daemon
+chmod 0777 -R /tmp/squid/
 /etc/init.d/squid enable
 /etc/init.d/squid stop
-chmod 0777 -R /tmp/squid/
 squid -z
+/etc/init.d/squid enable
 /etc/init.d/squid start
 squid -k reconfigure
 }
 
+run_backup
 pull_config_files
 run_squid_config
-echo "Build Complete" && reboot
+echo "Build Complete"
+shutdown -h now
 
 #################################################################################
 #TODO:    
