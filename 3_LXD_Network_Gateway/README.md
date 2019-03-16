@@ -69,9 +69,10 @@ lxc profile device add openwrt eth1 nic nictype=bridged parent=lan
 lxc launch bcio:openwrt gateway -p openwrt
 ````
 
-#### 9. Set openwrt 'lan' network
+#### 9. Apply CCIO Configuration + http squid cache proxy
 ```
-lxc exec gateway -- sed -i 's/192.168.1.1/10.10.0.1/g' /etc/config/network && lxc restart gateway
+lxc exec gateway -- /bin/bash -c "wget -O- https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/bin/run-openwrt-setup.sh | bash -x"
+lxc start gateway
 ```
 
 #### 10. Enable OpenWRT WebUI on 'WAN'    

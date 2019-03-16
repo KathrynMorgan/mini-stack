@@ -34,11 +34,39 @@ squid -z
 squid -k reconfigure
 }
 
+echo_wan_webui_url () {
+wan_IP=$(ip address show eth0 | awk -F'[ /]' '/inet /{print $6}')
+
+echo "
+            ~~~~~~~~~~~~~~~~~~~~~
+                !!!WARNING!!!
+            ~~~~~~~~~~~~~~~~~~~~~
+
+     OpenWRT Gateway WebUI Enabled on WAN
+
+    This is not a secure configuration
+    Public access to webui is potentially dangerous
+    Only use this configuration in trusted networks
+
+
+       OpenWRT Webui Now accessible at:
+
+       http://${wan_IP}:8080/cgi-bin/luci/
+
+
+            ~~~~~~~~~~~~~~~~~~~~~
+                !!!WARNING!!!
+            ~~~~~~~~~~~~~~~~~~~~~
+"
+
+}
+
 run_backup
 pull_config_files
 run_squid_config
 echo "Build Complete"
-shutdown -h now
+echo_wan_webui_url 
+halt
 
 #################################################################################
 #TODO:    
