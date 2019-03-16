@@ -28,10 +28,11 @@ the vm's console during bootstrap <br/>
 `juju bootstrap --bootstrap-series=bionic --config bootstrap-timeout=1800 --constraints "cores=4 mem=4G" maasctl jujuctl`
 
 #### Test adding new machines on your cloud
-01. Add 2 Libvirt guests configured with 2 cores and 2GB RAM <br/>
+  01. Add 2 Libvirt guests configured with 2 cores and 2GB RAM <br/>
 `juju add-machine -n 2 --constraints "cores=2 mem=2G"`    
-t02. Add 2 new lxd containers <br/>
-`juju add-machine lxd -n 2`    
+  02. Add 2 new lxd containers <br/>
+`juju add-machine lxd:0`    
+`juju add-machine lxd:1`    
 
 #### Find juju WebGUI
 `juju gui`
