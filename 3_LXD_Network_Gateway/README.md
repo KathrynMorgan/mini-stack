@@ -70,18 +70,14 @@ lxc launch bcio:openwrt gateway -p openwrt
 ````
 
 #### 9. Apply CCIO Configuration + http squid cache proxy
+###### WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 ```
 lxc exec gateway -- /bin/bash -c "wget -O- https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/bin/run-openwrt-setup.sh | bash -x"
 lxc start gateway
 ```
 
-#### 10. Enable OpenWRT WebUI on 'WAN'    
+#### 10. LOGIN TO OpenWRT WebUI on 'WAN'    
 ###### CREDENTIALS: [USER:PASS] [root:admin]     
-###### WARNING: DO NOT ENABLE ON UNTRUSTED NETWORKS
-````sh
-lxc exec gateway ash
-
-````
 
 #### 10. Remove mgmt0 default route && Reload host network configuration
 ````sh
