@@ -12,10 +12,11 @@ vm_CPU=2
 storage_POOL="/var/lib/libvirt/images"
 
 # If set to 'true' will disable sleep interval between spawn loops
-run_FAST="true"
+run_FAST="false"
 
 spawn_build () {
-virt-install \
+ssh root@10.0.0.2 /bin/bash -c "
+  virt-install \
     --pxe \
     --hvm \
     --noreboot \
@@ -27,10 +28,15 @@ virt-install \
     --name ${name_FULL} \
     --cpu host-passthrough \
     --os-variant=ubuntu18.04 \
-    --boot "network,hd,useserial=on" \
-    --description "Juju MAAS Cloud OpenStack Dev Host" \
+    --boot 'network,hd,useserial=on' \
+    --description 'Juju MAAS Cloud OpenStack Dev Host' \
     --network network=lan,model=virtio,mac=${eth0_HWADDRESS} \
-    --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=16 
+    --network network=lan,model=virtio,mac=${eth1_HWADDRESS} \
+    --network network=lan,model=virtio,mac=${eth2_HWADDRESS} \
+    --network network=lan,model=virtio,mac=${eth3_HWADDRESS} \
+    --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
+    --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 
+  "
 }
 
 spawn_prep () {
@@ -38,9 +44,13 @@ eth0_HWADDRESS=$(echo "${name_FULL} lan eth0" | md5sum \
     | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 eth1_HWADDRESS=$(echo "${name_FULL} lan eth1" | md5sum \
     | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+eth2_HWADDRESS=$(echo "${name_FULL} lan eth2" | md5sum \
+    | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
+eth2_HWADDRESS=$(echo "${name_FULL} lan eth3" | md5sum \
+    | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 }
 
-run_loop () {
+run_spawn () {
 for count in $(seq -w 08 ${vm_COUNT}); do
        
        # Set VM Name & Declare Build
@@ -52,12 +62,12 @@ for count in $(seq -w 08 ${vm_COUNT}); do
        spawn_build
 
        # If run fast disabled will pause for anti flood safety interval
-       [[ $run_FAST == "true" ]] || sleep 90
+       [[ $run_FAST == "true" ]] || sleep 30
 
 done
 }
 
-run_loop
+run_spawn
 
 #################################################################################
 # TESTING
