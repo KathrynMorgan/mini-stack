@@ -15,7 +15,7 @@ storage_POOL="/var/lib/libvirt/images"
 run_FAST="false"
 
 spawn_build () {
-ssh root@10.0.0.2 /bin/bash -c "
+ssh root@10.10.0.2 /bin/bash -c "
   virt-install \
     --pxe \
     --hvm \
