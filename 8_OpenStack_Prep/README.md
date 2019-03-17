@@ -13,7 +13,7 @@ Prerequisites:
 
 # Instructions:
 #### Create New Virtual Machines & Tag as Juju OpenStack Targets
-  01. Virt-Install new vm's
+###### 01. Virt-Install new vm's
 
 
 <!-- Markdown link & img dfn's -->
