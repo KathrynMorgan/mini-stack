@@ -15,10 +15,8 @@ Prerequisites:
 #### Create New Virtual Machines & Tag as Juju OpenStack Targets
 ###### 01. Virt-Install new vm's
 ```
-lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
-```
-```
-wget -O- https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/8_OpenStack_Prep/aux/virt-inst-stack.sh | bash -x
+wget -P /root/ https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/8_OpenStack_Prep/aux/virt-inst-stack.sh && chmod +x ~/virt-inst-stack.sh
+. ~/virt-inst-stack.sh
 ```
 
 

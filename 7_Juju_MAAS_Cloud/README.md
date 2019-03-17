@@ -17,6 +17,12 @@ Prerequisites:
 `lxc profile create cloudctl` <br/>
 `lxc profile edit cloudctl < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" /tmp/lxd_profile_cloudctl.yaml)`    
 `lxc launch ubuntu:bionic cloudctl -p cloudctl` <br/>
+
+
+```
+lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
+```
+
 `lxc exec cloudctl bash`    
 `juju add-cloud maasctl ~/.juju/maasctl.yaml`    
 `juju add-credential maasctl -f ~/.juju/credentials-maasctl.yaml`    
