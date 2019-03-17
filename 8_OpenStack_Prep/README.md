@@ -14,6 +14,12 @@ Prerequisites:
 # Instructions:
 #### Create New Virtual Machines & Tag as Juju OpenStack Targets
 ###### 01. Virt-Install new vm's
+```
+lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
+```
+```
+wget -O-  | bash -x
+```
 
 
 <!-- Markdown link & img dfn's -->
