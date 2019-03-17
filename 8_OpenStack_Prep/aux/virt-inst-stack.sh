@@ -2,8 +2,8 @@
 #set -x
 
 # Set VM creation count
-vm_COUNT="$1"
-name_BASE="$2"
+vm_COUNT="03"
+name_BASE="stack"
 
 # Hardware Profile
 #vm_RAM=2048
@@ -51,7 +51,7 @@ eth2_HWADDRESS=$(echo "${name_FULL} lan eth3" | md5sum \
 }
 
 run_spawn () {
-for count in $(seq -w 08 ${vm_COUNT}); do
+for count in $(seq -w 01 ${vm_COUNT}); do
        
        # Set VM Name & Declare Build
        name_FULL="${name_BASE}-${count}"
