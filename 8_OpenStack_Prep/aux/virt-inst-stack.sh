@@ -15,7 +15,7 @@ storage_POOL="/var/lib/libvirt/images"
 run_FAST="false"
 
 spawn_build () {
-ssh root@10.10.0.2 /bin/bash -c "virt-install \
+virt-install \
     --pxe \
     --hvm \
     --noreboot \
@@ -28,14 +28,14 @@ ssh root@10.10.0.2 /bin/bash -c "virt-install \
     --cpu host-passthrough \
     --os-variant=ubuntu18.04 \
     --boot 'network,hd,useserial=on' \
-    --description 'Juju MAAS Cloud OpenStack Dev Host' \
+    --description 'juju maas cloud mini-stack node' \
     --network network=lan,model=virtio,mac=${eth0_HWADDRESS} \
     --network network=lan,model=virtio,mac=${eth1_HWADDRESS} \
     --network network=lan,model=virtio,mac=${eth2_HWADDRESS} \
     --network network=lan,model=virtio,mac=${eth3_HWADDRESS} \
     --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
     --disk path=${storage_POOL}/${name_FULL}_vdb.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
-    --disk path=${storage_POOL}/${name_FULL}_vdc.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 "
+    --disk path=${storage_POOL}/${name_FULL}_vdc.qcow2,format=raw,bus=virtio,cache=unsafe,size=32
 }
 
 spawn_prep () {
