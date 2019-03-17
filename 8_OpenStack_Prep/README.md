@@ -9,7 +9,7 @@ Prerequisites:
 - [Part_5 MAAS Controller On Open vSwitch Network]
 - [Part_6 MAAS POD Configuration on Libvirt Provider]
 
-![CCIO Hypervisor - OpenStack Prep](https://github.com/KathrynMorgan/mini-stack/blob/master/8_Juju_MAAS_Cloud/web/drawio/juju_maas_cloud_controller.svg)
+![CCIO Hypervisor - OpenStack Prep](https://github.com/KathrynMorgan/mini-stack/blob/master/8_OpenStack_Prep/web/drawio/OpenStack-Prep.svg)
 
 # Instructions:
 #### Create New Virtual Machines & Tag as Juju OpenStack Targets
