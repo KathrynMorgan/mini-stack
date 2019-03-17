@@ -22,9 +22,9 @@ ssh root@10.10.0.2 /bin/bash -c "virt-install \
     --noautoconsole \
     --graphics none \
     --os-type=Linux \
-    --vcpus ${vm_CPU} \
-    --memory ${vm_RAM} \
-    --name ${name_FULL} \
+    --vcpus=${vm_CPU} \
+    --memory=${vm_RAM} \
+    --name=${name_FULL} \
     --cpu host-passthrough \
     --os-variant=ubuntu18.04 \
     --boot 'network,hd,useserial=on' \
