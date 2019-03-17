@@ -18,7 +18,7 @@ Prerequisites:
 lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys
 ```
 ```
-wget -O-  | bash -x
+wget -O- https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/8_OpenStack_Prep/aux/virt-inst-stack.sh | bash -x
 ```
 
 
