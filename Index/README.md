@@ -1,5 +1,7 @@
 # Index:
 
+## [Part 0 -- Host System Prep](https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration)
+<br/>
 ## [Part 1 -- Single Port Host Open vSwitch Network Configuration](https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration)
 ![Part 1 -- Single Port Host Open vSwitch Network Configuration](https://github.com/KathrynMorgan/mini-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
 <br/>
