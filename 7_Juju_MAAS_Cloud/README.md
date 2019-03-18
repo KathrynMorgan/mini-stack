@@ -2,13 +2,13 @@
 ###### Create a Juju Cloud on MAAS & Bootstrap the Juju Controller
 
 ## Prerequisites:
-- [Part_0 Host System Prep
-- [Part_1 Single Port Host Open vSwitch Network Configuration
-- [Part_2 LXD On Open vSwitch Network
-- [PART_3 LXD Gateway & Firwall for Open vSwitch Network Isolation
-- [Part_4 KVM On Open vSwitch
-- [Part_5 MAAS Region And Rack Server on OVS Sandbox
-- [PART_6 MAAS Connect POD on KVM Provider
+- [Part_0 Host System Prep]
+- [Part_1 Single Port Host Open vSwitch Network Configuration]
+- [Part_2 LXD On Open vSwitch Network]
+- [PART_3 LXD Gateway & Firwall for Open vSwitch Network Isolation]
+- [Part_4 KVM On Open vSwitch]
+- [Part_5 MAAS Region And Rack Server on OVS Sandbox]
+- [PART_6 MAAS Connect POD on KVM Provider]
 
 ![CCIO Hypervisor - JujuCTL Cloud Controller](https://github.com/KathrynMorgan/mini-stack/blob/master/7_Juju_MAAS_Cloud/web/drawio/juju_maas_cloud_controller.svg)
 
