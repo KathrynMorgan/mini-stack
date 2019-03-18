@@ -1,7 +1,7 @@
 # Index:
 
 ## [Part 0 -- Host System Prep](https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration)
-![Part 1 -- Single Port Host Open vSwitch Network Configuration]()
+![Part 1 -- Single Port Host Open vSwitch Network Configuration](https://github.com/KathrynMorgan/mini-stack/blob/master/0_Host_System_Prep/web/drawio/host_system_prep.svg)
 <br/>
 ## [Part 1 -- Single Port Host Open vSwitch Network Configuration](https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration)
 ![Part 1 -- Single Port Host Open vSwitch Network Configuration](https://github.com/KathrynMorgan/mini-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
@@ -24,4 +24,6 @@
 ## [PART_7 -- Juju MAAS Cloud](https://github.com/KathrynMorgan/mini-stack/tree/master/7_Juju_MAAS_Cloud)
 ![CCIO Hypervisor - JujuCTL Cloud Controller](https://github.com/KathrynMorgan/mini-stack/blob/master/7_Juju_MAAS_Cloud/web/drawio/juju_maas_cloud_controller.svg)
 <br/>
+## [PART_8 -- OpenStack Prep](https://github.com/KathrynMorgan/mini-stack/tree/master/8_OpenStack_Prep)
+![CCIO Hypervisor - JujuCTL Cloud Controller](https://github.com/KathrynMorgan/mini-stack/blob/master/8_OpenStack_Prep/web/drawio/OpenStack-Prep.svg)
 <br/>
