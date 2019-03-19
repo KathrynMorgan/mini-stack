@@ -1,7 +1,7 @@
 # Part 1 -- Single Port Host Open vSwitch Network Configuration
 #### Provision a host virtual entry network viable for cloud scale emulation and testing.
  WARNING: Exercise caution when performing this proceedure remotely as this may cause loss of connectivity.    
- NOTE:  Netplan does not support raising interfaces without ip addresses. Until the issue is resolved we will use systemd-networkd.
+
 >
 > Overview of Steps:
 > - Install required packages

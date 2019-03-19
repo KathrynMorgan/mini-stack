@@ -1,9 +1,7 @@
+# Part 0 -- Host System Preparations
+#### Pre-build steps for ease of use
 
-```
-cat <<EOF >/etc/apt/apt.conf.d/99-disable-ipv6
-Acquire::ForceIPv4 "true";
-EOF
-```
+
 ```
 apt-get update && apt-get install -y vim lnav openssh-server linux-generic-hwe-18.04
 ssh-import-id lp:katamo
