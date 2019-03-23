@@ -73,6 +73,7 @@ lxc launch bcio:openwrt gateway -p openwrt
 ###### WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
 ```
 lxc exec gateway -- /bin/bash -c "wget -O- https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/bin/run-openwrt-setup.sh | bash -x"
+lxc stop gateway
 lxc start gateway
 ```
 
