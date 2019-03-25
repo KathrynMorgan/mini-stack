@@ -88,6 +88,9 @@ ovs-vsctl show
 net_restart
 EOF
 ````
+````
+source /tmp/net_restart.sh 
+````
 
 #### 6. Add OVS Orphan Port Cleaning Utility
 ````sh
