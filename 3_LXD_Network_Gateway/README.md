@@ -71,14 +71,13 @@ lxc launch bcio:openwrt gateway -p openwrt
 
 #### 9. Apply CCIO Configuration + http squid cache proxy
 ###### WARNING: DO NOT LEAVE EXTERNAL WEBUI ENABLED ON UNTRUSTED NETWORKS
-```
-lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/10.10.0/g' /etc/config/network" 
-lxc stop gateway
-```
 ````
-lxc start gateway
-lxc exec gateway -- /bin/bash -c "wget -O- https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/bin/run-openwrt-setup.sh | bash -x"
-lxc start gateway
+lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/10.10.0/g' /etc/config/network" 
+lxc stop gateway && sleep 2 && lxc start gateway
+````
+````
+lxc exec gateway -- /bin/bash -c "wget -O-
+https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/3_LXD_Network_Gateway/aux/bin/run-openwrt-setup.sh | bash -x" && sleep 2 && lxc start gateway
 ````
 #### 10. LOGIN TO OpenWRT WebUI on 'WAN'    
 ###### CREDENTIALS: [USER:PASS] [root:admin]     
