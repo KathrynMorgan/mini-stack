@@ -21,7 +21,7 @@
 
 
 `lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys`    
-`lxc exec cloudctl bash`    
+`lxc ubuntu cloudctl`
 `juju add-cloud maasctl ~/.juju/maasctl.yaml`    
 `juju add-credential maasctl -f ~/.juju/credentials-maasctl.yaml`    
 `juju show-cloud maasctl`    
