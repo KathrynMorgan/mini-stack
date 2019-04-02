@@ -36,6 +36,10 @@ virt-install \
     --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
     --disk path=${storage_POOL}/${name_FULL}_vdb.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
     --disk path=${storage_POOL}/${name_FULL}_vdc.qcow2,format=raw,bus=virtio,cache=unsafe,size=32
+
+# Prevent the VM from pxe booting to autodiscovery in maas
+sleep 1 && virsh destroy ${name_FULL}
+
 }
 
 spawn_prep () {
