@@ -17,7 +17,8 @@ Prerequisites:
 #### Create New Virtual Machines & Tag as Juju OpenStack Targets
 ###### 01. Virt-Install new vm's
 ```
-wget -P /root/ https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/8_OpenStack_Prep/aux/virt-inst-stack.sh && chmod +x ~/virt-inst-stack.sh
+wget -P /root/ https://git.io/fjI2U
+chmod +x ~/virt-inst-stack.sh
 . ~/virt-inst-stack.sh
 ```
 
