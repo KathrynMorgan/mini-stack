@@ -12,7 +12,7 @@ vm_CPU=2
 storage_POOL="/var/lib/libvirt/images"
 
 # If set to 'true' will disable sleep interval between spawn loops
-run_FAST="false"
+run_FAST="true"
 
 spawn_build () {
 virt-install \
@@ -44,8 +44,6 @@ eth0_HWADDRESS=$(echo "${name_FULL} lan eth0" | md5sum \
 eth1_HWADDRESS=$(echo "${name_FULL} lan eth1" | md5sum \
     | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 eth2_HWADDRESS=$(echo "${name_FULL} lan eth2" | md5sum \
-    | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
-eth2_HWADDRESS=$(echo "${name_FULL} lan eth3" | md5sum \
     | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')
 }
 
