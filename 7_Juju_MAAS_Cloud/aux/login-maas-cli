@@ -19,7 +19,7 @@ API_KEY_FILE=~/.config/${PROFILE}-MAAS-API-KEY.txt
 
 ## Function to create $PROFILE Key File
 get_maas_key() {
-[[ -f /root/.config ]] || mkdir ~/.config
+[[ -f ~/.config ]] || mkdir ~/.config
 touch $API_KEY_FILE
 sudo maas-region apikey --username=$PROFILE | tee $API_KEY_FILE
 }
