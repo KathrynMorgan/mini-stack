@@ -15,14 +15,9 @@ echo "    Please configure a supported service with your username & ssh public k
     Supported options:
       GitHub     (enter 'gh')
       Launchpad  (enter 'lp')"
-read -p '    gh/lp : ' ssh_service_choice
+read -p '    gh/lp : ' ssh_service_choice 
+echo ""
 read -p '    username: ' ssh_uname_choice
-}
-
-pwd_prompt () {
-echo "    Please create a user password for this lab environment:
-      NOTE: this password will be encrypted in your mini-stack profile
-"
 }
 
 salt_pwd () {
@@ -39,11 +34,18 @@ read -sp '    Confirm New PWD:  ' chk_pwd
 salt_pwd
 }
 
+pwd_prompt () {
+echo "    Please create a user password for this lab environment:
+      NOTE: this password will be encrypted in your mini-stack profile
+"
+mk_pwd
+}
+
 write_profile () {
 cat <<EOF > ${profile_TARGET}
 export ccio_SSH_SERVICE=${ssh_service_choice}   # OPTIONS launchpad:lp github:gh
 export ccio_SSH_UNAME=${ssh_uname_choice}
-export ccio_PWD_SALT=${new_pwd}
+export ccio_PWD_SALT="${salted_PASSWORD}"
 echo ">>>> CCIO Profile Loaded!"
 EOF
 }
