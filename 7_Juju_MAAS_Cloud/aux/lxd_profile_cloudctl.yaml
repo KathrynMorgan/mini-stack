@@ -39,7 +39,7 @@ config:
               admin:
                 content:
                   auth-type: oauth1
-                  maas-oauth: maasctl_api_key
+                  maas-oauth: ${maasctl_api_key}
                 models:
                   default: admin
                   controller: admin
@@ -49,8 +49,8 @@ config:
       - [pip, install, python-openstackclient]
       - [snap, install, juju, "--classic"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
-      - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id lp:katamo"]
-      - [wget, "-P", "/usr/bin/", "https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/aux/login-maas-cli"]
+      - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id ${ssh_service}:${service_uname}"]
+      - [wget, "-P", "/usr/bin/", "https://git.io/fjLpC"]
       - [chmod, "+x", "/usr/bin/login-maas-cli"]
       - [virsh, net-destroy, default]
       - [virsh, net-undefine, default]
