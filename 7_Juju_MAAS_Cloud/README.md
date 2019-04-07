@@ -13,7 +13,7 @@
 ![CCIO Hypervisor - JujuCTL Cloud Controller](https://github.com/KathrynMorgan/mini-stack/blob/master/7_Juju_MAAS_Cloud/web/drawio/juju_maas_cloud_controller.svg)
 
 #### Instructions
-`wget -P /tmp/ https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/7_Juju_MAAS_Cloud/aux/lxd_profile_cloudctl.yaml`    
+`wget -O /tmp/lxd_profile_cloudctl.yaml https://git.io/fjLpl`    
 `export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin)`                                                      
 `lxc profile create cloudctl`    
 `lxc profile edit cloudctl < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" /tmp/lxd_profile_cloudctl.yaml)`    
