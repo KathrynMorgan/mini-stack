@@ -22,6 +22,12 @@ chmod +x ~/virt-inst-stack.sh
 . ~/virt-inst-stack.sh
 ```
 
+```
+```
+
+```
+wget -O- https://git.io/fjLpv 2>/dev/null | bash
+```
 
 <!-- Markdown link & img dfn's -->
 [Part_0 Host System Prep]: https://github.com/KathrynMorgan/mini-stack/tree/master/0_Host_System_Prep
