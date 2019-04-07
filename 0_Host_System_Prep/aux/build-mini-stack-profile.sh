@@ -19,10 +19,31 @@ read -p '    gh/lp : ' ssh_service_choice
 read -p '    username: ' ssh_uname_choice
 }
 
+pwd_prompt () {
+echo "    Please create a user password for this lab environment:
+      NOTE: this password will be encrypted in your mini-stack profile
+"
+}
+
+salt_pwd () {
+if [[ ${new_pwd} == ${chk_pwd} ]]; then
+    salted_PASSWORD=$(mkpasswd --method=SHA-512 --rounds=4096 ${new_pwd})
+elif [[ ${new_pwd} == ${chk_pwd} ]]; then
+    pwd_prompt
+fi
+}
+
+mk_pwd () {
+read -sp '    New Password:     ' new_pwd
+read -sp '    Confirm New PWD:  ' chk_pwd
+salt_pwd
+}
+
 write_profile () {
 cat <<EOF > ${profile_TARGET}
 export ccio_SSH_SERVICE=${ssh_service_choice}   # OPTIONS launchpad:lp github:gh
 export ccio_SSH_UNAME=${ssh_uname_choice}
+export ccio_PWD_SALT=${new_pwd}
 echo ">>>> CCIO Profile Loaded!"
 EOF
 }
@@ -51,6 +72,7 @@ done
 
 load_vars
 user_prompt
+pwd_prompt
 write_profile
 info_print
 req_source_profile

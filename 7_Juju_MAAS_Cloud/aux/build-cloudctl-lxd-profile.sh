@@ -50,7 +50,7 @@ config:
       - [pip, install, python-openstackclient]
       - [snap, install, juju, "--classic"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
-      - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id ${ssh_service}:${service_uname}"]
+      - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [wget, "-P", "/usr/bin/", "https://git.io/fjLpC"]
       - [chmod, "+x", "/usr/bin/login-maas-cli"]
       - [virsh, net-destroy, default]
