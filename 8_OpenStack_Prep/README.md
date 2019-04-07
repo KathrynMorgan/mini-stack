@@ -17,7 +17,7 @@ Prerequisites:
 #### Create New Virtual Machines & Tag as Juju OpenStack Targets
 ###### 01. Virt-Install new vm's
 ```
-wget -O /tmp/virt-inst-stack.sh https://git.io/fjLpT
+wget -O /tmp/virt-inst-stack-nodes.sh https://git.io/fjLpT
 source /tmp/virt-inst-stack.sh
 ```
   * NOTE: sane defaults set in script hardware profile section, adjust if required

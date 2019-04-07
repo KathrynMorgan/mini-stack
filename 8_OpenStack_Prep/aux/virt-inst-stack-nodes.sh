@@ -1,16 +1,16 @@
 #!/bin/bash
-#set -x
 
-# Set VM creation count
-vm_COUNT="03"
+#################################################################################
+# Hardware Profile
+vm_CPU=4
+osd_DISK=32    # in Gigabytes
+root_DISK=32   # in Gigabytes
+vm_RAM=10240   # in Megabytes
+vm_COUNT=03    # Set VM spawn count
+storage_POOL="/var/lib/libvirt/images"
 name_BASE="mini-stack"
 
-# Hardware Profile
-#vm_RAM=2048
-vm_RAM=4086
-vm_CPU=2
-storage_POOL="/var/lib/libvirt/images"
-
+#################################################################################
 # If set to 'true' will disable sleep interval between spawn loops
 run_FAST="true"
 
