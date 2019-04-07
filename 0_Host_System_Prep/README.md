@@ -2,14 +2,14 @@
 #### Pre-build steps for ease of use
 
 ```
+apt-get update && apt-get install -y whois vim lnav openssh-server linux-generic-hwe-18.04
+```
+```
 wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjLhZ
 source /tmp/build-mini-stack-profile.sh
-```
-
-```
-apt-get update && apt-get install -y vim lnav openssh-server linux-generic-hwe-18.04
 ssh-import-id ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
 ```
+
 ```
 sed -i 's/#HandleLidSwitch=suspend/HandleLidSwitch=ignore/g' /etc/systemd/logind.conf
 sed -i 's/#HandleLidSwitchDocked=ignore/HandleLidSwitchDocked=ignore/g' /etc/systemd/logind.conf
