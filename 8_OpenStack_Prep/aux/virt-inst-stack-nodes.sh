@@ -3,7 +3,7 @@
 
 # Set VM creation count
 vm_COUNT="03"
-name_BASE="stack"
+name_BASE="mini-stack"
 
 # Hardware Profile
 #vm_RAM=2048

@@ -19,7 +19,7 @@ done
 read_nodes () {
 stack_LIST=$(maas admin machines read \
 	    | jq '.[] | {hn:.hostname, system_id:.system_id}' --compact-output \
-	    | awk -F'[":,]' '/stack-../{print $11}')
+	    | awk -F'[":,]' '/mini-stack-../{print $11}')
 }
 
 read_nodes
