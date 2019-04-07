@@ -2,7 +2,8 @@
 #### Pre-build steps for ease of use
 
 ```
-wget -O- https://git.io/fjLhZ | bash
+wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjLhZ
+source /tmp/build-mini-stack-profile.sh
 ```
 
 ```
