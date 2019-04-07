@@ -1,3 +1,6 @@
+#!/bin/bash
+
+cat <<EOF >/tmp/curtin_userdata
 #cloud-config
 debconf_selections:
  maas: |
@@ -25,8 +28,9 @@ early_commands:
 {{endif}}
 late_commands:
   maas: [wget, '--no-proxy', {{node_disable_pxe_url|escape.json}}, '--post-data', {{node_disable_pxe_data|escape.json}}, '-O', '/dev/null']
-  add_user: ["curtin", "in-target", "--", "useradd", "-s", "/bin/bash", "-m", "-d", "/home/${ccio_SERVICE_UNAME}", "-p", "$6$rounds=4096$v3V18lL66N7nA$GUpsMNUEEmhVmslDOXofWtuMwnFwEOXI0.kXlpM7dSwwx9RLGafRURPGZUnbrHFFW5FEFlGH6Pru6yeLiJ/Wt1", "${ccio_SERVICE_UNAME}"]
+  add_user: ["curtin", "in-target", "--", "useradd", "-s", "/bin/bash", "-m", "-d", "/home/${ccio_SERVICE_UNAME}", "-p", "${ccio_PWD_SALT}", "${ccio_SERVICE_UNAME}"]
   add_user_sudoer: ["curtin", "in-target", "--", "/usr/sbin/usermod", "-aG", "sudo", "${ccio_SERVICE_UNAME}"]
+  add_user_keys: ["curtin", "in-target", "--", "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SERVICE_UNAME}"]
 {{if third_party_drivers and driver}}
   {{if driver['key_binary'] and driver['repository'] and driver['package']}}
   driver_00_key_get: curtin in-target -- sh -c "/bin/echo -en '{{key_string}}' > /tmp/maas-{{driver['package']}}.gpg"
@@ -42,3 +46,4 @@ late_commands:
   driver_06_depmod: ["curtin", "in-target", "--", "depmod"]
   driver_07_update_initramfs: ["curtin", "in-target", "--", "update-initramfs", "-u"]
 {{endif}}
+EOF

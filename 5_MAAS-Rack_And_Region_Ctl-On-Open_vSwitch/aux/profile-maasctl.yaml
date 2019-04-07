@@ -1,3 +1,4 @@
+cat <<EOF >/tmp/lxd_profile_maasctl.yaml
 config:
   raw.lxc: |-
     lxc.cgroup.devices.allow = c 10:237 rwm
@@ -20,7 +21,7 @@ config:
     timezone: Pacific/Honolulu
     package_upgrade: true
     ssh_import_id:
-      - lp:katamo
+      - ${ccio_SSH_SERVICE}:${ccio_SERVICE_UNAME}
     apt:
       preserve_sources_list: true
       sources:
@@ -40,9 +41,9 @@ config:
       - [adduser, maas, libvirtd]
       - [chsh, -s, /bin/bash, maas]
       - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
-      - [su, -l, maas, /bin/bash, -c, "ssh-import-id", "lp:katamo"]
+      - [su, -l, maas, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SERVICE_UNAME}"]
       - [echo, "10.10.0.2 mini-stack.maas mini-stack", ">>", "/etc/hosts"]
-      - [maas, createadmin, --username=admin, --password=admin, --email=admin, --ssh-import, "lp:katamo"]
+      - [maas, createadmin, --username=admin, --password=admin, --email=admin, --ssh-import, "${ccio_SSH_SERVICE}:${ccio_SERVICE_UNAME}"]
       - [virsh, pool-define-as, default, dir, --target, /var/lib/libvirt/images/]
       - [virsh, pool-autostart, default]
       - [virsh, pool-start, default]
@@ -93,3 +94,4 @@ devices:
     pool: default
     type: disk
 name: maasctl
+EOF
