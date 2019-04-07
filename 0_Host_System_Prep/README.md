@@ -22,6 +22,10 @@ mkdir /etc/default/grub.d
 wget -P /etc/default/grub.d/ https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/0_Host_System_Prep/aux/libvirt-grub.cfg
 update-grub
 ```
+# Write ccio:mini-stack profile
+```
+mkdir -p ~/.config/ccio/mini-stack/
+```
 ```
 reboot
 ```

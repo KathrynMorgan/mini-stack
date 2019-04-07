@@ -73,3 +73,7 @@ devices:
     type: disk
 name: cloudctl container profile
 EOF
+
+lxc profile create cloudctl
+lxc profile edit cloudctl < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" /tmp/lxd_profile_cloudctl.yaml)
+
