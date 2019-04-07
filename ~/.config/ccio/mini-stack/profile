@@ -1,3 +1,0 @@
-export ssh_service=lp   # OPTIONS launchpad:lp github:gh
-export ssh_uname=gh
-echo ">>>> CCIO Profile Loaded!"
