@@ -32,7 +32,6 @@ virt-install \
     --network network=lan,model=virtio,mac=${eth0_HWADDRESS} \
     --network network=lan,model=virtio,mac=${eth1_HWADDRESS} \
     --network network=lan,model=virtio,mac=${eth2_HWADDRESS} \
-    --network network=lan,model=virtio,mac=${eth3_HWADDRESS} \
     --disk path=${storage_POOL}/${name_FULL}_vda.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
     --disk path=${storage_POOL}/${name_FULL}_vdb.qcow2,format=raw,bus=virtio,cache=unsafe,size=32 \
     --disk path=${storage_POOL}/${name_FULL}_vdc.qcow2,format=raw,bus=virtio,cache=unsafe,size=32
