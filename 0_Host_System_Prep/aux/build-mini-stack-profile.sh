@@ -5,10 +5,10 @@ project_NAME="mini-stack"
 base_PATH="$HOME/.config/ccio"
 full_PATH="${base_PATH}/${project_NAME}"
 profile_TARGET="${full_PATH}/profile"
-}
 
 # Check/Create Directory Path
 [[ -f ${full_PATH} ]] || mkdir -p ${full_PATH}
+}
 
 user_prompt () {
 echo "    Please configure a supported service with your username & ssh public keys
