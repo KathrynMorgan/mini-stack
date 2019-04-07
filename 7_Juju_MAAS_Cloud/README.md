@@ -15,10 +15,7 @@
 #### Instructions
 `export maasctl_api_key=$(lxc exec maasctl -- maas-region apikey --username=admin)`    
 `wget -O- https://git.io/fjLp4 2>/dev/null | bash`      
-`lxc profile create cloudctl`    
-`lxc profile edit cloudctl < <(sed "s/maasctl_api_key/${maasctl_api_key}/g" /tmp/lxd_profile_cloudctl.yaml)`    
 `lxc launch ubuntu:bionic cloudctl -p cloudctl`    
-
 
 `lxc exec cloudctl -- /bin/bash -c "cat /home/ubuntu/.ssh/id_rsa.pub" >>/root/.ssh/authorized_keys`     
 `lxc ubuntu cloudctl`    
