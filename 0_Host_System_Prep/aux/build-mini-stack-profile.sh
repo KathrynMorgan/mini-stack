@@ -21,7 +21,7 @@ read -p '    username: ' ssh_uname_choice
 
 write_profile () {
 cat <<EOF > ${profile_TARGET}
-export ccio_ssh_SERVICE=${ssh_service_choice}   # OPTIONS launchpad:lp github:gh
+export ccio_SSH_SERVICE=${ssh_service_choice}   # OPTIONS launchpad:lp github:gh
 export ccio_SSH_UNAME=${ssh_uname_choice}
 echo ">>>> CCIO Profile Loaded!"
 EOF

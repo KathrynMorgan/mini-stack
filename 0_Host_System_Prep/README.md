@@ -8,7 +8,7 @@ source /tmp/build-mini-stack-profile.sh
 
 ```
 apt-get update && apt-get install -y vim lnav openssh-server linux-generic-hwe-18.04
-ssh-import-id lp:katamo
+ssh-import-id ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
 ```
 ```
 sed -i 's/#HandleLidSwitch=suspend/HandleLidSwitch=ignore/g' /etc/systemd/logind.conf
