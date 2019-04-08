@@ -10,7 +10,7 @@ Prerequisites:
 ![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/3_LXD_Network_Gateway/web/drawio/lxd-gateway.svg)
 
 -------
-#### 01. Add BCIO Remote LXD Image Repo
+#### 01. Add the BCIO Remote LXD Image Repo
 ````sh
 lxc remote add bcio https://images.braincraft.io --public --accept-certificate
 ````
@@ -90,7 +90,7 @@ lxc profile device set default eth0 parent lan
 ````
 
 -------
-#### OPTIONAL: Enable your new 'lan' network on a physical port. (Example: eth1)
+#### OPTIONAL: Enable your new 'lan' network on a physical port. (EG: eth1)
 ````sh
 export lan_NIC="eth1"
 ````
