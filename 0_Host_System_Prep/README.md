@@ -1,5 +1,4 @@
 # Part 0 -- Host System Preparation
-#### Pre-build steps for ease of use
 
 ###### 00. Review checklist of prerequisites:
   1. You have a fresh install of Ubuntu 18.04 LTS on a machine whith no critical data or services on it
@@ -36,11 +35,7 @@ mkdir /etc/default/grub.d
 wget -O /etc/default/grub.d/libvirt.cfg https://git.io/fjtnT
 update-grub
 ```
-###### 07. Write ccio:mini-stack profile
-```
-mkdir -p ~/.config/ccio/mini-stack/
-```
-###### 08. Reboot
+###### 07. Reboot
 -------
 ###### OPTIONAL 01. Disable default GUI startup on Desktop OS
   NOTE: Use command `startx` to manually start full GUI environment at will
