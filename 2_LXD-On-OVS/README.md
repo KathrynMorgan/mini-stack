@@ -1,26 +1,26 @@
 # Part 2 -- LXD On Open vSwitch Network
-###### Install and Configure LXD on a default Open vSwitch Network Bridge
-###### NOTE: This will expose containers on your LAN by default
+##### Install and Configure LXD on a default Open vSwitch Network Bridge
+NOTE: This will expose container networking on your LAN by default    
 
+-------
 Prerequisites:
 - [Part_0 Host System Prep]
 - [Part_1 Single Port Host OVS Network]
 
 ![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/2_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg)
 
-## Instructions:
-#### 1. Install LXD Packages
+-------
+###### 01. Install LXD Packages
 ````sh
 apt install -y lxd squashfuse zfsutils-linux btrfs-tools && sudo modprobe zfs
 ````
 
-#### 3. Initialize LXD
-With example enswers
+###### 02. Initialize LXD
 ````sh
 sudo lxd init
 ````
 ###### Example Interactive Init
-````
+````sh
 root@bionic:~# lxd init
 Would you like to use LXD clustering? (yes/no) [default=no]: no
 Do you want to configure a new storage pool? (yes/no) [default=yes]: yes
@@ -38,51 +38,54 @@ Again:
 Would you like stale cached images to be updated automatically? (yes/no) [default=yes] yes
 Would you like a YAML "lxd init" preseed to be printed? (yes/no) [default=no]: yes
 ````
-#### 4. Add your user(s) to the 'lxd' group with the following syntax for each user
-Replace '$USERNAME' with your user name
+###### 03. Add your user(s) to the 'lxd' group with the following syntax for each user
+Use your non-root host user name (EG: 'ubuntu')
 ````sh
-sudo usermod -aG lxd $USERNAME
+sudo usermod -aG lxd ubuntu
 ````
-#### 5. Backup the original lxc profile
-````
+###### 04. Backup the original lxc profile
+````sh
 lxc profile copy default original
 ````
-#### PROTIP: Launch Containers & check Configurations
-###### Exhibit(A): Add cloud-init user-data to your default profile
-###### Download the example, edit, then apply as follows
-````
-update-alternatives --set editor /usr/bin/vim.basic
-lxc profile edit default
-````
-````
-wget https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/2_LXD-On-OVS/aux/example-default-profile.yaml
-vim example-default-profile.yaml
-lxc profile edit default < example-default-profile.yaml
-````
-###### Exhibit(B): Add 'lxc' command alias 'ubuntu' to auto login to containers as user 'ubuntu'
-````
+###### 05. Add 'lxc' command alias 'ubuntu' to auto login to containers as user 'ubuntu'
+````sh
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' .config/lxc/config.yml
-lxc ubuntu ${container_NAME}
 ````
-###### Exhibit(B): Launch Containers
+-------
+#### PROTIP: Add User-Data && Launch Containers && check Configurations
+###### Exhibit(A) Add cloud-init user-data to your default profile
+Download the example, edit, then apply as follows
+````sh
+wget -O /tmp/lxd-default-profile-example.yaml https://git.io/fjtnS
+vim /tmp/lxd-default-profile-example.yaml
+lxc profile edit default < /tmp/lxd-default-profile-example.yaml
 ````
-lxc launch ubuntu: c01
-lxc launch ubuntu:bionic test-bioinic
+###### Exhibit(B) Launch && Acquire Shell / Exit Shell && Delete Containers
+````sh
+lxc launch ubuntu:bionic c01
 lxc launch images:centos/7 test-centos
 lxc launch images:fedora/28 test-fedora
-lxc exec c01 bash
-````
 
-#### Exhibit(C): Check LXD Configurations
-````sh
 lxc list
+
+lxc exec c01 bash
+exit
+
+lxc delete test-bionic --force
+lxc delete test-centos --force
+lxc delete test-fedora --force
+````
+###### Exhibit(C) Check LXD Configurations
+````sh
 lxc network list
 lxc network show wan
+
 lxc profile list
 lxc profile show default
+
 lxc config show c01
 ````
-
+-------
 ## Next sections
 - [PART_3 LXD Gateway & Firwall for Open vSwitch Network Isolation]
 - [Part_4 KVM On Open vSwitch]
