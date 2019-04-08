@@ -32,7 +32,7 @@ NOTE: dhcp services are dependent on completion of full image sync. Please wait 
  4. Click "maasctl.maas"    
  5. services should all be 'green' excluding dhcp* & ntp*    
 
-#### 04. Reboot and confirm MAAS WebUI & MAAS Region+Rack controller are all healthy
+#### 04. Reboot and confirm MAAS WebUI & MAAS Region+Rack controller services are all healthy again
 
 -------
 ## Next sections
