@@ -16,11 +16,11 @@ Prerequisites:
 # Instructions:
 Create New Virtual Machines & Tag as Juju OpenStack Targets
 #### 01. Virt-Install new vm's
+NOTE: sane defaults set in script hardware profile section, adjust if required
 ```
 wget -O /tmp/virt-inst-stack-nodes.sh https://git.io/fjLpT
 source /tmp/virt-inst-stack.sh
 ```
-  * NOTE: sane defaults set in script hardware profile section, adjust if required
 
 #### 02. Discover new KVM VIrtual Machines via PODS Refresh
 ```
