@@ -1,39 +1,58 @@
-# Part 0 -- Host System Preparations
+# Part 0 -- Host System Preparation
 #### Pre-build steps for ease of use
 
+###### 00. Review checklist of prerequisites:
+  1. You have a fresh install of Ubuntu 18.04 LTS on a machine whith no critical data or services on it
+  2. You are familiar with and able to ssh between machines
+  3. You have an ssh key pair, and uploaded the public key to your Launchpad and/or Github account
+  4. Run all prep commands as root
+
+###### 01. Install helper packages
 ```
 apt-get update && apt-get install -y whois vim lnav openssh-server linux-generic-hwe-18.04
 ```
+###### 02. Create host CCIO Profile Configuration
 ```
 wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjLhZ
 source /tmp/build-mini-stack-profile.sh
+```
+###### 03. Import your ssh pub key
+```
 ssh-import-id ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
 ```
-
+###### 04. Enable root user ssh login
 ```
-sed -i 's/#HandleLidSwitch=suspend/HandleLidSwitch=ignore/g' /etc/systemd/logind.conf
-sed -i 's/#HandleLidSwitchDocked=ignore/HandleLidSwitchDocked=ignore/g' /etc/systemd/logind.conf
+sed -i 's/^PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
 sed -i 's/^#PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
-sed -i 's/^ChallengeResponseAuthentication.*/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
-sed -i 's/^#ChallengeResponseAuthentication.*/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
+systemctl restart sshd
 ```
+###### 05. Replace limited root bashrc
 ```
 cp -f /etc/skel/.bashrc /root/.bashrc
-systemctl set-default multi-user.target
 ```
+###### 06. Enable PCI Passthrough && Nested Virtual Machines && Revert NIC Interface Naming
 ```
 mkdir /etc/default/grub.d
-wget -P /etc/default/grub.d/ https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/0_Host_System_Prep/aux/libvirt-grub.cfg
+wget -O /etc/default/grub.d/libvirt.cfg https://git.io/fjtnT
 update-grub
 ```
-# Write ccio:mini-stack profile
+###### 07. Write ccio:mini-stack profile
 ```
 mkdir -p ~/.config/ccio/mini-stack/
 ```
+###### 08. Reboot
+-------
+###### OPTIONAL 01. Disable default GUI startup on Desktop OS
+  NOTE: Use command `startx` to manually start full GUI environment at will
 ```
-reboot
+systemctl set-default multi-user.target
 ```
-
+###### OPTIONAL 02. Disable Lid Switch Power/Suspend features if building on a laptop
+```
+sed -i 's/^#HandleLidSwitch=suspend/HandleLidSwitch=ignore/g' /etc/systemd/logind.conf
+sed -i 's/^#HandleLidSwitchDocked=ignore/HandleLidSwitchDocked=ignore/g' /etc/systemd/logind.conf
+```
+-------
 ## Next sections
 - [Part_1 Single Port Host Open vSwitch Network Configuration]
 - [Part_2 LXD On Open vSwitch Network]
