@@ -35,9 +35,9 @@
 `juju gui`    
 
 #### PRACTICE(B) Test adding new machines on your cloud
-  01. Add 2 Libvirt guests configured with 2 cores and 2GB RAM
+  01. Add 2 Libvirt guests configured with 2 cores and 2GB RAM    
 `juju add-machine -n 2 --constraints "cores=2 mem=2G"`     
-  02. Add 2 new lxd container
+  02. Add 2 new lxd container    
 `juju add-machine lxd:0`    
 
 -------
