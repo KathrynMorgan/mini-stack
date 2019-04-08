@@ -25,7 +25,7 @@ lxc launch ubuntu:bionic maasctl -p maasctl
 lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
 ````
 #### 03. Login to WebUI && Confirm region and rack controller(s) show healthy
-NOTE: dhcp services are dependent on completion of rac controller image sync. Be sure to wait till image download & sync has finished, and the service has had time to start    
+NOTE: dhcp services are dependent on completion of full image sync. Be sure to wait till image download & sync has finished.
  1. Browse to your maas WebUI @ http://{openwrt-gateway-pub-ip}:5240/MAAS     
  2. click 'skip' through on-screen setup prompts (this was already done via cli)    
  3. Click "Controllers" tab    
