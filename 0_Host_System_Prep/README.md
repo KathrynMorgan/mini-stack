@@ -37,12 +37,12 @@ update-grub
 ```
 ###### 07. Reboot
 -------
-###### OPTIONAL 01. Disable default GUI startup on Desktop OS
+##### OPTIONAL 01. Disable default GUI startup on Desktop OS
   NOTE: Use command `startx` to manually start full GUI environment at will
 ```
 systemctl set-default multi-user.target
 ```
-###### OPTIONAL 02. Disable Lid Switch Power/Suspend features if building on a laptop
+##### OPTIONAL 02. Disable Lid Switch Power/Suspend features if building on a laptop
 ```
 sed -i 's/^#HandleLidSwitch=suspend/HandleLidSwitch=ignore/g' /etc/systemd/logind.conf
 sed -i 's/^#HandleLidSwitchDocked=ignore/HandleLidSwitchDocked=ignore/g' /etc/systemd/logind.conf

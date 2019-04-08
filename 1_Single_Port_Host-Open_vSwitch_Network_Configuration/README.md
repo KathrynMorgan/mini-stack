@@ -1,10 +1,10 @@
 # Part 1 -- Single Port Host Open vSwitch Network Configuration
 #### Provision a host virtual entry network viable for cloud scale emulation and testing.
+WARNING: Exercise caution when performing this procedure remotely as this may cause loss of connectivity.    
 
+-------
 ## Prerequisites:
 - [Part_0 Host System Prep]
- 
-WARNING: Exercise caution when performing this proceedure remotely as this may cause loss of connectivity.    
 
 >
 > Overview of Steps:
@@ -16,14 +16,29 @@ WARNING: Exercise caution when performing this proceedure remotely as this may c
 
 ![CCIO_Hypervisor-mini_Stack_Diagram](https://github.com/KathrynMorgan/mini-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
 
-## Instructions:
-#### 1. Update system && Install Packages
+-------
+###### 01. Update system && Install Packages
+```sh
+apt install -y openvswitch-switch
 ```
-apt update && apt install -y openvswitch-switch
+###### 02. Write physical network ingress port Networkd Config [EG: 'eth0']
+NOTE: export name of nic device your primary host network traffic will traverse (EG: 'eth0' in this example)
+```sh
+export wan_NIC="eth0"
 ```
+```sh
+cat <<EOF >/etc/systemd/network/${wan_NIC}.network                                                    
+[Match]
+Name=${wan_NIC}
 
-#### 2. Create OVS  'wan'  Bridge Networkd Config
-````
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+LinkLocalAddressing=no
+EOF
+```
+###### 03. Write OVS  Bridge 'wan' Networkd Config
+```sh
 cat <<EOF > /etc/systemd/network/wan.network                                                    
 [Match]
 Name=wan
@@ -33,32 +48,16 @@ DHCP=no
 IPv6AcceptRA=no
 LinkLocalAddressing=no
 EOF
-````
+```
 
-#### 3. Write Networkd config for physical network access: [EG: 'eth0']
-```sh
-export wan_NIC="eth0"
-````
-````
-cat <<EOF > /etc/systemd/network/${wan_NIC}.network                                                    
-[Match]
-Name=${wan_NIC}
-
-[Network]
-DHCP=no
-IPv6AcceptRA=no
-LinkLocalAddressing=no
-EOF
-````
-
-#### 4. Disable original Netplan Config & Write mgmt0 interface netplan config
+###### 04. Disable original Netplan Config & Write mgmt0 interface netplan config
 ````sh
-for i in $( ls /etc/netplan/  ); do sed -i 's/^/#/g' /etc/netplan/$i ; done
+for yaml in $(ls /etc/netplan/); do sed -i 's/^/#/g' /etc/netplan/${yaml}; done
 ````
-````
-cat <<EOF > /etc/netplan/80-mgmt0.yaml
-# Configure mgmt0 on 'wan' bridge
+````sh
+cat <<EOF >/etc/netplan/80-mgmt0.yaml
 # For more configuration examples, see: https://netplan.io/examples                                                   
+# OVS 'wan' Bridge Port 'mgmt0' Configuration
 network:
   version: 2
   renderer: networkd
@@ -72,37 +71,33 @@ network:
         addresses: [$(ip r | awk '/default /{print $3}')]
 EOF
 ````
-
-#### 5. Apply configuration
-````
+###### 05. Build OVS Bridge, mgmt0 port, and apply configuration
+````sh
 cat <<EOF >/tmp/net_restart.sh
 net_restart () {
-
 ovs-vsctl \
   add-br wan -- \
   add-port wan ${wan_NIC} -- \
   add-port wan mgmt0 -- \
   set interface mgmt0 type=internal -- \
-  set interface mgmt0 mac="$(echo "$HOSTNAME wan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
-
+  set interface mgmt0 mac="$(echo "${HOSTNAME} wan mgmt0" | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02\\:\1\\:\2\\:\3\\:\4\\:\5/')"
 systemctl restart systemd-networkd.service && netplan apply --debug
-
 ovs-vsctl show
 }
 net_restart
 EOF
 ````
-````
-source /tmp/net_restart.sh 
-````
-
-#### 6. Add OVS Orphan Port Cleaning Utility
 ````sh
-wget -O /usr/bin/ovs-clear https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/aux/ovs-clear && chmod +x /usr/bin/ovs-clear
+source /tmp/net_restart.sh
 ````
-
-#### PROTIP: Useful Commands
+###### 06. Add OVS Orphan Port Cleaning Utility
+NOTE: Use command `ovs-clear` to remove orphaned 'not found' ports as needed
+````sh
+wget -O /usr/bin/ovs-clear https://git.io/fjtnB && chmod +x /usr/bin/ovs-clear
 ````
+-------
+#### CHEAT: Useful Commands for troubleshooting
+````sh
 ip r
 ip a s
 ovs-vsctl show
