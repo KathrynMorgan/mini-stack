@@ -48,6 +48,7 @@ config:
       - [apt-get, autoremove, "-y"]
       - [pip, install, python-openstackclient]
       - [snap, install, juju, "--classic"]
+      - [snap, install, kubectl, "--classic"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id ${ssh_service}:${service_uname}"]
       - [wget, "-P", "/usr/bin/", "https://git.io/fjLpC"]

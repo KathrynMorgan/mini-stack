@@ -1,0 +1,204 @@
+﻿series: bionic
+applications:
+  easyrsa:
+    charm: 'cs:~containers/easyrsa-231'
+    num_units: 1
+    constraints: root-disk=8192
+    series: bionic
+    annotations:
+      gui-x: '450'
+      gui-y: '550'
+    to:
+      - 'lxd:kubernetes-master/0'
+  flannel:
+    charm: 'cs:~containers/flannel-398'
+    series: bionic
+    annotations:
+      gui-x: '450'
+      gui-y: '750'
+  kubeapi-load-balancer:
+    charm: 'cs:~containers/kubeapi-load-balancer-617'
+    num_units: 1
+    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    expose: true
+    series: bionic
+    annotations:
+      gui-x: '450'
+      gui-y: '250'
+    to:
+      - 'lxd:kubernetes-master/1'
+  etcd:
+    charm: 'cs:~containers/etcd-411'
+    num_units: 3
+    options:
+      channel: 3.2/stable
+    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    series: bionic
+    annotations:
+      gui-x: '800'
+      gui-y: '550'
+    to:
+      - 'lxd:kubernetes-master/0'
+      - 'lxd:kubernetes-master/1'
+      - 'lxd:kubernetes-master/2'
+  kubernetes-worker:
+    charm: 'cs:~containers/kubernetes-worker-508'
+    num_units: 3
+    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    expose: true
+    series: bionic
+    annotations:
+      gui-x: '100'
+      gui-y: '850'
+    to:
+      - '0'
+      - '1'
+      - '2'
+  kubernetes-master:
+    charm: 'cs:~containers/kubernetes-master-642'
+    num_units: 3
+    options:
+      audit-policy: |-
+        apiVersion: audit.k8s.io/v1beta1
+        kind: Policy
+        rules:
+        # Don't log read-only requests from the apiserver
+        - level: None
+          users: ["system:apiserver"]
+          verbs: ["get", "list", "watch"]
+        # Don't log kube-proxy watches
+        - level: None
+          users: ["system:kube-proxy"]
+          verbs: ["watch"]
+          resources:
+          - resources: ["endpoints", "services"]
+        # Don't log nodes getting their own status
+        - level: None
+          userGroups: ["system:nodes"]
+          verbs: ["get"]
+          resources:
+          - resources: ["nodes"]
+        # Don't log kube-controller-manager and kube-scheduler getting endpoints
+        - level: None
+          users: ["system:unsecured"]
+          namespaces: ["kube-system"]
+          verbs: ["get"]
+          resources:
+          - resources: ["endpoints"]
+        # Log everything else at the Request level.
+        - level: Request
+          omitStages:
+          - RequestReceived
+      client_password: admin
+      dashboard-auth: basic
+      dns_domain: mini-k8s.maas
+      keystone-policy: |-
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: k8s-auth-policy
+          namespace: kube-system
+          labels:
+            k8s-app: k8s-keystone-auth
+        data:
+          policies: |
+            [
+              {
+               "resource": {
+                  "verbs": ["get", "list", "watch"],
+                  "resources": ["*"],
+                  "version": "*",
+                  "namespace": "*"
+                },
+                "match": [
+                  {
+                    "type": "role",
+                    "values": ["k8s-viewers"]
+                  },
+                  {
+                    "type": "project",
+                    "values": ["k8s"]
+                  }
+                ]
+              },
+              {
+               "resource": {
+                  "verbs": ["*"],
+                  "resources": ["*"],
+                  "version": "*",
+                  "namespace": "default"
+                },
+                "match": [
+                  {
+                    "type": "role",
+                    "values": ["k8s-users"]
+                  },
+                  {
+                    "type": "project",
+                    "values": ["k8s"]
+                  }
+                ]
+              },
+              {
+               "resource": {
+                  "verbs": ["*"],
+                  "resources": ["*"],
+                  "version": "*",
+                  "namespace": "*"
+                },
+                "match": [
+                  {
+                    "type": "role",
+                    "values": ["k8s-admins"]
+                  },
+                  {
+                    "type": "project",
+                    "values": ["k8s"]
+                  }
+                ]
+              }
+            ]
+    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+    series: bionic
+    annotations:
+      gui-x: '800'
+      gui-y: '850'
+    to:
+      - '0'
+      - '1'
+      - '2'
+relations:
+  - - 'kubernetes-master:etcd'
+    - 'etcd:db'
+  - - 'kubernetes-worker:certificates'
+    - 'easyrsa:client'
+  - - 'kubernetes-master:certificates'
+    - 'easyrsa:client'
+  - - 'flannel:cni'
+    - 'kubernetes-worker:cni'
+  - - 'kubernetes-worker:kube-api-endpoint'
+    - 'kubeapi-load-balancer:website'
+  - - 'kubernetes-master:kube-control'
+    - 'kubernetes-worker:kube-control'
+  - - 'kubernetes-master:kube-api-endpoint'
+    - 'kubeapi-load-balancer:apiserver'
+  - - 'kubernetes-master:loadbalancer'
+    - 'kubeapi-load-balancer:loadbalancer'
+  - - 'flannel:cni'
+    - 'kubernetes-master:cni'
+  - - 'flannel:etcd'
+    - 'etcd:db'
+  - - 'etcd:certificates'
+    - 'easyrsa:client'
+  - - 'kubeapi-load-balancer:certificates'
+    - 'easyrsa:client'
+machines:
+  '0':
+    series: bionic
+    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+  '1':
+    series: bionic
+    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
+  '2':
+    series: bionic
+    constraints: tags=mini-k8s arch=amd64 cpu-cores=4 mem=10240
