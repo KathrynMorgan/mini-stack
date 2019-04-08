@@ -25,7 +25,7 @@
 #### 03. Add Cloud to CloudCTL
 `lxc ubuntu cloudctl`    
 `juju add-cloud maasctl ~/.juju/maasctl.yaml`     
-`juju add-credential maasctl`
+`juju add-credential maasctl`    
 `juju show-cloud maasctl`    
 
 #### 04. Bootstrap a Juju controller
