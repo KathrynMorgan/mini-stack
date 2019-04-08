@@ -10,12 +10,12 @@ Prerequisites:
 ![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/2_LXD-On-OVS/web/drawio/lxd-on-openvswitch.svg)
 
 -------
-###### 01. Install LXD Packages
+#### 01. Install LXD Packages
 ````sh
 apt install -y lxd squashfuse zfsutils-linux btrfs-tools && sudo modprobe zfs
 ````
 
-###### 02. Initialize LXD
+#### 02. Initialize LXD
 ````sh
 sudo lxd init
 ````
@@ -38,29 +38,29 @@ Again:
 Would you like stale cached images to be updated automatically? (yes/no) [default=yes] yes
 Would you like a YAML "lxd init" preseed to be printed? (yes/no) [default=no]: yes
 ````
-###### 03. Add your user(s) to the 'lxd' group with the following syntax for each user
+#### 03. Add your user(s) to the 'lxd' group with the following syntax for each user
 Use your non-root host user name (EG: 'ubuntu')
 ````sh
 sudo usermod -aG lxd ubuntu
 ````
-###### 04. Backup the original lxc profile
+#### 04. Backup the original lxc profile
 ````sh
 lxc profile copy default original
 ````
-###### 05. Add 'lxc' command alias 'ubuntu' to auto login to containers as user 'ubuntu'
+#### 05. Add 'lxc' command alias 'ubuntu' to auto login to containers as user 'ubuntu'
 ````sh
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' .config/lxc/config.yml
 ````
 -------
 #### PROTIP: Add User-Data && Launch Containers && check Configurations
-###### Exhibit(A) Add cloud-init user-data to your default profile
+##### Exhibit(A) Add cloud-init user-data to your default profile
 Download the example, edit, then apply as follows
 ````sh
 wget -O /tmp/lxd-default-profile-example.yaml https://git.io/fjtnS
 vim /tmp/lxd-default-profile-example.yaml
 lxc profile edit default < /tmp/lxd-default-profile-example.yaml
 ````
-###### Exhibit(B) Launch && Acquire Shell / Exit Shell && Delete Containers
+##### Exhibit(B) Launch && Acquire Shell / Exit Shell && Delete Containers
 ````sh
 lxc launch ubuntu:bionic c01
 lxc launch images:centos/7 test-centos

@@ -17,11 +17,11 @@ WARNING: Exercise caution when performing this procedure remotely as this may ca
 ![CCIO_Hypervisor-mini_Stack_Diagram](https://github.com/KathrynMorgan/mini-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
 
 -------
-###### 01. Update system && Install Packages
+#### 01. Update system && Install Packages
 ```sh
 apt install -y openvswitch-switch
 ```
-###### 02. Write physical network ingress port Networkd Config [EG: 'eth0']
+#### 02. Write physical network ingress port Networkd Config [EG: 'eth0']
 NOTE: export name of nic device your primary host network traffic will traverse (EG: 'eth0' in this example)
 ```sh
 export wan_NIC="eth0"
@@ -37,7 +37,7 @@ IPv6AcceptRA=no
 LinkLocalAddressing=no
 EOF
 ```
-###### 03. Write OVS  Bridge 'wan' Networkd Config
+#### 03. Write OVS  Bridge 'wan' Networkd Config
 ```sh
 cat <<EOF > /etc/systemd/network/wan.network                                                    
 [Match]
@@ -50,7 +50,7 @@ LinkLocalAddressing=no
 EOF
 ```
 
-###### 04. Disable original Netplan Config & Write mgmt0 interface netplan config
+#### 04. Disable original Netplan Config & Write mgmt0 interface netplan config
 ````sh
 for yaml in $(ls /etc/netplan/); do sed -i 's/^/#/g' /etc/netplan/${yaml}; done
 ````
@@ -71,7 +71,7 @@ network:
         addresses: [$(ip r | awk '/default /{print $3}')]
 EOF
 ````
-###### 05. Build OVS Bridge, mgmt0 port, and apply configuration
+#### 05. Build OVS Bridge, mgmt0 port, and apply configuration
 ````sh
 cat <<EOF >/tmp/net_restart.sh
 net_restart () {
@@ -90,7 +90,7 @@ EOF
 ````sh
 source /tmp/net_restart.sh
 ````
-###### 06. Add OVS Orphan Port Cleaning Utility
+#### 06. Add OVS Orphan Port Cleaning Utility
 NOTE: Use command `ovs-clear` to remove orphaned 'not found' ports as needed
 ````sh
 wget -O /usr/bin/ovs-clear https://git.io/fjtnB && chmod +x /usr/bin/ovs-clear
