@@ -14,16 +14,18 @@ Prerequisites:
 -------
 #### 01. Create maas container profile
 ````sh
-wget -O /tmp/profile-maasctl.yaml https://raw.githubusercontent.com/KathrynMorgan/mini-stack/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/aux/profile-maasctl.yaml
-lxc profile create maasctl && lxc profile edit maasctl </tmp/profile-maasctl.yaml
+wget -O /tmp/lxd-profile-maasctl.yaml https://git.io/fjtcz
+lxc profile create maasctl
+lxc profile edit maasctl </tmp/lxd-profile-maasctl.yaml
 ````
 #### 02. Create 'maasctl' Ubuntu Bionic LXD Container
+NOTE: Build time is dependent on hardware & network specs, monitor logs until build is complete
 ````sh
 lxc launch ubuntu:bionic maasctl -p maasctl
 lxc exec maasctl -- tail -f /var/log/cloud-init-output.log
 ````
 #### 03. Login to WebUI && Confirm region and rack controller(s) show healthy
-###### NOTE: dhcp services are dependent on completion of rac controller image sync. Be sure to wait till image download & sync has finished, and the service has had time to start.
+NOTE: dhcp services are dependent on completion of rac controller image sync. Be sure to wait till image download & sync has finished, and the service has had time to start.
  0. Browse to your maas WebUI @ http://{openwrt-gateway-pub-ip}:5240/MAAS
  1. click 'skip' through on-screen setup prompts (this was already done via cli)
  2. Click "Controllers" tab
