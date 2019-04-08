@@ -14,20 +14,20 @@ Prerequisites:
 ![CCIO Hypervisor - OpenStack Prep](https://github.com/KathrynMorgan/mini-stack/blob/master/8_OpenStack_Prep/web/drawio/OpenStack-Prep.svg)
 
 # Instructions:
-#### Create New Virtual Machines & Tag as Juju OpenStack Targets
-###### 01. Virt-Install new vm's
+Create New Virtual Machines & Tag as Juju OpenStack Targets
+#### 01. Virt-Install new vm's
 ```
 wget -O /tmp/virt-inst-stack-nodes.sh https://git.io/fjLpT
 source /tmp/virt-inst-stack.sh
 ```
   * NOTE: sane defaults set in script hardware profile section, adjust if required
 
-###### 02. Discover new KVM VIrtual Machines via PODS Refresh
+#### 02. Discover new KVM VIrtual Machines via PODS Refresh
 ```
 wget -O- https://git.io/fjLpv 2>/dev/null | bash
 ```
 
-###### 03. Tag new mini-stack nodes
+#### 03. Tag new mini-stack nodes
 ```
 wget -O- https://git.io/fjLpJ 2>/dev/null | bash
 ```
