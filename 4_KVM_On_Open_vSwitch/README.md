@@ -6,7 +6,7 @@ Prerequisites:
 - [Part_0 Host System Prep]
 - [Part_1 Single Port Host OVS Network]
 - [Part_2 LXD On Open vSwitch Network]
-- [Part_3 LXD Gateway OVS Network]
+- [PART_3 LXD Gateway & Firwall for Open vSwitch Network Isolation]
 
 ![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/4_KVM_On_Open_vSwitch/web/drawio/kvm-on-open-vswitch.svg)
 
