@@ -72,8 +72,7 @@ lxc exec gateway -- /bin/bash -c "sed -i 's/192.168.1/10.10.0/g' /etc/config/net
 lxc exec gateway -- /bin/bash -c "wget -O- https://git.io/fjtcf | bash -x" && sleep 2 && lxc start gateway
 ````
 #### 08. Test OpenWRT WebUI Login on 'WAN' IP Address    
-###### CREDENTIALS: [USER:PASS] [root:admin]     
-[http://gateway_wan_ip_addr:8080/](http://gateway_wan_ip_addr:8080/)
+###### CREDENTIALS: [USER:PASS] [root:admin] -- [http://gateway_wan_ip_addr:8080/](http://gateway_wan_ip_addr:8080/)
 
 #### 09. Remove mgmt0 default route && Reload host network configuration
 ````sh
