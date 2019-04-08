@@ -22,6 +22,13 @@ stack_LIST=$(maas admin machines read \
 	    | awk -F'[":,]' '/mini-stack-../{print $11}')
 }
 
+tags_create () {
+for stack_TAG in ${tag_LIST}; do
+	maas ${maas_PROFILE} tags create name=${stack_TAG}
+done
+}
+
+tags_create
 read_nodes
 append_nodes
 tag_nodes
