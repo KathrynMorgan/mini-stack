@@ -1,5 +1,5 @@
 # PART_3 -- LXD Gateway & Firwall for Open vSwitch Network Isolation
-###### Create a sandbox network environment using OVS Network(s) behind an OpenWRT Gateway using the [Unofficial OpenWRT Image Project](https://github.com/containercraft/openwrt-lxd)
+###### Create a sandboxed network environment using OpenVSwitch behind an LXD Gateway using the [Unofficial OpenWRT Image Project](https://github.com/containercraft/openwrt-lxd)
 
 -------
 Prerequisites:
