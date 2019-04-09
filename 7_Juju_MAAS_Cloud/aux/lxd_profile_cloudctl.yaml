@@ -13,6 +13,11 @@ config:
   user.user-data: |
     #cloud-config
     package_upgrade: true
+    apt:
+      preserve_sources_list: true
+      sources:
+        cloud-archive:
+          source: "cloud-archive:queens"
     packages:
       - jq
       - vim
@@ -25,6 +30,11 @@ config:
       - squashfuse
       - libvirt-bin
       - python-pip
+      - python-novaclient
+      - python-keystoneclient
+      - python-glanceclient
+      - python-neutronclient
+      - python-openstackclient
     write_files:
       - content: |
           clouds:
@@ -46,9 +56,9 @@ config:
         path: /home/ubuntu/.juju/credentials-maasctl.yaml
     runcmd:
       - [apt-get, autoremove, "-y"]
-      - [pip, install, python-openstackclient]
       - [snap, install, juju, "--classic"]
       - [snap, install, kubectl, "--classic"]
+      - [snap, install, helm, "--classic"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id ${ssh_service}:${service_uname}"]
       - [wget, "-P", "/usr/bin/", "https://git.io/fjLpC"]
