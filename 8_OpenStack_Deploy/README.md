@@ -61,5 +61,5 @@ juju debug-log
 [Part_5 MAAS Region And Rack Server on OVS Sandbox]: https://github.com/KathrynMorgan/mini-stack/tree/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch
 [PART_6 MAAS Connect POD on KVM Provider]: https://github.com/KathrynMorgan/mini-stack/tree/master/6_MAAS-Connect_POD_KVM-Provider
 [PART_7 Juju MAAS Cloud]: https://github.com/KathrynMorgan/mini-stack/tree/master/7_Juju_MAAS_Cloud
-[PART_8 OpenStack Deploy]: https://github.com/KathrynMorgan/mini-stack/tree/master/8_OpenStack_Prep
-[PART_9 Kubernetes Deploy]: https://github.com/KathrynMorgan/mini-stack/tree/master/8_OpenStack_Prep
+[PART_8 OpenStack Deploy]: https://github.com/KathrynMorgan/mini-stack/tree/master/8_OpenStack_Deploy
+[PART_9 Kubernetes Deploy]: https://github.com/KathrynMorgan/mini-stack/tree/master/9_Kubernetes_Deploy
