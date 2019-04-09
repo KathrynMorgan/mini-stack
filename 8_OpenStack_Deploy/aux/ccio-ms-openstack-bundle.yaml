@@ -1,0 +1,348 @@
+﻿series: bionic
+applications:
+  ceph-mon:
+    charm: 'cs:ceph-mon-31'
+    num_units: 3
+    options:
+      ceph-cluster-network: 10.10.0.0/24
+      ceph-public-network: 10.10.0.0/24
+      expected-osd-count: 3
+      source: 'cloud:bionic-rocky'
+    series: bionic
+    annotations:
+      gui-x: '750'
+      gui-y: '500'
+    to:
+      - 'lxd:3'
+      - 'lxd:3'
+      - 'lxd:3'
+  ceph-osd:
+    charm: 'cs:ceph-osd-273'
+    num_units: 3
+    options:
+      autotune: true
+      ceph-cluster-network: 10.10.0.0/24
+      ceph-public-network: 10.10.0.0/24
+      osd-devices: '/dev/vdb,dev/vdc'
+      source: 'cloud:bionic-rocky'
+    series: bionic
+    annotations:
+      gui-x: '1000'
+      gui-y: '500'
+    to:
+      - '0'
+      - '1'
+      - '2'
+  ceph-radosgw:
+    charm: 'cs:ceph-radosgw-262'
+    num_units: 1
+    options:
+      ceph-osd-replication-count: 1
+      os-admin-network: 10.10.0.0/24
+      os-internal-network: 10.10.0.0/24
+      os-public-network: 10.10.0.0/24
+      source: 'cloud:bionic-rocky'
+    series: bionic
+    annotations:
+      gui-x: '1000'
+      gui-y: '250'
+    to:
+      - 'lxd:3'
+  cinder:
+    charm: 'cs:cinder-276'
+    num_units: 1
+    options:
+      action-managed-upgrade: true
+      block-device: None
+      ceph-osd-replication-count: 1
+      glance-api-version: 2
+      openstack-origin: 'cloud:bionic-rocky'
+      os-admin-network: 10.10.0.0/24
+      os-internal-network: 10.10.0.0/24
+      os-public-network: 10.10.0.0/24
+      worker-multiplier: 0.25
+    series: bionic
+    annotations:
+      gui-x: '750'
+      gui-y: '0'
+    to:
+      - 'lxd:3'
+  cinder-ceph:
+    charm: 'cs:cinder-ceph-238'
+    options:
+      ceph-osd-replication-count: 1
+    series: bionic
+    annotations:
+      gui-x: '750'
+      gui-y: '250'
+  glance:
+    charm: 'cs:glance-271'
+    num_units: 1
+    options:
+      action-managed-upgrade: true
+      ceph-osd-replication-count: 1
+      openstack-origin: 'cloud:bionic-rocky'
+      os-admin-network: 10.10.0.0/24
+      os-internal-network: 10.10.0.0/24
+      os-public-network: 10.10.0.0/24
+      worker-multiplier: 0.25
+    series: bionic
+    annotations:
+      gui-x: '250'
+      gui-y: '0'
+    to:
+      - 'lxd:3'
+  keystone:
+    charm: 'cs:keystone-288'
+    num_units: 1
+    options:
+      admin-password: admin
+      openstack-origin: 'cloud:bionic-rocky'
+      os-admin-network: 10.10.0.0/24
+      os-internal-network: 10.10.0.0/24
+      os-public-network: 10.10.0.0/24
+      worker-multiplier: 0.25
+    series: bionic
+    annotations:
+      gui-x: '500'
+      gui-y: '0'
+    to:
+      - 'lxd:3'
+  mysql:
+    charm: 'cs:percona-cluster-272'
+    num_units: 1
+    options:
+      access-network: 10.10.0.0/24
+      cluster-network: 10.10.0.0/24
+      innodb-buffer-pool-size: 256M
+      max-connections: 1000
+    series: bionic
+    annotations:
+      gui-x: '0'
+      gui-y: '250'
+    to:
+      - 'lxd:3'
+  neutron-api:
+    charm: 'cs:neutron-api-266'
+    num_units: 1
+    options:
+      action-managed-upgrade: true
+      dns-domain: mini.stack.
+      enable-ml2-dns: true
+      enable-vlan-trunking: true
+      flat-network-providers: physnet1
+      neutron-security-groups: true
+      openstack-origin: 'cloud:bionic-rocky'
+      os-admin-network: 10.10.0.0/24
+      os-internal-network: 10.10.0.0/24
+      os-public-network: 10.10.0.0/24
+      worker-multiplier: 0.25
+    series: bionic
+    annotations:
+      gui-x: '500'
+      gui-y: '500'
+    to:
+      - 'lxd:3'
+  neutron-gateway:
+    charm: 'cs:neutron-gateway-256'
+    num_units: 1
+    options:
+      bridge-mappings: 'physnet1:br-ex'
+      data-port: 'br-ex:ens4'
+      debug: true
+      dns-servers: '10.10.0.10,10.10.0.1,10.0.0.1'
+      enable-isolated-metadata: true
+      ha-bindiface: ens2
+      instance-mtu: 1500
+      openstack-origin: 'cloud:bionic-rocky'
+      os-data-network: 10.10.0.0/24
+      verbose: true
+      worker-multiplier: 0.25
+    series: bionic
+    annotations:
+      gui-x: '0'
+      gui-y: '0'
+    to:
+      - '0'
+  neutron-openvswitch:
+    charm: 'cs:neutron-openvswitch-255'
+    options:
+      debug: true
+      dns-servers: '10.10.0.10,10.10.0.1,10.0.0.1'
+      ext-port: ens3
+      firewall-driver: openvswitch
+      instance-mtu: 1500
+      os-data-network: 10.10.0.0/24
+      verbose: true
+      worker-multiplier: .nan
+    series: bionic
+    annotations:
+      gui-x: '250'
+      gui-y: '500'
+  nova-cloud-controller:
+    charm: 'cs:nova-cloud-controller-316'
+    num_units: 1
+    options:
+      action-managed-upgrade: true
+      bridge-ip: 10.10.0.61
+      console-access-protocol: vnc
+      ha-bindiface: ens2
+      network-manager: Neutron
+      openstack-origin: 'cloud:bionic-rocky'
+      os-admin-network: 10.10.0.0/24
+      os-internal-network: 10.10.0.0/24
+      os-public-network: 10.10.0.0/24
+      worker-multiplier: 0.25
+    series: bionic
+    annotations:
+      gui-x: '0'
+      gui-y: '500'
+    to:
+      - 'lxd:3'
+  nova-compute:
+    charm: 'cs:nova-compute-290'
+    num_units: 2
+    options:
+      action-managed-upgrade: true
+      bridge-ip: 10.10.0.61
+      ceph-osd-replication-count: 1
+      config-flags: default_ephemeral_format=ext4
+      cpu-mode: host-passthrough
+      enable-live-migration: true
+      enable-resize: true
+      flat-interface: ens3
+      openstack-origin: 'cloud:bionic-rocky'
+      os-internal-network: 10.10.0.0/24
+      resume-guests-state-on-host-boot: true
+    series: bionic
+    annotations:
+      gui-x: '250'
+      gui-y: '250'
+    to:
+      - '1'
+      - '2'
+  ntp:
+    charm: 'cs:ntp-31'
+    options:
+      pools: >-
+        0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org 2.ubuntu.pool.ntp.org
+        3.ubuntu.pool.ntp.org ntp.ubuntu.com
+    series: bionic
+    annotations:
+      gui-x: '1000'
+      gui-y: '0'
+  openstack-dashboard:
+    charm: 'cs:openstack-dashboard-271'
+    num_units: 1
+    options:
+      action-managed-upgrade: true
+      allow-password-autocompletion: true
+      openstack-origin: 'cloud:bionic-rocky'
+      password-retrieve: true
+    series: bionic
+    annotations:
+      gui-x: '500'
+      gui-y: '-250'
+    to:
+      - 'lxd:3'
+  rabbitmq-server:
+    charm: 'cs:rabbitmq-server-82'
+    num_units: 1
+    options:
+      access-network: 10.10.0.0/24
+      ceph-osd-replication-count: 1
+      cluster-network: 10.10.0.0/24
+      management_plugin: true
+    series: bionic
+    annotations:
+      gui-x: '500'
+      gui-y: '250'
+    to:
+      - 'lxd:3'
+relations:
+  - - 'nova-compute:amqp'
+    - 'rabbitmq-server:amqp'
+  - - 'neutron-gateway:amqp'
+    - 'rabbitmq-server:amqp'
+  - - 'keystone:shared-db'
+    - 'mysql:shared-db'
+  - - 'nova-cloud-controller:identity-service'
+    - 'keystone:identity-service'
+  - - 'glance:identity-service'
+    - 'keystone:identity-service'
+  - - 'neutron-api:identity-service'
+    - 'keystone:identity-service'
+  - - 'neutron-openvswitch:neutron-plugin-api'
+    - 'neutron-api:neutron-plugin-api'
+  - - 'neutron-api:shared-db'
+    - 'mysql:shared-db'
+  - - 'neutron-api:amqp'
+    - 'rabbitmq-server:amqp'
+  - - 'neutron-gateway:neutron-plugin-api'
+    - 'neutron-api:neutron-plugin-api'
+  - - 'glance:shared-db'
+    - 'mysql:shared-db'
+  - - 'glance:amqp'
+    - 'rabbitmq-server:amqp'
+  - - 'nova-cloud-controller:image-service'
+    - 'glance:image-service'
+  - - 'nova-compute:image-service'
+    - 'glance:image-service'
+  - - 'nova-cloud-controller:cloud-compute'
+    - 'nova-compute:cloud-compute'
+  - - 'nova-cloud-controller:amqp'
+    - 'rabbitmq-server:amqp'
+  - - 'nova-cloud-controller:quantum-network-service'
+    - 'neutron-gateway:quantum-network-service'
+  - - 'nova-compute:neutron-plugin'
+    - 'neutron-openvswitch:neutron-plugin'
+  - - 'neutron-openvswitch:amqp'
+    - 'rabbitmq-server:amqp'
+  - - 'openstack-dashboard:identity-service'
+    - 'keystone:identity-service'
+  - - 'openstack-dashboard:shared-db'
+    - 'mysql:shared-db'
+  - - 'nova-cloud-controller:shared-db'
+    - 'mysql:shared-db'
+  - - 'nova-cloud-controller:neutron-api'
+    - 'neutron-api:neutron-api'
+  - - 'cinder:image-service'
+    - 'glance:image-service'
+  - - 'cinder:amqp'
+    - 'rabbitmq-server:amqp'
+  - - 'cinder:identity-service'
+    - 'keystone:identity-service'
+  - - 'cinder:cinder-volume-service'
+    - 'nova-cloud-controller:cinder-volume-service'
+  - - 'cinder-ceph:storage-backend'
+    - 'cinder:storage-backend'
+  - - 'ceph-mon:client'
+    - 'nova-compute:ceph'
+  - - 'nova-compute:ceph-access'
+    - 'cinder-ceph:ceph-access'
+  - - 'cinder:shared-db'
+    - 'mysql:shared-db'
+  - - 'ceph-mon:client'
+    - 'cinder-ceph:ceph'
+  - - 'ceph-mon:client'
+    - 'glance:ceph'
+  - - 'ceph-osd:mon'
+    - 'ceph-mon:osd'
+  - - 'ntp:juju-info'
+    - 'nova-compute:juju-info'
+  - - 'ntp:juju-info'
+    - 'neutron-gateway:juju-info'
+  - - 'ceph-radosgw:mon'
+    - 'ceph-mon:radosgw'
+  - - 'ceph-radosgw:identity-service'
+    - 'keystone:identity-service'
+machines:
+  '0':
+    series: bionic
+    constraints: arch=amd64 cpu-cores=4 mem=4086
+  '1':
+    series: bionic
+    constraints: arch=amd64 cpu-cores=4 mem=4086
+  '2':
+    series: bionic
+    constraints: arch=amd64 cpu-cores=4 mem=4086
