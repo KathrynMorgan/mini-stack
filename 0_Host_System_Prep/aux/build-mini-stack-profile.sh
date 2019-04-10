@@ -15,8 +15,7 @@ echo "    Please configure a supported service with your username & ssh public k
     Supported options:
       GitHub     (enter 'gh')
       Launchpad  (enter 'lp')"
-read -p '    gh/lp : ' ssh_service_choice 
-echo ""
+read -p '    gh/lp : ' ssh_service_choice ; echo "" ;
 read -p '    username: ' ssh_uname_choice
 }
 
@@ -29,7 +28,8 @@ fi
 }
 
 mk_pwd () {
-read -sp '    New Password:     ' new_pwd
+read -sp '    New Password:     ' new_pwd ; echo "" ; 
+echo "" ;
 read -sp '    Confirm New PWD:  ' chk_pwd
 salt_pwd
 }
