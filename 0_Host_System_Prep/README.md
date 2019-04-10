@@ -13,7 +13,8 @@ apt-get update && apt-get install -y whois vim lnav openssh-server linux-generic
 #### 02. Create host CCIO Profile Configuration && add to bashrc
 ```sh
 wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjLhZ
-echo "source /tmp/build-mini-stack-profile.sh" >>~/.bashrc
+source /tmp/build-mini-stack-profile.sh
+echo "source ~/.config/ccio/mini-stack/profile" >>~/.bashrc
 source ~/.bashrc
 ```
 #### 03. Import your ssh pub key
