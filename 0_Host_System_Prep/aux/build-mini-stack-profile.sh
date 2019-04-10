@@ -8,6 +8,11 @@ profile_TARGET="${full_PATH}/profile"
 
 # Check/Create Directory Path
 [[ -f ${full_PATH} ]] || mkdir -p ${full_PATH}
+
+# Check/Install whois package for salting the password
+[[ $(dpkg -l | grep whois ; echo $?) == 0 ]] || apt install whois -y
+
+clear
 }
 
 user_prompt () {
@@ -16,7 +21,7 @@ echo "
     Supported options:
       GitHub     (enter 'gh')
       Launchpad  (enter 'lp')"
-read -p '    gh/lp : ' ssh_service_choice ; echo ""
+read -p '    gh/lp : ' ssh_service_choice ;
 read -p '    username: ' ssh_uname_choice
 }
 
@@ -29,14 +34,15 @@ fi
 }
 
 mk_pwd () {
-read -sp '    New Password:     ' new_pwd ; echo ""
-read -sp '    Confirm New PWD:  ' chk_pwd
+read -sp '    New Password: ' new_pwd ; echo "" ;
+read -sp '    Confirm New PWD: ' chk_pwd
 salt_pwd
 }
 
 pwd_prompt () {
-echo "    Please create a user password for this lab environment:
-      NOTE: this password will be encrypted in your mini-stack profile
+echo "
+    Please create a user password for this lab environment:
+    NOTE: this password will be encrypted in your mini-stack profile
 "
 mk_pwd
 }
