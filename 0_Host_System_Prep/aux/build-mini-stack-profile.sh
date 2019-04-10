@@ -11,11 +11,12 @@ profile_TARGET="${full_PATH}/profile"
 }
 
 user_prompt () {
-echo "    Please configure a supported service with your username & ssh public keys
+echo "    
+    Please configure a supported service with your username & ssh public keys
     Supported options:
       GitHub     (enter 'gh')
       Launchpad  (enter 'lp')"
-read -p '    gh/lp : ' ssh_service_choice ; echo "" ;
+read -p '    gh/lp : ' ssh_service_choice ; echo ""
 read -p '    username: ' ssh_uname_choice
 }
 
@@ -28,8 +29,7 @@ fi
 }
 
 mk_pwd () {
-read -sp '    New Password:     ' new_pwd ; echo "" ; 
-echo "" ;
+read -sp '    New Password:     ' new_pwd ; echo ""
 read -sp '    Confirm New PWD:  ' chk_pwd
 salt_pwd
 }
