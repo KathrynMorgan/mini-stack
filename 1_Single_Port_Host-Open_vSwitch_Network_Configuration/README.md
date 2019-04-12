@@ -65,7 +65,7 @@ network:
     mgmt0:
       optional: true
       addresses:
-        - $(ip a s ${wan_NIC} | awk '/inet /{print $2} | head -n 1')
+        - $(ip a s ${wan_NIC} | awk '/inet /{print $2}' | head -n 1)
       gateway4: $(ip r | awk '/default /{print $3}' | head -n 1)
       nameservers:
         addresses: [$(ip r | awk '/default /{print $3}' | head -n 1)]
