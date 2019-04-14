@@ -35,7 +35,8 @@ Name=${wan_NIC}
 DHCP=no
 IPv6AcceptRA=no
 LinkLocalAddressing=no
-EOF
+EOF 
+
 ```
 #### 03. Write OVS  Bridge 'wan' Networkd Config
 ```sh
@@ -47,7 +48,8 @@ Name=wan
 DHCP=no
 IPv6AcceptRA=no
 LinkLocalAddressing=no
-EOF
+EOF 
+
 ```
 
 #### 04. Disable original Netplan Config & Write mgmt0 interface netplan config
@@ -69,7 +71,8 @@ network:
       gateway4: $(ip r | awk '/default /{print $3}' | head -n 1)
       nameservers:
 #TODO        addresses: [$(systemd-resolve --status | grep "DNS Server" | awk '{print $2}']
-EOF
+EOF 
+
 ````
 #### 05. Build OVS Bridge, mgmt0 port, and apply configuration
 ````sh
@@ -85,15 +88,18 @@ systemctl restart systemd-networkd.service && netplan apply --debug
 ovs-vsctl show
 }
 net_restart
-EOF
+EOF 
+
 ````
 ````sh
-source /tmp/net_restart.sh
+source /tmp/net_restart.sh 
+
 ````
 #### 06. Add OVS Orphan Port Cleaning Utility
 NOTE: Use command `ovs-clear` to remove orphaned 'not found' ports as needed
 ````sh
-wget -O /usr/bin/ovs-clear https://git.io/fjtnB && chmod +x /usr/bin/ovs-clear
+wget -O /usr/bin/ovs-clear https://git.io/fjtnB && chmod +x /usr/bin/ovs-clear 
+
 ````
 -------
 #### CHEAT: Useful Commands for troubleshooting
@@ -101,7 +107,8 @@ wget -O /usr/bin/ovs-clear https://git.io/fjtnB && chmod +x /usr/bin/ovs-clear
 ip r
 ip a s
 ovs-vsctl show
-systemd-resolve --status
+systemd-resolve --status 
+
 ````
 
 ## Next sections
