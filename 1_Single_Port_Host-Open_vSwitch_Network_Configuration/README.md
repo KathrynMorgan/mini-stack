@@ -70,7 +70,7 @@ network:
         - $(ip a s ${wan_NIC} | awk '/inet /{print $2}' | head -n 1)
       gateway4: $(ip r | awk '/default /{print $3}' | head -n 1)
       nameservers:
-#TODO        addresses: [$(systemd-resolve --status | grep "DNS Server" | awk '{print $2}']
+        addresses: [$(systemd-resolve --status | grep "DNS Server" | awk '{print $3}']
 EOF
 
 ````
