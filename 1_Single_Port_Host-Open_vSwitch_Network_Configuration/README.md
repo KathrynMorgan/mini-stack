@@ -27,7 +27,7 @@ NOTE: export name of nic device your primary host network traffic will traverse 
 export wan_NIC="eth0"
 ```
 ```sh
-cat <<EOF >/etc/systemd/network/${wan_NIC}.network                                                    
+cat <<EOF>/etc/systemd/network/${wan_NIC}.network                                                    
 [Match]
 Name=${wan_NIC}
 
@@ -35,12 +35,12 @@ Name=${wan_NIC}
 DHCP=no
 IPv6AcceptRA=no
 LinkLocalAddressing=no
-EOF 
+EOF
 
 ```
 #### 03. Write OVS  Bridge 'wan' Networkd Config
 ```sh
-cat <<EOF > /etc/systemd/network/wan.network                                                    
+cat <<EOF> /etc/systemd/network/wan.network                                                    
 [Match]
 Name=wan
 
@@ -48,7 +48,7 @@ Name=wan
 DHCP=no
 IPv6AcceptRA=no
 LinkLocalAddressing=no
-EOF 
+EOF
 
 ```
 
@@ -57,7 +57,7 @@ EOF
 for yaml in $(ls /etc/netplan/); do sed -i 's/^/#/g' /etc/netplan/${yaml}; done
 ````
 ````sh
-cat <<EOF >/etc/netplan/80-mgmt0.yaml
+cat <<EOF>/etc/netplan/80-mgmt0.yaml
 # For more configuration examples, see: https://netplan.io/examples                                                   
 # OVS 'wan' Bridge Port 'mgmt0' Configuration
 network:
@@ -71,12 +71,12 @@ network:
       gateway4: $(ip r | awk '/default /{print $3}' | head -n 1)
       nameservers:
 #TODO        addresses: [$(systemd-resolve --status | grep "DNS Server" | awk '{print $2}']
-EOF 
+EOF
 
 ````
 #### 05. Build OVS Bridge, mgmt0 port, and apply configuration
 ````sh
-cat <<EOF >/tmp/net_restart.sh
+cat <<EOF>/tmp/net_restart.sh
 net_restart () {
 ovs-vsctl \
   add-br wan -- \
@@ -88,7 +88,7 @@ systemctl restart systemd-networkd.service && netplan apply --debug
 ovs-vsctl show
 }
 net_restart
-EOF 
+EOF
 
 ````
 ````sh
