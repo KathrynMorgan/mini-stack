@@ -1,0 +1,1 @@
+maas admin boot-resources create name='windows/win2016' title='Windows Server 2016' architecture='amd64/generic' filetype=ddtgz content@=/root/WinSrvr2k16DataCenter-targz
