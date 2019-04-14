@@ -1,4 +1,4 @@
-cat <<EOF >/tmp/lxd_profile_maasctl.yaml
+cat <<EOF >/tmp/lxd-profile-maasctl.yaml
 config:
   raw.lxc: |-
     lxc.cgroup.devices.allow = c 10:237 rwm
