@@ -27,7 +27,7 @@ NOTE: export name of nic device your primary host network traffic will traverse 
 export wan_NIC="eth0"
 ```
 ```sh
-cat <<EOF>/etc/systemd/network/${wan_NIC}.network                                                    
+cat <<EOF >/etc/systemd/network/${wan_NIC}.network                                                    
 [Match]
 Name=${wan_NIC}
 
@@ -40,7 +40,7 @@ EOF
 ```
 #### 03. Write OVS  Bridge 'wan' Networkd Config
 ```sh
-cat <<EOF> /etc/systemd/network/wan.network                                                    
+cat <<EOF >/etc/systemd/network/wan.network                                                    
 [Match]
 Name=wan
 
@@ -57,7 +57,7 @@ EOF
 for yaml in $(ls /etc/netplan/); do sed -i 's/^/#/g' /etc/netplan/${yaml}; done
 ````
 ````sh
-cat <<EOF>/etc/netplan/80-mgmt0.yaml
+cat <<EOF >/etc/netplan/80-mgmt0.yaml
 # For more configuration examples, see: https://netplan.io/examples                                                   
 # OVS 'wan' Bridge Port 'mgmt0' Configuration
 network:
@@ -76,7 +76,7 @@ EOF
 ````
 #### 05. Build OVS Bridge, mgmt0 port, and apply configuration
 ````sh
-cat <<EOF>/tmp/net_restart.sh
+cat <<EOF >/tmp/net_restart.sh
 net_restart () {
 ovs-vsctl \
   add-br wan -- \
