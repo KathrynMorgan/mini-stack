@@ -71,7 +71,7 @@ network:
       gateway4: $(ip r | awk '/default /{print $3}' | head -n 1)
       nameservers:
         addresses: 
-          - $(systemd-resolve --status | grep "DNS Server" | awk '{print $3}'
+          - $(systemd-resolve --status | grep "DNS Server" | awk '{print $3}')
 EOF
 
 ````
