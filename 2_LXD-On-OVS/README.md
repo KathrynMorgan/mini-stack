@@ -68,7 +68,7 @@ cat ~/.ssh/id_rsa | base64 | sed 's/^/          /g'
 ````sh
 vim /tmp/lxd-profile-default.yaml
 ````
-###### 04. Delete line 20 & paste base64 contents from the above command
+###### 04. Delete line 28 & paste base64 contents from the above command
 ###### 05. Load pub id_rsa key
 ````sh
 cat ~/.ssh/id_rsa.pub | base64 | sed 's/^/          /g'
@@ -77,7 +77,7 @@ cat ~/.ssh/id_rsa.pub | base64 | sed 's/^/          /g'
 ````sh
 vim /tmp/lxd-profile-default.yaml
 ````
-###### 04. Delete line 20 & paste base64 contents from the above command
+###### 04. Delete line 23 & paste base64 contents from the above command
 ###### 05. Apply to profile
 ````sh
 lxc profile edit default < /tmp/lxd-profile-default.yaml

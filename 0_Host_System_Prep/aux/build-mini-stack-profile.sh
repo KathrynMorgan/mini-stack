@@ -27,7 +27,8 @@ read -p '    username: ' ssh_uname_choice
 
 salt_pwd () {
 if [[ ${new_pwd} == ${chk_pwd} ]]; then
-    salted_PASSWORD=$(mkpasswd --method=SHA-512 --rounds=4096 ${new_pwd})
+    salted_PASSWORD=$(mkpasswd --method=SHA-512 --rounds=4096 ${new_pwd} \
+                      | sed 's/\$6\$rounds\=4096//g')
 elif [[ ${new_pwd} == ${chk_pwd} ]]; then
     pwd_prompt
 fi
@@ -65,7 +66,8 @@ echo "
 }
 
 append_bashrc () {
-echo "source /etc/ccio/mini-stack/profile" >>/etc/skel/.bashrc
+    [[ ! $(grep mini-stack /etc/skel/.bashrc ; echo $?) == 0 ]] \
+        || echo "source /etc/ccio/mini-stack/profile" >>/etc/skel/.bashrc
 }
 
 req_source_profile () {

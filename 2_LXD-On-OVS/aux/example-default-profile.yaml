@@ -9,15 +9,13 @@ config:
       - lnav
       - snapd
       - squashfuse
-    ssh_import_id:
-      - ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
     users:
       - name: ${ccio_SSH_UNAME}
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         shell: /bin/bash
         groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
-        ssh_import_id:
-          - ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
+        ssh_import_id: ${ccio_SSH_UNAME}
+        passwd: ${ccio_PWD_SALT}
     write_files:
       - encoding: b64
         content: |
