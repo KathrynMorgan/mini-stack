@@ -15,12 +15,10 @@ apt-get update && apt-get install -y whois vim lnav openssh-server linux-generic
 ```sh
 wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjLhZ
 source /tmp/build-mini-stack-profile.sh
-echo "source /etc/ccio/mini-stack/profile" >>/etc/skel/.bashrc
 ```
 #### 03. Replace limited root bashrc
 ```sh
-cp -f /etc/skel/.bashrc /root/.bashrc
-source ~/.bashrc
+cp -f /etc/skel/.bashrc /root/.bashrc && source ~/.bashrc
 ```
 #### 04. Import your ssh pub key
 ```sh
