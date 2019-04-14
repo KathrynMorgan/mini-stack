@@ -47,38 +47,23 @@ sudo usermod -aG lxd ubuntu
 ````sh
 lxc profile copy default original
 ````
-#### 05. Add 'lxc' command alias 'ubuntu' to auto login to containers as user 'ubuntu'
+#### 05. Add 'lxc' command alias 'ubuntu'/'(your username)' to auto login to containers as user 'ubuntu'
 ````sh
 sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubuntu/g' .config/lxc/config.yml
+sed -i 's/aliases: {}/aliases:\n  ${ccio_SSH_UNAME}: exec @ARGS@ -- sudo --login --user ${ccio_SSH_UNAME}/g' .config/lxc/config.yml
 ````
 -------
 #### PROTIP: Add User-Data && Launch Containers && check Configurations
 ##### Exhibit(A) Add cloud-init user-data to your default profile
-###### 01. Download the example, edit, then apply as follows
+###### 01. Download the profile template
 ````sh
 wget -O- https://git.io/fjtnS | bash
-vim /tmp/lxd-profile-default.yaml
-lxc profile edit default < /tmp/lxd-profile-default.yaml
 ````
-###### 02. Add a private id_rsa key to your lxd user-data
-````sh
-cat ~/.ssh/id_rsa | base64 | sed 's/^/          /g'
-````
-###### 03. copy paste the base64 output
+###### 02. Edit default profile template
 ````sh
 vim /tmp/lxd-profile-default.yaml
 ````
-###### 04. Delete line 28 & paste base64 contents from the above command
-###### 05. Load pub id_rsa key
-````sh
-cat ~/.ssh/id_rsa.pub | base64 | sed 's/^/          /g'
-````
-###### 03. copy paste the base64 output
-````sh
-vim /tmp/lxd-profile-default.yaml
-````
-###### 04. Delete line 23 & paste base64 contents from the above command
-###### 05. Apply to profile
+###### 03. Apply configuration to default profile
 ````sh
 lxc profile edit default < /tmp/lxd-profile-default.yaml
 ````

@@ -9,6 +9,7 @@ config:
       - lnav
       - snapd
       - squashfuse
+    ssh_import_id: ${ccio_SSH_UNAME}
     users:
       - name: ${ccio_SSH_UNAME}
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
@@ -16,17 +17,6 @@ config:
         groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
         ssh_import_id: ${ccio_SSH_UNAME}
         passwd: ${ccio_PWD_SALT}
-    write_files:
-      - encoding: b64
-        content: |
-          XhEb0xteUM3YUI1bzRRTmEyYUMKem5KK1hWRkM5ZkNbGxqb0NOZ21ReTZzbXFsbVNmSF
-        owner: ${ccio_SSH_UNAME}:${ccio_SSH_UNAME}
-        path: /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub
-      - encoding: b64
-        content: |
-          XhEb0xteUM3YUI1bzRRTmEyYUMKem5KK1hWRkM5ZkNbGxqb0NOZ21ReTZzbXFsbVNmSF
-        owner: ${ccio_SSH_UNAME}:${ccio_SSH_UNAME}
-        path: /home/${ccio_SSH_UNAME}/.ssh/id_rsa
     runcmd:
       - [apt-get, autoremove, "-y"]
       - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
