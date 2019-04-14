@@ -2,7 +2,7 @@
 
 load_vars () {
 project_NAME="mini-stack"
-base_PATH="$HOME/.config/ccio"
+base_PATH="/etc/ccio"
 full_PATH="${base_PATH}/${project_NAME}"
 profile_TARGET="${full_PATH}/profile"
 
