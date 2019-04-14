@@ -16,20 +16,20 @@ wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjLhZ
 source /tmp/build-mini-stack-profile.sh
 echo "source ~/.config/ccio/mini-stack/profile" >>/etc/skel/.bashrc
 ```
-#### 03. Import your ssh pub key
+#### 03. Replace limited root bashrc
+```sh
+cp -f /etc/skel/.bashrc /root/.bashrc
+source ~/.bashrc
+```
+#### 04. Import your ssh pub key
 ```sh
 ssh-import-id ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
 ```
-#### 04. Enable root user ssh login
+#### 05. Enable root user ssh login
 ```sh
 sed -i 's/^PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
 sed -i 's/^#PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
 systemctl restart sshd
-```
-#### 05. Replace limited root bashrc
-```sh
-cp -f /etc/skel/.bashrc /root/.bashrc
-source ~/.bashrc
 ```
 #### 06. Enable PCI Passthrough && Nested Virtual Machines && Revert NIC Interface Naming
 ```sh
