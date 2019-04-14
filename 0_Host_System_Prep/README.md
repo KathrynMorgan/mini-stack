@@ -34,12 +34,21 @@ systemctl restart sshd
 #### 06. Enable PCI Passthrough && Nested Virtual Machines && Revert NIC Interface Naming
 ```sh
 mkdir /etc/default/grub.d
-wget -O /etc/default/grub.d/libvirt.cfg https://git.io/fjtnT
+wget -O /etc/default/grub.d/99-libvirt.cfg https://git.io/fjtnT
 update-grub
 ```
 #### 07. Reboot
 -------
-##### OPTIONAL 01. Switch default editor from nano to vim
+## OPTIONAL (SERVER OS) 
+#### 01. Change network device name in /etc/netplan/ to new device name
+```sh
+ip a
+cat /etc/netplan/*
+sudo nano /etc/netplan/*.yaml
+```
+-------
+## OPTIONAL (DESKTOP OS) 
+#### OPTIONAL 01. Switch default editor from nano to vim
 ```sh
 update-alternatives --set editor /usr/bin/vim.basic
 ```
