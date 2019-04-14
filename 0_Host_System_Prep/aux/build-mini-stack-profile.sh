@@ -64,6 +64,10 @@ echo "
     "
 }
 
+append_bashrc () {
+echo "source /etc/ccio/mini-stack/profile" >>/etc/skel/.bashrc
+}
+
 req_source_profile () {
 echo "    Would you like to load the profile now?"
 while true; do
@@ -83,4 +87,5 @@ user_prompt
 pwd_prompt
 write_profile
 info_print
+append_bashrc
 req_source_profile
