@@ -40,11 +40,15 @@ update-grub
 #### 07. Reboot
 -------
 ## OPTIONAL (SERVER OS) 
-#### 01. Change network device name in /etc/netplan/ to new device name
+#### OPTIONAL 01. Change network device name in /etc/netplan/ to new device name
 ```sh
 ip a
 cat /etc/netplan/*
 sudo nano /etc/netplan/*.yaml
+```
+#### OPTIONAL 02. Switch default editor from nano to vim
+```sh
+update-alternatives --set editor /usr/bin/vim.basic
 ```
 -------
 ## OPTIONAL (DESKTOP OS) 
