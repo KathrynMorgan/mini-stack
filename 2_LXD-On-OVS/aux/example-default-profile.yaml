@@ -1,3 +1,4 @@
+cat <<EOF > /tmp/lxd-profile-default.yaml
 config:
   user.user-data: |
     #cloud-config
@@ -9,11 +10,11 @@ config:
       - snapd
       - squashfuse
     users:
-      - name: ubuntu
-        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
-        shell: /bin/bash
-        ssh_import_id: ${launchpad-id}
+      - name: ${ccio_SSH_UNAME}
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
+        shell: /bin/bash
+        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
+        ssh_import_id: ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
     write_files:
       - encoding: b64
         content: |
@@ -25,10 +26,10 @@ config:
           WM3RUNjcUpabjJrRitqTzZ3MW5TaGtHcmtpNENaY2sMkFDUWw3YkxVWktVcVNZVlRDZk
           U5waE53aU1Tc2pzUDhud1NDdW9FR0EwZ09rbjFFQ2kOVlXeEhTMW4yClVaYjRUT0hhKz
           EpKQjEydVFhd0MycmtjSEwKM3NZMi9CaDN6SVBWMENM0xyMkF5elpqcWFLZFFmZFhqOX
-        owner: ubuntu:ubuntu
+        owner: ${ccio_SSH_UNAME}:${ccio_SSH_UNAME}
         path: /home/ubuntu/.ssh/id_rsa
     runcmd:
-      - [ssh-import-id, createadmin, --username=admin, --password=admin, --email=admin]
+      - [ssh-import-id, "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
 description: Default LXD Profile
 devices:
   eth0:
@@ -41,3 +42,4 @@ devices:
     pool: default
     type: disk
 name: default
+EOF
