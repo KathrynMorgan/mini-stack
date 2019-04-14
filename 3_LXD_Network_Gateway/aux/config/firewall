@@ -175,3 +175,12 @@ config redirect
 	option dest_port '22'
 	option name 'cloudctl-ssh'
 
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '2022'
+	option dest_ip '10.10.0.2'
+	option dest_port '22'
+	option name 'mini-stack-host-ssh'
