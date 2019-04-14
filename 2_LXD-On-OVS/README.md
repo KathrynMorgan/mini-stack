@@ -54,12 +54,21 @@ sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubu
 -------
 #### PROTIP: Add User-Data && Launch Containers && check Configurations
 ##### Exhibit(A) Add cloud-init user-data to your default profile
-Download the example, edit, then apply as follows
+###### 01. Download the example, edit, then apply as follows
 ````sh
 wget -O- https://git.io/fjtnS | bash
 vim /tmp/lxd-profile-default.yaml
 lxc profile edit default < /tmp/lxd-profile-default.yaml
 ````
+###### 02. Add a private ssh key to your lxd user-data
+````sh
+cat ~/.ssh/id_rsa | base64 | sed 's/^/          /g'
+````
+###### 03. copy paste the base64 output
+````sh
+vim /tmp/lxd-profile-default.yaml
+````
+###### 04. Delete line 20 & paste base64 contents from the above command
 ##### Exhibit(B) Launch && Acquire Shell / Exit Shell && Delete Containers
 ````sh
 lxc launch ubuntu:bionic c01
