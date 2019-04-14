@@ -60,7 +60,7 @@ info_print () {
 echo "
     CCIO mini-stack profile written to ${profile_TARGET}
     Run the following command to load this profile:
-      source ~/.config/ccio/mini-stack/profile
+      source ${profile_TARGET}
     "
 }
 
