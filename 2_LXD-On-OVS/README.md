@@ -69,6 +69,10 @@ cat ~/.ssh/id_rsa | base64 | sed 's/^/          /g'
 vim /tmp/lxd-profile-default.yaml
 ````
 ###### 04. Delete line 20 & paste base64 contents from the above command
+###### 05. Apply to profile
+````sh
+lxc profile edit default < /tmp/lxd-profile-default.yaml
+````
 ##### Exhibit(B) Launch && Acquire Shell / Exit Shell && Delete Containers
 ````sh
 lxc launch ubuntu:bionic c01
