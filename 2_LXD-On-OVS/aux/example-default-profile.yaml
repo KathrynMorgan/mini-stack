@@ -19,15 +19,8 @@ config:
       - encoding: b64
         content: |
           XhEb0xteUM3YUI1bzRRTmEyYUMKem5KK1hWRkM5ZkNbGxqb0NOZ21ReTZzbXFsbVNmSF
-          DdtNCt1WlhyRUhkaU1wdExXVVdPdVMrbFhPTDFYR3Nb2RuRnQ5MHFlNFQKaUk5a3R4OC
-          3oyQnlXa2RFcUdQQ2dtYk9STjFka1FRb09xempDR3pRGFHamZrL3EzTmw1UjBDSDFHTQ
-          W1QZHZzR2IyejA5S1p2MENuZTNsR0llZnFySWJKc3ZTGkzRE4wZFNEOQpXKzZMNzdKQT
-          WhnYnRYZkhvYXREemY1dENKcFU3NFlxL3JQNE84UEJR3MvUFN0a1hrbldvUThMeUs4Cj
-          WM3RUNjcUpabjJrRitqTzZ3MW5TaGtHcmtpNENaY2sMkFDUWw3YkxVWktVcVNZVlRDZk
-          U5waE53aU1Tc2pzUDhud1NDdW9FR0EwZ09rbjFFQ2kOVlXeEhTMW4yClVaYjRUT0hhKz
-          EpKQjEydVFhd0MycmtjSEwKM3NZMi9CaDN6SVBWMENM0xyMkF5elpqcWFLZFFmZFhqOX
         owner: ${ccio_SSH_UNAME}:${ccio_SSH_UNAME}
-        path: /home/ubuntu/.ssh/id_rsa
+        path: /home/${ccio_SSH_UNAME}/.ssh/id_rsa
     runcmd:
       - [ssh-import-id, "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
 description: Default LXD Profile
