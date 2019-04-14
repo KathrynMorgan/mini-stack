@@ -70,7 +70,7 @@ while true; do
 read -p '    [Yes/No]: ' load_PROFILE
     case ${load_PROFILE} in
         [Yy]* ) echo "";
-                source ~/.config/ccio/mini-stack/profile; 
+                source ${profile_TARGET};
                 break;;
         [Nn]* ) exit;;
         *     ) echo "Please answer 'yes' or 'no'"
