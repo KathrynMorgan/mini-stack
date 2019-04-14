@@ -68,7 +68,7 @@ network:
         - $(ip a s ${wan_NIC} | awk '/inet /{print $2}' | head -n 1)
       gateway4: $(ip r | awk '/default /{print $3}' | head -n 1)
       nameservers:
-        addresses: [$(ip r | awk '/default /{print $3}' | head -n 1)]
+#TODO        addresses: [$(systemd-resolve --status | grep "DNS Server" | awk '{print $2}']
 EOF
 ````
 #### 05. Build OVS Bridge, mgmt0 port, and apply configuration

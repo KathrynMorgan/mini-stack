@@ -21,7 +21,7 @@ config:
     timezone: Pacific/Honolulu
     package_upgrade: true
     ssh_import_id:
-      - ${ccio_SSH_SERVICE}:${ccio_SERVICE_UNAME}
+      - ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
     apt:
       preserve_sources_list: true
       sources:
@@ -41,9 +41,9 @@ config:
       - [adduser, maas, libvirtd]
       - [chsh, -s, /bin/bash, maas]
       - [su, -l, maas, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
-      - [su, -l, maas, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SERVICE_UNAME}"]
+      - [su, -l, maas, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [echo, "10.10.0.2 mini-stack.maas mini-stack", ">>", "/etc/hosts"]
-      - [maas, createadmin, --username=admin, --password=admin, --email=admin, --ssh-import, "${ccio_SSH_SERVICE}:${ccio_SERVICE_UNAME}"]
+      - [maas, createadmin, --username=admin, --password=admin, --email=admin, --ssh-import, "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [virsh, pool-define-as, default, dir, --target, /var/lib/libvirt/images/]
       - [virsh, pool-autostart, default]
       - [virsh, pool-start, default]

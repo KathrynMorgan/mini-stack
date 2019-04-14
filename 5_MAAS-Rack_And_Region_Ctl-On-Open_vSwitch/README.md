@@ -12,6 +12,10 @@ Prerequisites:
 ![CCIO_Hypervisor - KVM-On-Open-vSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch/web/drawio/MAAS-Region-And-Rack-Ctl-on-OVS-Sandbox.svg)
 
 -------
+#### 00. Source CCIO Profile
+````sh
+source ~/.config/ccio/mini-stack/profile
+````
 #### 01. Create maas container profile
 ````sh
 wget -O /tmp/lxd-profile-maasctl.yaml https://git.io/fjtcz
