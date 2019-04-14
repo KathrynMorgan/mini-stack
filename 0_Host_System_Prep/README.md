@@ -31,23 +31,17 @@ sed -i 's/^PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_
 sed -i 's/^#PermitRootLogin.*/PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
 systemctl restart sshd
 ```
+#### 07. Change network device name in /etc/netplan/*.yaml to eth0
+```sh
+sed -i "s/$(ip r | head -n 1 | awk '{print $5}')/eth0/g" /etc/netplan/*.yaml
+```
 #### 06. Enable PCI Passthrough && Nested Virtual Machines && Revert NIC Interface Naming
 ```sh
 mkdir /etc/default/grub.d
 wget -O /etc/default/grub.d/99-libvirt.cfg https://git.io/fjtnT
 update-grub
 ```
-#### 07. Reboot
--------
-## OPTIONAL (SERVER OS) 
-#### OPTIONAL 01. Change network device name in /etc/netplan/ to new device name
-```sh
-sed -i "s/$(ip r | head -n 1 | awk '{print $5}')/eth0/g" /etc/netplan/*.yaml
-```
-#### OPTIONAL 02. Switch default editor from nano to vim
-```sh
-update-alternatives --set editor /usr/bin/vim.basic
-```
+#### 08. Reboot
 -------
 ## OPTIONAL (DESKTOP OS) 
 #### OPTIONAL 01. Switch default editor from nano to vim
