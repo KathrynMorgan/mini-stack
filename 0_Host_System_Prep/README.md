@@ -5,6 +5,7 @@
   2. You are familiar with and able to ssh between machines
   3. You have an ssh key pair, and uploaded the public key to your Launchpad and/or Github account
   4. Run all prep commands as root
+  5. Recommended: Follow these guides using ssh to copy/paste commands as you read along
 
 #### 01. Install helper packages
 ```sh
