@@ -60,9 +60,18 @@ wget -O- https://git.io/fjtnS | bash
 vim /tmp/lxd-profile-default.yaml
 lxc profile edit default < /tmp/lxd-profile-default.yaml
 ````
-###### 02. Add a private ssh key to your lxd user-data
+###### 02. Add a private id_rsa key to your lxd user-data
 ````sh
 cat ~/.ssh/id_rsa | base64 | sed 's/^/          /g'
+````
+###### 03. copy paste the base64 output
+````sh
+vim /tmp/lxd-profile-default.yaml
+````
+###### 04. Delete line 20 & paste base64 contents from the above command
+###### 05. Load pub id_rsa key
+````sh
+cat ~/.ssh/id_rsa.pub | base64 | sed 's/^/          /g'
 ````
 ###### 03. copy paste the base64 output
 ````sh

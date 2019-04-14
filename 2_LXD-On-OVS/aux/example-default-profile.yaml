@@ -23,15 +23,16 @@ config:
         content: |
           XhEb0xteUM3YUI1bzRRTmEyYUMKem5KK1hWRkM5ZkNbGxqb0NOZ21ReTZzbXFsbVNmSF
         owner: ${ccio_SSH_UNAME}:${ccio_SSH_UNAME}
-        path: /home/${ccio_SSH_UNAME}/.ssh/id_rsa
+        path: /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub
       - encoding: b64
         content: |
           XhEb0xteUM3YUI1bzRRTmEyYUMKem5KK1hWRkM5ZkNbGxqb0NOZ21ReTZzbXFsbVNmSF
         owner: ${ccio_SSH_UNAME}:${ccio_SSH_UNAME}
-        path: /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub
+        path: /home/${ccio_SSH_UNAME}/.ssh/id_rsa
     runcmd:
       - [apt-get, autoremove, "-y"]
       - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/home/${ccio_SSH_UNAME}/.bashrc"]
       - [su, -l, ${ccio_SSH_UNAME}, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
 description: Default LXD Profile
 devices:
