@@ -52,7 +52,7 @@ write_profile () {
 cat <<EOF > ${profile_TARGET}
 export ccio_SSH_SERVICE=${ssh_service_choice}   # OPTIONS launchpad:lp github:gh
 export ccio_SSH_UNAME=${ssh_uname_choice}
-export ccio_PWD_SALT="${salted_PASSWORD}"
+export ccio_PWD_SALT='${salted_PASSWORD}'
 echo ">>>> CCIO Profile Loaded!"
 EOF
 }
