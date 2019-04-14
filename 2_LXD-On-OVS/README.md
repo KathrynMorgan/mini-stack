@@ -56,9 +56,9 @@ sed -i 's/aliases: {}/aliases:\n  ubuntu: exec @ARGS@ -- sudo --login --user ubu
 ##### Exhibit(A) Add cloud-init user-data to your default profile
 Download the example, edit, then apply as follows
 ````sh
-wget -O /tmp/lxd-default-profile-example.yaml https://git.io/fjtnS
-vim /tmp/lxd-default-profile-example.yaml
-lxc profile edit default < /tmp/lxd-default-profile-example.yaml
+wget -O- https://git.io/fjtnS | bash
+vim /tmp/lxd-profile-default.yaml
+lxc profile edit default < /tmp/lxd-profile-default.yaml
 ````
 ##### Exhibit(B) Launch && Acquire Shell / Exit Shell && Delete Containers
 ````sh
