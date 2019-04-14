@@ -1,7 +1,7 @@
 # Part 0 -- Host System Preparation
 
 #### 00. Review checklist of prerequisites:
-  1. You have a fresh install of Ubuntu 18.04 LTS on a machine whith no critical data or services on it
+  1. You have a fresh install of Ubuntu 18.04 LTS on a machine with no critical data or services on it
   2. You are familiar with and able to ssh between machines
   3. You have an ssh key pair, and uploaded the public key to your Launchpad and/or Github account
   4. Run all prep commands as root
