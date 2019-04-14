@@ -9,12 +9,15 @@ config:
       - lnav
       - snapd
       - squashfuse
+    ssh_import_id:
+      - ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
     users:
       - name: ${ccio_SSH_UNAME}
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         shell: /bin/bash
         groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
-        ssh_import_id: ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
+        ssh_import_id:
+          - ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
     write_files:
       - encoding: b64
         content: |
@@ -27,7 +30,9 @@ config:
         owner: ${ccio_SSH_UNAME}:${ccio_SSH_UNAME}
         path: /home/${ccio_SSH_UNAME}/.ssh/id_rsa.pub
     runcmd:
-      - [ssh-import-id, "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
+      - [apt-get, autoremove, "-y"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
+      - [su, -l, ${ccio_SSH_UNAME}, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
 description: Default LXD Profile
 devices:
   eth0:
