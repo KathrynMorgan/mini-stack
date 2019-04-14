@@ -42,9 +42,7 @@ update-grub
 ## OPTIONAL (SERVER OS) 
 #### OPTIONAL 01. Change network device name in /etc/netplan/ to new device name
 ```sh
-ip a
-cat /etc/netplan/*
-sudo nano /etc/netplan/*.yaml
+sed -i "s/$(ip r | head -n 1 | awk '{print $5}')/eth0/g" /etc/netplan/*.yaml
 ```
 #### OPTIONAL 02. Switch default editor from nano to vim
 ```sh
