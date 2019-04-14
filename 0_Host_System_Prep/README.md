@@ -14,7 +14,7 @@ apt-get update && apt-get install -y whois vim lnav openssh-server linux-generic
 ```sh
 wget -O /tmp/build-mini-stack-profile.sh https://git.io/fjLhZ
 source /tmp/build-mini-stack-profile.sh
-echo "source ~/.config/ccio/mini-stack/profile" >>~/.bashrc
+echo "source ~/.config/ccio/mini-stack/profile" >>/etc/skel/.bashrc
 source ~/.bashrc
 ```
 #### 03. Import your ssh pub key
