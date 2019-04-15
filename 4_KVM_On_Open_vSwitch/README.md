@@ -57,7 +57,7 @@ EOF
 #### 06. Create networks from config files
 ````sh
 for json in virsh-net-default-on-lan.json virsh-net-lan-on-lan.json virsh-net-wan-on-wan.json; do virsh net-define /tmp/${json}; done
-for virsh-net in wan default lan; do virsh net-start ${virsh-net}; virsh net-autostart ${virsh-net}; done
+for virshet in wan default lan; do virsh net-start ${virshet}; virsh net-autostart ${virshet}; done
 ````
 #### 07. Verify virsh network:
 ````sh

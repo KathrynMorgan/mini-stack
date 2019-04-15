@@ -42,7 +42,7 @@ network:
       gateway4: 10.10.0.1
       nameservers:
         search: [maas]
-        addresses: [10.10.0.1]
+        addresses: [10.10.0.10,8.8.8.8]
 EOF
 ````
 #### 04. Build Bridge & mgmt1 interface
