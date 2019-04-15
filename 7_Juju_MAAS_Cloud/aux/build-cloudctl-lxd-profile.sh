@@ -26,6 +26,23 @@ config:
       - squashfuse
       - libvirt-bin
       - python-pip
+    ssh_import_id: ${ccio_SSH_UNAME}
+    users:
+      - name: ${ccio_SSH_UNAME}
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
+        shell: /bin/bash
+        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
+        ssh_import_id: ${ccio_SSH_UNAME}
+      - name: ubuntu
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
+        shell: /bin/bash
+        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
+        ssh_import_id: ${ccio_SSH_UNAME}
+    runcmd:
+      - [apt-get, autoremove, "-y"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/home/ubuntu/.bashrc"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/home/${ccio_SSH_UNAME}/.bashrc"]
     write_files:
       - content: |
           clouds:
