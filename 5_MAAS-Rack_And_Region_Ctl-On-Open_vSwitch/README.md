@@ -14,7 +14,8 @@ Prerequisites:
 -------
 #### 00. Source CCIO Profile
 ````sh
-source ~/.config/ccio/mini-stack/profile
+source /etc/ccio/mini-stack/profile 
+
 ````
 #### 01. Create maas container profile
 ````sh
