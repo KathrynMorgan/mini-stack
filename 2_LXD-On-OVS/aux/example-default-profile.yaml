@@ -16,7 +16,6 @@ config:
         shell: /bin/bash
         groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
         ssh_import_id: ${ccio_SSH_UNAME}
-    users:
       - name: ${ccio_SSH_UNAME}
         sudo: ['ALL=(ALL) NOPASSWD:ALL']
         shell: /bin/bash

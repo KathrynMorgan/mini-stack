@@ -76,7 +76,7 @@ lxc exec gateway -- /bin/bash -c "wget -O- https://git.io/fjtcf | bash -x" && sl
 
 #### 09. Remove mgmt0 default route && Reload host network configuration
 ````sh
-sed -i -e :a -e '$d;N;2,3ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
+sed -i -e :a -e '$d;N;2,4ba' -e 'P;D' /etc/netplan/80-mgmt0.yaml
 systemctl restart systemd-networkd.service && netplan apply --debug
 ````
 #### 10. Copy LXD 'default' profile to 'wan'
