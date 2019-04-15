@@ -6,7 +6,7 @@
 PROFILE=$1
 
 ## Set your MAAS API IP:Port here
-MAAS_IP="192.168.1.10"
+MAAS_IP="10.10.0.10"
 MAAS_URL="http://${MAAS_IP}:5240/MAAS/api/2.0/"
 
 ## Script will check for username on commandline 
