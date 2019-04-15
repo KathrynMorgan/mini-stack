@@ -67,7 +67,7 @@ echo "
 }
 
 append_bashrc () {
-    [[ ! $(grep mini-stack /etc/skel/.bashrc ; echo $?) == 0 ]] \
+    [[ $(grep mini-stack /etc/skel/.bashrc ; echo $?) == 0 ]] \
         || echo "source /etc/ccio/mini-stack/profile" >>/etc/skel/.bashrc
 }
 
