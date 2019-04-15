@@ -18,10 +18,8 @@ config:
           search: [ maas ]
   user.user-data: |
     #cloud-config
-    timezone: Pacific/Honolulu
     package_upgrade: true
-    ssh_import_id:
-      - ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}
+    ssh_import_id: ${ccio_SSH_UNAME}
     apt:
       preserve_sources_list: true
       sources:
