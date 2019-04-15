@@ -7,20 +7,21 @@ config:
       - jq
       - vim
       - lnav
+      - byobu
       - snapd
       - squashfuse
     ssh_import_id: ${ccio_SSH_UNAME}
     users:
       - name: ${ccio_SSH_UNAME}
-        sudo: ['ALL=(ALL) NOPASSWD:ALL']
         shell: /bin/bash
-        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_UNAME}
+        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
       - name: ubuntu
-        sudo: ['ALL=(ALL) NOPASSWD:ALL']
         shell: /bin/bash
-        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_UNAME}
+        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
     runcmd:
       - [apt-get, autoremove, "-y"]
       - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]

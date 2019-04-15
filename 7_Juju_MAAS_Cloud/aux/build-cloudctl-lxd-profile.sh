@@ -29,20 +29,15 @@ config:
     ssh_import_id: ${ccio_SSH_UNAME}
     users:
       - name: ${ccio_SSH_UNAME}
-        sudo: ['ALL=(ALL) NOPASSWD:ALL']
         shell: /bin/bash
-        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_UNAME}
+        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
       - name: ubuntu
-        sudo: ['ALL=(ALL) NOPASSWD:ALL']
         shell: /bin/bash
-        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
+        sudo: ['ALL=(ALL) NOPASSWD:ALL']
         ssh_import_id: ${ccio_SSH_UNAME}
-    runcmd:
-      - [apt-get, autoremove, "-y"]
-      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
-      - [cp, "-f", "/etc/skel/.bashrc", "/home/ubuntu/.bashrc"]
-      - [cp, "-f", "/etc/skel/.bashrc", "/home/${ccio_SSH_UNAME}/.bashrc"]
+        groups: [adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,lxd,netdev]
     write_files:
       - content: |
           clouds:
@@ -64,19 +59,23 @@ config:
         path: /home/ubuntu/.juju/credentials-maasctl.yaml
     runcmd:
       - [apt-get, autoremove, "-y"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/home/ubuntu/.bashrc"]
+      - [cp, "-f", "/etc/skel/.bashrc", "/home/${ccio_SSH_UNAME}/.bashrc"]
+      - [apt-get, autoremove, "-y"]
       - [pip, install, python-openstackclient]
       - [snap, install, juju, "--classic"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
-      - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id ${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
+      - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
+      - [su, -l, "${ccio_SSH_UNAME}", /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [wget, "-P", "/usr/bin/", "https://git.io/fjLpC"]
       - [chmod, "+x", "/usr/bin/login-maas-cli"]
       - [virsh, net-destroy, default]
       - [virsh, net-undefine, default]
-      - [cp, "-f", "/etc/skel/.bashrc", "/root/.bashrc"]
-      - [cp, "-f", "/etc/skel/.bashrc", "/home/ubuntu/.bashrc"]
       - [update-alternatives, "--set", "editor", "/usr/bin/vim.basic"]
       - [chown, "-R", "ubuntu:ubuntu", "/home/ubuntu"]
       - [su, "-l", ubuntu, "/bin/bash", "-c", "byobu-enable"]
+      - [su, "-l", "${ccio_SSH_UNAME}", "/bin/bash", "-c", "byobu-enable"]
 description: ccio mini-stack maasctl container profile
 devices:
   eth0:
