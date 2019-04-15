@@ -68,7 +68,7 @@ config:
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-keygen -f ~/.ssh/id_rsa -N ''"]
       - [su, -l, ubuntu, /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
       - [su, -l, "${ccio_SSH_UNAME}", /bin/bash, -c, "ssh-import-id", "${ccio_SSH_SERVICE}:${ccio_SSH_UNAME}"]
-      - [wget, "-P", "/usr/bin/", "https://git.io/fjLpC"]
+      - [wget, "-O", "/usr/bin/login-maas-cli", "https://git.io/fjLpC"]
       - [chmod, "+x", "/usr/bin/login-maas-cli"]
       - [virsh, net-destroy, default]
       - [virsh, net-undefine, default]
