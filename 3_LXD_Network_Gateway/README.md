@@ -87,6 +87,7 @@ lxc profile copy default wan
 ````sh
 lxc profile device set default eth0 parent lan
 ````
+#### 12. Reboot
 
 -------
 #### OPTIONAL: Enable your new 'lan' network on a physical port. (EG: eth1)
