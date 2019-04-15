@@ -57,7 +57,7 @@ sed -i 's/aliases: {}/aliases:\n  ${ccio_SSH_UNAME}: exec @ARGS@ -- sudo --login
 ##### Exhibit(A) Add cloud-init user-data to your default profile
 ###### 01. Download the profile template
 ````sh
-wget -O- https://git.io/fjtnS | bash
+wget -O- https://git.io/fjmSw | bash
 ````
 ###### 02. Edit default profile template
 ````sh
