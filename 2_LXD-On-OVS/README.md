@@ -77,7 +77,7 @@ lxc list
 lxc exec c01 bash
 exit
 
-lxc delete test-bionic --force
+lxc delete c01 --force
 lxc delete test-centos --force
 lxc delete test-fedora --force
 ````
