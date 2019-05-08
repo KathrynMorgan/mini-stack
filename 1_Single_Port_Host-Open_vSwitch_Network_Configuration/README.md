@@ -123,12 +123,12 @@ systemd-resolve --status
 
 <!-- Markdown link & img dfn's -->
 [BUG: 1728134]: https://bugs.launchpad.net/netplan/+bug/1728134
-[Part 0 Host System Prep]: https://github.com/KathrynMorgan/mini-stack/tree/master/0_Host_System_Prep
-[Part 1 Single Port Host OVS Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration
-[Part 2 LXD On Open vSwitch Network]: https://github.com/KathrynMorgan/mini-stack/tree/master/2_LXD-On-OVS
-[Part 3 LXD Gateway & Firwall for Open vSwitch Network Isolation]: https://github.com/KathrynMorgan/mini-stack/tree/master/3_LXD_Network_Gateway
-[Part 4 KVM On Open vSwitch]: https://github.com/KathrynMorgan/mini-stack/tree/master/4_KVM_On_Open_vSwitch
-[Part 5 MAAS Region And Rack Server on OVS Sandbox]: https://github.com/KathrynMorgan/mini-stack/tree/master/5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch
-[Part 6 MAAS Connect POD on KVM Provider]: https://github.com/KathrynMorgan/mini-stack/tree/master/6_MAAS-Connect_POD_KVM-Provider
-[Part 7 Juju MAAS Cloud]: https://github.com/KathrynMorgan/mini-stack/tree/master/7_Juju_MAAS_Cloud
-[Part 8 OpenStack Prep]: https://github.com/KathrynMorgan/mini-stack/tree/master/8_OpenStack_Deploy
+[Part 0 Host System Prep]: ../0_Host_System_Prep
+[Part 1 Single Port Host Open vSwitch Network Configuration]: ../1_Single_Port_Host-Open_vSwitch_Network_Configuration
+[Part 2 LXD On Open vSwitch Network]: ../2_LXD-On-OVS
+[Part 3 LXD Gateway & Firwall for Open vSwitch Network Isolation]: ../3_LXD_Network_Gateway
+[Part 4 KVM On Open vSwitch]: ../4_KVM_On_Open_vSwitch
+[Part 5 MAAS Region And Rack Server on OVS Sandbox]: ../5_MAAS-Rack_And_Region_Ctl-On-Open_vSwitch
+[Part 6 MAAS Connect POD on KVM Provider]: ../6_MAAS-Connect_POD_KVM-Provider
+[Part 7 Juju MAAS Cloud]: ../7_Juju_MAAS_Cloud
+[Part 8 OpenStack Prep]: ../8_OpenStack_Deploy
