@@ -13,7 +13,7 @@ Prerequisites:
 - [Part 7 Juju MAAS Cloud]
 - [Part 8 OpenStack Deploy]
 
-![CCIO Hypervisor - OpenStack Prep](https://github.com/KathrynMorgan/mini-stack/blob/master/8_OpenStack_Prep/web/drawio/OpenStack-Prep.svg)
+![CCIO Hypervisor - OpenStack Prep](web/drawio/OpenStack-Prep.svg)
 
 -------
 #### 01.

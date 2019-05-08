@@ -7,7 +7,7 @@ Prerequisites:
 - [Part 1 Single Port Host OVS Network]
 - [Part 2 LXD On Open vSwitch Network]
 
-![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/3_LXD_Network_Gateway/web/drawio/lxd-gateway.svg)
+![CCIO_Hypervisor - LXD On OpenvSwitch](web/drawio/lxd-gateway.svg)
 
 -------
 #### 01. Add the BCIO Remote LXD Image Repo

@@ -1,6 +1,6 @@
 # Hypervisor Lab & Development Stack [mini-stack]
-## [Get Started Here!](https://github.com/KathrynMorgan/mini-stack/tree/master/Index)
-![CCIO_Hypervisor-Small_Stack_Diagram](https://github.com/KathrynMorgan/small-stack/blob/master/web/drawio/CCIO_Hypervisor-Small_Stack.svg)
+## [Get Started Here!](Index)
+![CCIO_Hypervisor-Small_Stack_Diagram](web/drawio/CCIO_Hypervisor-Small_Stack.svg)
 
 
 ## What is it?

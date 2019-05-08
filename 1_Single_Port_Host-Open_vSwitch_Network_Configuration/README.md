@@ -14,7 +14,7 @@ WARNING: Exercise caution when performing this procedure remotely as this may ca
 > - Create a virtual host ethernet port on the 'wan' bridge
 > - Impliment 'systemd-networkd' workaround RE: [BUG: 1728134]
 
-![CCIO_Hypervisor-mini_Stack_Diagram](https://github.com/KathrynMorgan/mini-stack/blob/master/1_Single_Port_Host-Open_vSwitch_Network_Configuration/web/drawio/single-port-ovs-host.svg)
+![CCIO_Hypervisor-mini_Stack_Diagram](web/drawio/single-port-ovs-host.svg)
 
 -------
 #### 01. Update system && Install Packages

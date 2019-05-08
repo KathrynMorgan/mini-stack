@@ -8,7 +8,7 @@ Prerequisites:
 - [Part 2 LXD On Open vSwitch Network]
 - [Part 3 LXD Gateway & Firwall for Open vSwitch Network Isolation]
 
-![CCIO_Hypervisor - LXD On OpenvSwitch](https://github.com/KathrynMorgan/mini-stack/blob/master/4_KVM_On_Open_vSwitch/web/drawio/kvm-on-open-vswitch.svg)
+![CCIO_Hypervisor - LXD On OpenvSwitch](web/drawio/kvm-on-open-vswitch.svg)
 
 -------
 #### 01. Install Packages

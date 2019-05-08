@@ -10,7 +10,7 @@ Prerequisites:
 - [Part 4 KVM On Open vSwitch]
 - [Part 5 MAAS Region And Rack Server on OVS Sandbox]
 
-![CCIO Hypervisor - MAAS Libvirt POD Provider](https://github.com/KathrynMorgan/mini-stack/blob/master/6_MAAS-Connect_POD_KVM-Provider/web/drawio/maas-region-and-rack-ctl-on-ovs-sandbox.svg)
+![CCIO Hypervisor - MAAS Libvirt POD Provider](web/drawio/maas-region-and-rack-ctl-on-ovs-sandbox.svg)
 
 -------
 #### 01. Provision Libvirt Host with maasctl ssh key & test virsh commands over ssh

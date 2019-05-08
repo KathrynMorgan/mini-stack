@@ -11,7 +11,7 @@ Prerequisites:
 - [Part 6 MAAS Connect POD on KVM Provider]
 - [Part 7 Juju MAAS Cloud]
 
-![CCIO Hypervisor - OpenStack Prep](https://github.com/KathrynMorgan/mini-stack/blob/master/8_OpenStack_Deploy/web/drawio/OpenStack-Prep.svg)
+![CCIO Hypervisor - OpenStack Prep](web/drawio/OpenStack-Prep.svg)
 
 -------
 #### 01. Virt-Install new vm's (on host)

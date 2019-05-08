@@ -11,7 +11,7 @@
 - [Part 5 MAAS Region And Rack Server on OVS Sandbox]
 - [Part 6 MAAS Connect POD on KVM Provider]
 
-![CCIO Hypervisor - JujuCTL Cloud Controller](https://github.com/KathrynMorgan/mini-stack/blob/master/7_Juju_MAAS_Cloud/web/drawio/juju_maas_cloud_controller.svg)
+![CCIO Hypervisor - JujuCTL Cloud Controller](web/drawio/juju_maas_cloud_controller.svg)
 
 -------
 #### 01. Build CloudCTL Profile && Build CloudCTL Container
