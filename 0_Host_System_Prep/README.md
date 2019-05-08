@@ -59,7 +59,7 @@ sed -i 's/^#HandleLidSwitchDocked=ignore/HandleLidSwitchDocked=ignore/g' /etc/sy
 ```
 -------
 ## Next sections
-- [Part 1 Single Port Host Open vSwitch Network Configuration]
+- [Part 1 Single Port Host OVS Network]
 - [Part 2 LXD On Open vSwitch Network]
 - [Part 3 LXD Gateway & Firwall for Open vSwitch Network Isolation]
 - [Part 4 KVM On Open vSwitch]
@@ -70,7 +70,7 @@ sed -i 's/^#HandleLidSwitchDocked=ignore/HandleLidSwitchDocked=ignore/g' /etc/sy
 
 <!-- Markdown link & img dfn's -->
 [Part 0 Host System Prep]: ../0_Host_System_Prep
-[Part 1 Single Port Host Open vSwitch Network Configuration]: ../1_Single_Port_Host-Open_vSwitch_Network_Configuration
+[Part 1 Single Port Host OVS Network]: ../1_Single_Port_Host-Open_vSwitch_Network_Configuration
 [Part 2 LXD On Open vSwitch Network]: ../2_LXD-On-OVS
 [Part 3 LXD Gateway & Firwall for Open vSwitch Network Isolation]: ../3_LXD_Network_Gateway
 [Part 4 KVM On Open vSwitch]: ../4_KVM_On_Open_vSwitch
