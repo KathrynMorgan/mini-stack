@@ -1,9 +1,0 @@
-# Configure mgmt0 on 'wan' bridge
-# For more configuration examples, see: https://netplan.io/examples
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    mgmt0:
-      optional: true
-      dhcp4: true

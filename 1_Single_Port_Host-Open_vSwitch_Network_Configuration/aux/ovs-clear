@@ -1,8 +1,0 @@
-#!/bin/bash
-# ovs-clear - This script will search and destroy orphaned ovs port
-#################################################################################
-list_ORPHANS=$(ovs-vsctl show | awk '/error: /{print $7}')
-for i in ${list_ORPHANS}; do
-    ovs-vsctl del-port $i;
-done
-clear && ovs-vsctl show

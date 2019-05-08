@@ -1,5 +1,0 @@
-controllers:
-  jujuctl:
-    user: admin
-    password: 36a008f8bbcc600bfb10df583ec5ecbf
-    last-known-access: superuser
